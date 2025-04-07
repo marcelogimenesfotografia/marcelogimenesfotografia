@@ -7,12 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #000000;
+      --primary-color: #333;
       --accent-color: #FFD700;
       --bg-color: #f5f5f5;
       --card-bg: #ffffff;
       --font-color: #222222;
       --radius: 16px;
+      --cta-color: #E91E63;
     }
     * {
       box-sizing: border-box;
@@ -70,6 +71,20 @@
     .link:hover {
       background-color: #333;
     }
+    .cta-button {
+      background-color: var(--cta-color);
+      color: #fff;
+      font-weight: 600;
+      padding: 14px 25px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+    .cta-button:hover {
+      background-color: #c2185b;
+    }
     .section {
       background-color: var(--card-bg);
       border-radius: var(--radius);
@@ -88,11 +103,36 @@
       padding: 16px;
       font-size: 20px;
       font-weight: 700;
+      background-color: var(--accent-color);
+      color: #fff;
     }
     .section-text {
       padding: 0 16px 16px 16px;
       font-size: 15px;
       line-height: 1.6;
+    }
+    .pricing-section {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .pricing-card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      width: 30%;
+      text-align: center;
+    }
+    .pricing-card h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    .pricing-card p {
+      font-size: 18px;
+      margin-bottom: 20px;
     }
     footer {
       margin-top: 40px;
@@ -103,48 +143,18 @@
 </head>
 <body>
   <div class="card">
-    <img src="https://github.com/marcelogimenesfotografia/marcelogimenesfotografia/blob/4ea6f3fc960af8a601d3c8e95ab0501794c0bff2/Casamento-609.jpg?&fit=crop&w=500&q=80" alt="Marcelo Gimenes" class="profile-pic">
+    <img src="https://images.unsplash.com/photo-1530026186672-3316f3517f9c?auto=format&fit=crop&w=500&q=80" alt="Marcelo Gimenes" class="profile-pic">
     <h1>Marcelo Gimenes</h1>
     <p>Fotógrafo especializado em casamentos, 15 anos, ensaios e gastronomia</p>
 
     <a href="https://wa.me/5544998708294" target="_blank" class="link">Fale comigo no WhatsApp</a>
     <a href="https://www.instagram.com/marcelogimenes.fotografia" target="_blank" class="link">Instagram</a>
     <a href="mailto:marcelogimenes.foto@gmail.com" class="link">Enviar e-mail</a>
+
+    <a href="https://wa.me/5544998708294" class="cta-button">Reserve seu evento agora!</a>
   </div>
 
-  <div class="section" id="sobremim">
+  <div class="section" id="sobre">
     <div class="section-title">Sobre mim</div>
     <div class="section-text">
-      Olá! Me chamo MARCELO Gimenes, fotógrafo apaixonado por eternizar momentos reais e marcantes. Atuo com eventos sociais, gastronomia e ensaios fotográficos, buscando sempre capturar a essência e a emoção de cada história. Tenho um olhar sensível e técnico, aliando criatividade à experiência para entregar registros únicos, com autenticidade e qualidade.
-    </div>
-  </div>
-
-  <div class="section" id="casamentos">
-    <img src="https://github.com/marcelogimenesfotografia/marcelogimenesfotografia/blob/4ea6f3fc960af8a601d3c8e95ab0501794c0bff2/Casamento-609.jpg?auto=format&fit=crop&w=900&q=80" alt="Casamentos">
-    <div class="section-title">Casamentos</div>
-    <div class="section-text">Registro cada instante do grande dia com sensibilidade e técnica, capturando emoções verdadeiras e momentos inesquecíveis para que você reviva esse sonho para sempre.</div>
-  </div>
-
-  <div class="section" id="15anos">
-    <img src="https://images.unsplash.com/photo-1624833444798-6f308b3fc1bb?auto=format&fit=crop&w=900&q=80" alt="15 Anos">
-    <div class="section-title">15 Anos</div>
-    <div class="section-text">Celebre essa fase única da vida com fotos que combinam beleza, personalidade e alegria. Meu objetivo é eternizar a essência de quem você é nesse momento especial.</div>
-  </div>
-
-  <div class="section" id="ensaios">
-    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80" alt="Ensaios">
-    <div class="section-title">Ensaios</div>
-    <div class="section-text">Ensaios fotográficos personalizados, com direção leve e natural para que você se sinta à vontade e as fotos transmitam sua essência com autenticidade e estilo.</div>
-  </div>
-
-  <div class="section" id="gastronomia">
-    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80" alt="Gastronomia">
-    <div class="section-title">Gastronomia</div>
-    <div class="section-text">Fotografia gastronômica feita para valorizar cada detalhe, textura e cor dos seus pratos, transmitindo sabor e desejo através de imagens impactantes e profissionais.</div>
-  </div>
-
-  <footer>
-    &copy; 2025 Marcelo Gimenes Fotografia
-  </footer>
-</body>
-</html>
+      Olá! Me chamo Marcelo Gimenes, fotógrafo apaixonado por eternizar momentos reais e marcantes. Atuo com eventos sociais, gastronomia e ensaios fotográficos, buscando sempre capt
