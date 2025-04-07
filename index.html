@@ -15,8 +15,8 @@
             --bg-color: #f9f9f9;
             --card-bg: #ffffff;
             --font-color: #222222;
-            --radius: 16px;
-            --header-bg-opacity: 0.8; /* Opacidade para o background do header */
+            --radius: 1rem; /* Alterado para rem */
+            --header-bg-opacity: 0.8;
             --transition-speed: 0.3s;
         }
 
@@ -34,16 +34,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Alterado para flex-start */
+            justify-content: flex-start;
             padding-top: 0;
         }
 
         header {
-            background: url('https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg') no-repeat center center/cover;
+            background: url('https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg') no-repeat center center;
+            background-size: cover; /* Mantido cover para cobrir a área */
             background-attachment: fixed;
             height: 100vh;
+            width: 100%; /* Adicionado para ocupar 100% da largura */
             color: #fff;
-            padding: 50px 20px;
+            padding: 2rem;
             text-align: center;
             position: relative;
         }
@@ -55,7 +57,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, var(--header-bg-opacity)); /* Cor de fundo com opacidade */
+            background-color: rgba(0, 0, 0, var(--header-bg-opacity));
             z-index: 0;
         }
 
@@ -65,26 +67,26 @@
         }
 
         .header-content h1 {
-            font-size: 2.5rem; /* Ajustado para rem */
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem; /* Ajustado para rem */
+            margin-bottom: 0.5rem;
         }
 
         .header-content p {
-            font-size: 1.2rem; /* Ajustado para rem */
-            margin-bottom: 1.5rem; /* Ajustado para rem */
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.6;
         }
 
         .card {
             background-color: var(--card-bg);
-            padding: 2rem; /* Ajustado para rem */
+            padding: 2rem;
             border-radius: var(--radius);
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05); /* Ajustado para rem */
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05);
             text-align: center;
             max-width: 400px;
-            width: 100%;
-            margin-top: -3rem; /* Ajustado para rem */
+            width: 90%; /* Ajustado para 90% */
+            margin-top: -3rem;
             transition: box-shadow var(--transition-speed);
         }
 
@@ -93,12 +95,12 @@
         }
 
         .profile-pic {
-            width: 8rem; /* Ajustado para rem */
-            height: 8rem; /* Ajustado para rem */
+            width: 8rem;
+            height: 8rem;
             object-fit: cover;
             border-radius: 50%;
-            margin-bottom: 1rem; /* Ajustado para rem */
-            border: 0.2rem solid var(--accent-color); /* Ajustado para rem */
+            margin-bottom: 1rem;
+            border: 0.2rem solid var(--accent-color);
             transition: border-color var(--transition-speed), transform var(--transition-speed);
         }
 
@@ -108,14 +110,14 @@
         }
 
         h1 {
-            font-size: 1.5rem; /* Ajustado para rem */
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem; /* Ajustado para rem */
+            margin-bottom: 0.5rem;
         }
 
         p {
-            font-size: 1rem; /* Ajustado para rem */
-            margin-bottom: 1.5rem; /* Ajustado para rem */
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.6;
             font-weight: 400;
         }
@@ -125,8 +127,8 @@
             background-color: var(--primary-color);
             color: #fff;
             text-decoration: none;
-            margin: 0.5rem 0; /* Ajustado para rem */
-            padding: 1rem; /* Ajustado para rem */
+            margin: 0.5rem 0;
+            padding: 1rem;
             border-radius: var(--radius);
             font-weight: 600;
             transition: background-color var(--transition-speed), transform var(--transition-speed);
@@ -142,18 +144,18 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding: 2rem 0; /* Adicionado padding para separar do footer */
+            padding: 2rem 1rem; /* Adicionado padding horizontal */
         }
 
         .section {
             background-color: var(--card-bg);
             border-radius: var(--radius);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Ajustado para rem */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            margin-bottom: 2rem; /* Ajustado para rem */
+            margin-bottom: 2rem;
             max-width: 500px;
-            width: 100%;
-            padding: 1rem 0; /* Ajustado para rem */
+            width: 90%; /* Ajustado para 90% */
+            padding: 1rem; /* Reduzido o padding vertical */
             transition: box-shadow var(--transition-speed);
         }
 
@@ -162,27 +164,27 @@
         }
 
         .section-title {
-            font-size: 1.5rem; /* Ajustado para rem */
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem; /* Ajustado para rem */
+            margin-bottom: 0.75rem;
             text-align: center;
             padding: 0 1rem;
         }
 
         .section-text {
-            font-size: 1rem; /* Ajustado para rem */
+            font-size: 1rem;
             text-align: center;
-            margin-bottom: 1.25rem; /* Ajustado para rem */
+            margin-bottom: 1.25rem;
             line-height: 1.6;
             padding: 0 1rem;
         }
 
         .slick-carousel {
-            margin: 0 1rem; /* Ajustado para rem */
+            margin: 0 0.5rem; /* Reduzido o margin horizontal */
         }
 
         .slick-slide {
-            margin: 0 0.5rem;
+            margin: 0 0.25rem;
         }
 
         .slick-slide img {
@@ -199,11 +201,11 @@
         }
 
         .slick-dots {
-            bottom: 0.5rem; /* Ajustado para rem */
+            bottom: 0.25rem;
         }
 
         .slick-dots li button:before {
-            font-size: 1rem; /* Ajustado para rem */
+            font-size: 1rem;
             color: var(--primary-color);
             opacity: 0.7;
             transition: color var(--transition-speed), opacity var(--transition-speed);
@@ -223,9 +225,9 @@
         }
 
         figcaption {
-            font-size: 0.9rem; /* Ajustado para rem */
+            font-size: 0.9rem;
             text-align: center;
-            padding: 0.5rem; /* Ajustado para rem */
+            padding: 0.5rem;
             color: #555;
             background-color: rgba(0, 0, 0, 0.02);
             border-bottom-left-radius: var(--radius);
@@ -233,12 +235,12 @@
         }
 
         footer {
-            margin-top: 3rem; /* Ajustado para rem */
-            font-size: 0.8rem; /* Ajustado para rem */
+            margin-top: 3rem;
+            font-size: 0.8rem;
             color: #aaa;
             text-align: center;
             width: 100%;
-            padding: 1rem; /* Ajustado para rem */
+            padding: 1rem;
             background-color: #eee;
             border-top: 1px solid #ddd;
         }
@@ -247,7 +249,7 @@
         @media (max-width: 768px) {
             header {
                 height: 70vh;
-                padding: 30px 15px;
+                padding: 1.5rem; /* Ajustado para rem */
             }
 
             .header-content h1 {
@@ -261,10 +263,17 @@
             .card {
                 margin-top: -2rem;
                 padding: 1.5rem;
+                width: 95%; /* Ajustado para 95% */
+            }
+
+            main {
+                padding: 1.5rem 0.5rem; /* Ajustado para rem */
             }
 
             .section {
                 margin-bottom: 1.5rem;
+                padding: 0.75rem; /* Ajustado para rem */
+                width: 95%; /* Ajustado para 95% */
             }
 
             .section-title {
@@ -276,11 +285,11 @@
             }
 
             .slick-slide {
-                margin: 0 0.25rem;
+                margin: 0 0.125rem;
             }
 
             .slick-dots {
-                bottom: 0.25rem;
+                bottom: 0.125rem;
             }
 
             .slick-dots li button:before {
