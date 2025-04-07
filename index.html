@@ -1,285 +1,255 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marcelo Gimenes - Fotógrafo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #111;
-      --accent-color: #FFD700;
-      --bg-color: #f4f4f4;
-      --white: #fff;
-      --black: #333;
-      --font-color: #333;
-      --radius: 10px;
-      --transition: all 0.3s ease-in-out;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Nome/Nome do Perfil</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--font-color);
-      line-height: 1.6;
-      padding: 0;
-      margin: 0;
-      font-size: 16px;
-    }
+        .profile {
+            margin-bottom: 30px;
+        }
 
-    header {
-      width: 100%;
-      padding: 15px;
-      background-color: var(--primary-color);
-      color: var(--white);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: fixed;
-      top: 0;
-      z-index: 10;
-    }
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid #eee;
+        }
 
-    header a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 18px;
-      margin-left: 15px;
-    }
+        .profile h1 {
+            margin-top: 0;
+            color: #555;
+        }
 
-    header a:first-child {
-      margin-left: 0;
-    }
+        .profile .bio {
+            color: #777;
+            margin-bottom: 20px;
+        }
 
-    header a:hover {
-      color: var(--accent-color);
-    }
+        .links section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
 
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 60vh;
-      background: url('https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg') center center/cover no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--white);
-      padding: 20px;
-      text-align: center;
-      margin-top: 60px;
-    }
+        .links section:last-child {
+            border-bottom: none;
+        }
 
-    .hero h1 {
-      font-size: 30px;
-      font-weight: 700;
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-    }
+        .links h2 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
 
-    .hero p {
-      font-size: 18px;
-      font-weight: 300;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-    }
+        .links p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
 
-    .hero .cta-button {
-      background-color: var(--accent-color);
-      color: var(--primary-color);
-      padding: 15px 30px;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
+        .gallery {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            overflow-x: auto; /* Para visualização em telas menores */
+            justify-content: center; /* Centralizar as imagens */
+        }
 
-    .hero .cta-button:hover {
-      background-color: #e5b500;
-    }
+        .gallery img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
 
-    .content {
-      padding: 50px 20px 30px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
 
-    .section {
-      margin-bottom: 40px;
-    }
+        .button:hover {
+            background-color: #0056b3;
+        }
 
-    .section-title {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: var(--primary-color);
-    }
+        .other-links {
+            margin-top: 30px;
+        }
 
-    .section-text {
-      text-align: center;
-      font-size: 16px;
-      color: var(--black);
-      margin-bottom: 30px;
-      line-height: 1.8;
-    }
+        .other-links a {
+            display: block;
+            background-color: #eee;
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
 
-    .image-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
+        .other-links a:hover {
+            background-color: #ddd;
+        }
 
-    .image-gallery img {
-      width: 100%;
-      max-width: 250px;
-      border-radius: var(--radius);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-    }
+        .social-links {
+            margin-top: 20px;
+        }
 
-    .image-gallery img:hover {
-      transform: scale(1.05);
-    }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+        }
 
-    .cta {
-      background-color: var(--accent-color);
-      padding: 40px 20px;
-      text-align: center;
-      border-radius: var(--radius);
-      margin-top: 40px;
-    }
+        .social-links img {
+            width: 30px;
+            height: 30px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
 
-    .cta h2 {
-      font-size: 30px;
-      color: var(--primary-color);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
+        .social-links img:hover {
+            opacity: 1;
+        }
 
-    .cta p {
-      font-size: 16px;
-      font-weight: 300;
-      margin-bottom: 30px;
-      color: var(--primary-color);
-    }
+        footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 0.9em;
+        }
 
-    .cta a {
-      background-color: var(--primary-color);
-      color: var(--white);
-      padding: 15px 30px;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
+        /* Responsividade para celular */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                border-radius: 0;
+                box-shadow: none;
+            }
 
-    .cta a:hover {
-      background-color: #333;
-    }
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
 
-    footer {
-      padding: 20px;
-      text-align: center;
-      background-color: var(--primary-color);
-      color: var(--white);
-      width: 100%;
-    }
+            .links section {
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
 
-    footer a {
-      color: var(--white);
-      text-decoration: none;
-    }
+            .gallery {
+                overflow-x: scroll;
+            }
 
-    footer a:hover {
-      color: var(--accent-color);
-    }
+            .gallery img {
+                min-width: 60px;
+                height: 60px;
+            }
 
-    /* Responsividade para dispositivos móveis */
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 24px;
-      }
+            .other-links a {
+                padding: 10px 15px;
+            }
 
-      .hero p {
-        font-size: 16px;
-      }
+            .social-links a {
+                margin: 0 5px;
+            }
 
-      .cta-button {
-        padding: 12px 25px;
-      }
-
-      .section-title {
-        font-size: 24px;
-      }
-
-      .image-gallery img {
-        max-width: 100%;
-      }
-
-      .cta h2 {
-        font-size: 24px;
-      }
-
-      .cta p {
-        font-size: 14px;
-      }
-    }
-  </style>
+            .social-links img {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <a href="#">Início</a>
-    <a href="#casamentos">Casamentos</a>
-    <a href="#sobre">Sobre</a>
-    <a href="#contato">Contato</a>
-  </header>
+    <div class="container">
+        <div class="profile">
+            <img src="sua-foto-de-perfil.jpg" alt="Sua Foto de Perfil" class="profile-image">
+            <h1>Seu Nome/Nome do Perfil</h1>
+            <p class="bio">Sua breve biografia aqui. Destaque seus principais interesses e paixões.</p>
+        </div>
 
-  <div class="hero">
-    <div>
-      <h1>Capturando Momentos Inesquecíveis</h1>
-      <p>Fotografia especializada em casamentos e eventos, eternizando sua história de uma forma única e emocionante.</p>
-      <a href="https://wa.me/5544998708294" class="cta-button">Solicite seu Orçamento</a>
+        <div class="links">
+            <section id="sobre-mim">
+                <h2>Sobre Mim</h2>
+                <p>Conte um pouco mais sobre você, seus hobbies, sua jornada e o que te inspira.</p>
+                </section>
+
+            <section id="casamento">
+                <h2>Casamento</h2>
+                <p>Compartilhe seus momentos especiais do casamento, dicas, fornecedores favoritos ou seu trabalho nessa área.</p>
+                <div class="gallery">
+                    <img src="imagem-casamento-1.jpg" alt="Casamento 1">
+                    <img src="imagem-casamento-2.jpg" alt="Casamento 2">
+                    </div>
+                <a href="#" class="button">Ver Mais sobre Casamento</a>
+            </section>
+
+            <section id="gastronomia">
+                <h2>Gastronomia</h2>
+                <p>Mostre seu amor pela culinária! Compartilhe receitas, dicas de restaurantes, suas criações ou seu trabalho como profissional da área.</p>
+                <div class="gallery">
+                    <img src="prato-1.jpg" alt="Prato 1">
+                    <img src="prato-2.jpg" alt="Prato 2">
+                    </div>
+                <a href="#" class="button">Ver Mais sobre Gastronomia</a>
+            </section>
+
+            <section id="ensaios">
+                <h2>Ensaios</h2>
+                <p>Se você trabalha com fotografia, compartilhe seus melhores ensaios, informações sobre seus serviços ou seu portfólio.</p>
+                <div class="gallery">
+                    <img src="ensaio-1.jpg" alt="Ensaio 1">
+                    <img src="ensaio-2.jpg" alt="Ensaio 2">
+                    </div>
+                <a href="#" class="button">Ver Mais sobre Ensaios</a>
+            </section>
+
+            <div class="other-links">
+                <a href="#" target="_blank">Meu Blog</a>
+                <a href="#" target="_blank">Contato</a>
+                <a href="#" target="_blank">Loja Online</a>
+            </div>
+
+            <div class="social-links">
+                <a href="#" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+                </div>
+
+            <footer>
+                <p>&copy; 2025 Seu Nome/Nome do Perfil</p>
+            </footer>
+        </div>
     </div>
-  </div>
-
-  <div class="content">
-    <div class="section" id="sobre">
-      <div class="section-title">Sobre Marcelo Gimenes</div>
-      <div class="section-text">
-        Sou apaixonado por contar histórias através da fotografia, seja em casamentos, ensaios ou eventos. Com mais de 10 anos de experiência, busco capturar cada emoção, detalhe e autenticidade dos momentos especiais.
-      </div>
-    </div>
-
-    <div class="section" id="casamentos">
-      <div class="section-title">Casamentos</div>
-      <div class="section-text">
-        O seu grande dia merece ser lembrado para sempre. Eu me dedico a registrar cada momento de forma única, criando memórias inesquecíveis para o casal e seus convidados.
-      </div>
-      <div class="image-gallery">
-        <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg" alt="Casamento">
-        <img src="https://images.unsplash.com/photo-1533748455091-b5fc79b5f06d" alt="Casamento 2">
-        <img src="https://images.unsplash.com/photo-1511856523779-1d34b6a2d735" alt="Casamento 3">
-      </div>
-    </div>
-
-    <div class="cta">
-      <h2>Garanta seu Momento Inesquecível</h2>
-      <p>Entre em contato agora mesmo e agende sua sessão exclusiva! Vamos criar juntos as memórias mais lindas do seu grande dia.</p>
-      <a href="https://wa.me/5544998708294">Agende agora!</a>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 Marcelo Gimenes Fotografia | <a href="mailto:marcelogimenes.foto@gmail.com">Contato</a></p>
-  </footer>
 </body>
 </html>
