@@ -4,587 +4,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seu Nome/Nome do Perfil</title>
+    <title>Marcelo Gimenes - Fotógrafo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
     <style>
-        /* Estilos Gerais */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+        :root {
+            --primary-color: #333;
+            --accent-color: #FFD700;
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --font-color: #222222;
+            --radius: 16px;
+            --header-bg-opacity: 0.8; /* Opacidade para o background do header */
+            --transition-speed: 0.3s;
+        }
+
+        * {
             box-sizing: border-box;
-            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
         }
 
-        .container {
-            background-color: #fff;
-            border-radius: 16px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            padding: 40px;
-            width: 100%;
-            max-width: 550px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--font-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alterado para flex-start */
+            padding-top: 0;
+        }
+
+        header {
+            background: url('https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg') no-repeat center center/cover;
+            background-attachment: fixed;
+            height: 100vh;
+            color: #fff;
+            padding: 50px 20px;
             text-align: center;
-            opacity: 0;
-            animation: fadeIn 0.8s forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .profile {
-            margin-bottom: 40px;
-        }
-
-        .profile-image {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 6px solid #f0f0f0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .profile-image:hover {
-            transform: scale(1.05);
-        }
-
-        .profile h1 {
-            margin-top: 0;
-            color: #222;
-            font-size: 2.0em;
-            font-weight: 700;
-            opacity: 0;
-            animation: slideInDown 0.6s forwards 0.2s;
-        }
-
-        .profile .bio {
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-            opacity: 0;
-            animation: slideInDown 0.6s forwards 0.4s;
-        }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .section-title {
-            color: #222;
-            font-size: 1.7em;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-align: left;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            opacity: 0;
-            animation: slideInLeft 0.6s forwards 0.6s;
-        }
-
-        .section-content {
-            color: #555;
-            line-height: 1.7;
-            margin-bottom: 30px;
-            text-align: left;
-            font-size: 1.05em;
-            opacity: 0;
-            animation: slideInLeft 0.6s forwards 0.8s;
-        }
-
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Carrossel */
-        .carousel-container {
             position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
         }
 
-        .carousel-slide {
-            display: flex;
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .carousel-slide img {
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            object-fit: cover;
-            flex-shrink: 0;
-            transition: transform 0.4s ease;
+            height: 100%;
+            background-color: rgba(0, 0, 0, var(--header-bg-opacity)); /* Cor de fundo com opacidade */
+            z-index: 0;
         }
 
-        .carousel-slide img:hover {
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem; /* Ajustado para rem */
+            font-weight: 800;
+            margin-bottom: 0.5rem; /* Ajustado para rem */
+        }
+
+        .header-content p {
+            font-size: 1.2rem; /* Ajustado para rem */
+            margin-bottom: 1.5rem; /* Ajustado para rem */
+            line-height: 1.6;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 2rem; /* Ajustado para rem */
+            border-radius: var(--radius);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05); /* Ajustado para rem */
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin-top: -3rem; /* Ajustado para rem */
+            transition: box-shadow var(--transition-speed);
+        }
+
+        .card:hover {
+            box-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-pic {
+            width: 8rem; /* Ajustado para rem */
+            height: 8rem; /* Ajustado para rem */
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem; /* Ajustado para rem */
+            border: 0.2rem solid var(--accent-color); /* Ajustado para rem */
+            transition: border-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .profile-pic:hover {
+            border-color: var(--primary-color);
             transform: scale(1.05);
         }
 
-        .carousel-indicators {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
+        h1 {
+            font-size: 1.5rem; /* Ajustado para rem */
+            font-weight: 800;
+            margin-bottom: 0.5rem; /* Ajustado para rem */
         }
 
-        .carousel-indicators button {
-            background-color: rgba(0, 0, 0, 0.3);
-            border: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s ease, transform 0.2s ease;
+        p {
+            font-size: 1rem; /* Ajustado para rem */
+            margin-bottom: 1.5rem; /* Ajustado para rem */
+            line-height: 1.6;
+            font-weight: 400;
         }
 
-        .carousel-indicators button.active {
-            background-color: rgba(0, 0, 0, 0.7);
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .button {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 28px;
+        .link {
+            display: block;
+            background-color: var(--primary-color);
+            color: #fff;
             text-decoration: none;
-            border-radius: 10px;
-            margin-top: 15px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0.5rem 0; /* Ajustado para rem */
+            padding: 1rem; /* Ajustado para rem */
+            border-radius: var(--radius);
             font-weight: 600;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: fadeInUp 0.6s forwards 1.0s;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
         }
 
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .button:hover {
-            background-color: #45a049;
+        .link:hover {
+            background-color: #555;
             transform: scale(1.02);
         }
 
-        .other-links {
-            margin-top: 40px;
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 2rem 0; /* Adicionado padding para separar do footer */
         }
 
-        .other-links a {
-            display: block;
-            background-color: #f0f0f0;
-            color: #333;
-            padding: 16px 24px;
-            text-decoration: none;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-weight: 500;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            animation: fadeInUp 0.6s forwards 1.2s;
+        .section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Ajustado para rem */
+            overflow: hidden;
+            margin-bottom: 2rem; /* Ajustado para rem */
+            max-width: 500px;
+            width: 100%;
+            padding: 1rem 0; /* Ajustado para rem */
+            transition: box-shadow var(--transition-speed);
         }
 
-        .other-links a:hover {
-            background-color: #e0e0e0;
-            transform: scale(1.01);
+        .section:hover {
+            box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.1);
         }
 
-        .social-links {
-            margin-top: 30px;
-            opacity: 0;
-            animation: fadeInUp 0.6s forwards 1.4s;
+        .section-title {
+            font-size: 1.5rem; /* Ajustado para rem */
+            font-weight: 700;
+            margin-bottom: 0.75rem; /* Ajustado para rem */
+            text-align: center;
+            padding: 0 1rem;
         }
 
-        .social-links a {
-            display: inline-block;
-            margin: 0 15px;
+        .section-text {
+            font-size: 1rem; /* Ajustado para rem */
+            text-align: center;
+            margin-bottom: 1.25rem; /* Ajustado para rem */
+            line-height: 1.6;
+            padding: 0 1rem;
         }
 
-        .social-links img {
-            width: 40px;
-            height: 40px;
+        .slick-carousel {
+            margin: 0 1rem; /* Ajustado para rem */
+        }
+
+        .slick-slide {
+            margin: 0 0.5rem;
+        }
+
+        .slick-slide img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            aspect-ratio: 4/5;
+            border-radius: 0.5rem;
+            transition: transform var(--transition-speed);
+        }
+
+        .slick-slide img:hover {
+            transform: scale(1.02);
+        }
+
+        .slick-dots {
+            bottom: 0.5rem; /* Ajustado para rem */
+        }
+
+        .slick-dots li button:before {
+            font-size: 1rem; /* Ajustado para rem */
+            color: var(--primary-color);
             opacity: 0.7;
-            transition: opacity 0.3s ease, transform 0.2s ease;
+            transition: color var(--transition-speed), opacity var(--transition-speed);
         }
 
-        .social-links img:hover {
+        .slick-dots li button:hover:before {
             opacity: 1;
-            transform: scale(1.1);
+        }
+
+        .slick-dots li.slick-active button:before {
+            color: var(--accent-color);
+            opacity: 1;
+        }
+
+        figure {
+            margin: 0;
+        }
+
+        figcaption {
+            font-size: 0.9rem; /* Ajustado para rem */
+            text-align: center;
+            padding: 0.5rem; /* Ajustado para rem */
+            color: #555;
+            background-color: rgba(0, 0, 0, 0.02);
+            border-bottom-left-radius: var(--radius);
+            border-bottom-right-radius: var(--radius);
         }
 
         footer {
-            margin-top: 40px;
-            color: #999;
-            font-size: 0.9em;
-            opacity: 0;
-            animation: fadeInUp 0.6s forwards 1.6s;
+            margin-top: 3rem; /* Ajustado para rem */
+            font-size: 0.8rem; /* Ajustado para rem */
+            color: #aaa;
+            text-align: center;
+            width: 100%;
+            padding: 1rem; /* Ajustado para rem */
+            background-color: #eee;
+            border-top: 1px solid #ddd;
         }
 
-        /* Responsividade para celular */
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px;
-                border-radius: 0;
-                box-shadow: none;
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header {
+                height: 70vh;
+                padding: 30px 15px;
             }
 
-            .profile-image {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 18px;
+            .header-content h1 {
+                font-size: 2rem;
             }
 
-            .profile h1 {
-                font-size: 1.8em;
+            .header-content p {
+                font-size: 1.1rem;
             }
 
-            .bio {
-                font-size: 1.0em;
+            .card {
+                margin-top: -2rem;
+                padding: 1.5rem;
+            }
+
+            .section {
+                margin-bottom: 1.5rem;
             }
 
             .section-title {
-                font-size: 1.5em;
-                margin-bottom: 20px;
-                padding-bottom: 8px;
+                font-size: 1.3rem;
             }
 
-            .section-content {
-                font-size: 0.95em;
-                margin-bottom: 25px;
+            .section-text {
+                font-size: 0.9rem;
             }
 
-            .carousel-indicators {
-                gap: 8px;
-                bottom: 10px;
+            .slick-slide {
+                margin: 0 0.25rem;
             }
 
-            .carousel-indicators button {
-                width: 10px;
-                height: 10px;
+            .slick-dots {
+                bottom: 0.25rem;
             }
 
-            .button {
-                padding: 12px 24px;
-                border-radius: 8px;
-                font-size: 0.95em;
-            }
-
-            .other-links a {
-                padding: 14px 20px;
-                border-radius: 8px;
-                margin-bottom: 12px;
-                font-size: 0.95em;
-            }
-
-            .social-links a {
-                margin: 0 10px;
-            }
-
-            .social-links img {
-                width: 35px;
-                height: 35px;
-            }
-
-            footer {
-                margin-top: 30px;
-                font-size: 0.85em;
+            .slick-dots li button:before {
+                font-size: 0.8rem;
             }
         }
 
-        /* Nova fonte */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+        @media (max-width: 576px) {
+            header {
+                height: 50vh;
+            }
+
+            .header-content h1 {
+                font-size: 1.75rem;
+            }
+
+            .header-content p {
+                font-size: 1rem;
+            }
+
+            .profile-pic {
+                width: 6rem;
+                height: 6rem;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .link {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .section-text {
+                font-size: 0.8rem;
+            }
+
+            figcaption {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="profile">
-            <img src="https://via.placeholder.com/140/808080/FFFFFF?Text=Perfil" alt="Sua Foto de Perfil"
-                class="profile-image">
-            <h1>Seu Nome/Nome do Perfil</h1>
-            <p class="bio">Sua breve biografia aqui. Destaque seus principais interesses e paixões.</p>
+    <header>
+        <div class="header-content">
+            <h1>Marcelo Gimenes</h1>
+            <p>Fotógrafo especializado em Casamentos, 15 anos, Ensaios e Gastronomia</p>
         </div>
+    </header>
 
-        <section>
-            <h2 class="section-title">Sobre Mim</h2>
-            <p class="section-content">Conte um pouco mais sobre você, seus hobbies, sua jornada e o que te inspira. Adicione
-                detalhes interessantes para seus seguidores.</p>
-        </section>
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1530026186672-3316f3517f9c?auto=format&fit=crop&w=500&q=80"
+            alt="Marcelo Gimenes" class="profile-pic">
+        <h1>Marcelo Gimenes</h1>
+        <p>Fotógrafo especializado em casamentos, 15 anos, ensaios e gastronomia</p>
 
-        <section>
-            <h2 class="section-title">Casamento</h2>
-            <p class="section-content">Compartilhe seus momentos especiais do casamento, dicas para noivos, fornecedores
-                favoritos ou seu trabalho nessa área. Inspire outros com sua experiência.</p>
-            <div class="carousel-container">
-                <div class="carousel-slide" id="carouselCasamento">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 1">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 2">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 3">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 4">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 5">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 6">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 7">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 8">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 9">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 10">
-                </div>
-                <div class="carousel-indicators" id="indicatorsCasamento">
-                </div>
-            </div>
-            <a href="#" class="button">Ver Mais sobre Casamento</a>
-        </section>
-
-        <section>
-            <h2 class="section-title">15 Anos</h2>
-            <p class="section-content">Destaque os momentos mágicos das festas de 15 anos! Compartilhe fotos, dicas para
-                debutantes, detalhes da organização ou seu trabalho como profissional de eventos.</p>
-            <div class="carousel-container">
-                <div class="carousel-slide" id="carousel15Anos">
-                    <img src="https://via.placeholder.com/550/FF69B4/FFFFFF?Text=15Anos1" alt="15 Anos 1">
-                    <img src="https://via.placeholder.com/550/FFB6C1/FFFFFF?Text=15Anos2" alt="15 Anos 2">
-                    <img src="https://via.placeholder.com/550/DB7093/FFFFFF?Text=15Anos3" alt="15 Anos 3">
-                    <img src="https://via.placeholder.com/550/FF69B4/FFFFFF?Text=15Anos4" alt="15 Anos 4">
-                    <img src="https://via.placeholder.com/550/FFB6C1/FFFFFF?Text=15Anos5" alt="15 Anos 5">
-                    <img src="https://via.placeholder.com/DB7093/FFFFFF?Text=15Anos6" alt="15 Anos 6">
-                    <img src="https://via.placeholder.com/FF69B4/FFFFFF?Text=15Anos7" alt="15 Anos 7">
-                    <img src="https://via.placeholder.com/FFB6C1/FFFFFF?Text=15Anos8" alt="15 Anos 8">
-                    <img src="https://via.placeholder.com/DB7093/FFFFFF?Text=15Anos9" alt="15 Anos 9">
-                    <img src="https://via.placeholder.com/FF69B4/FFFFFF?Text=15Anos10" alt="15 Anos 10">
-                </div>
-                <div class="carousel-indicators" id="indicators15Anos">
-                </div>
-            </div>
-            <a href="#" class="button">Ver Mais sobre 15 Anos</a>
-        </section>
-
-        <section>
-            <h2 class="section-title">Ensaios</h2>
-            <p class="section-content">Se você trabalha com fotografia, compartilhe seus melhores ensaios (fotográficos,
-                newborn, etc.), informações sobre seus serviços, seu portfólio ou bastidores de suas sessões.</p>
-            <div class="carousel-container">
-                <div class="carousel-slide" id="carouselEnsaios">
-                    <img src="https://via.placeholder.com/550/F08080/FFFFFF?Text=Ensaio1" alt="Ensaio 1">
-                    <img src="https://via.placeholder.com/550/CD5C5C/FFFFFF?Text=Ensaio2" alt="Ensaio 2">
-                    <img src="https://via.placeholder.com/DC143C/FFFFFF?Text=Ensaio3" alt="Ensaio 3">
-                    <img src="https://via.placeholder.com/F08080/FFFFFF?Text=Ensaio4" alt="Ensaio 4">
-                    <img src="https://via.placeholder.com/CD5C5C/FFFFFF?Text=Ensaio5" alt="Ensaio 5">
-                    <img src="https://via.placeholder.com/DC143C/FFFFFF?Text=Ensaio6" alt="Ensaio 6">
-                    <img src="https://via.placeholder.com/F08080/FFFFFF?Text=Ensaio7" alt="Ensaio 7">
-                    <img src="https://via.placeholder.com/CD5C5C/FFFFFF?Text=Ensaio8" alt="Ensaio 8">
-                    <img src="https://via.placeholder.com/DC143C/FFFFFF?Text=Ensaio9" alt="Ensaio 9">
-                    <img src="https://via.placeholder.com/F08080/FFFFFF?Text=Ensaio10" alt="Ensaio 10">
-                </div>
-                <div class="carousel-indicators" id="indicatorsEnsaios">
-                </div>
-            </div>
-            <a href="#" class="button">Ver Mais sobre Ensaios</a>
-        </section>
-
-        <div class="other-links">
-            <a href="#" target="_blank">Meu Blog</a>
-            <a href="#" target="_blank">Contato</a>
-            <a href="#" target="_blank">Loja Online</a>
-            <a href="#" target="_blank">Meu Portfólio</a>
-        </div>
-
-        <div class="social-links">
-            <a href="#" target="_blank"><img src="https://via.placeholder.com/36/0000FF/FFFFFF?Text=Insta"
-                    alt="Instagram"></a>
-            <a href="#" target="_blank"><img src="https://via.placeholder.com/36/3B5998/FFFFFF?Text=FB"
-                    alt="Facebook"></a>
-            <a href="#" target="_blank"><img src="https://via.placeholder.com/36/0077B5/FFFFFF?Text=In"
-                    alt="LinkedIn"></a>
-        </div>
-
-        <footer>
-            <p>&copy; 2025 Seu Nome/Nome do Perfil</p>
-        </footer>
+        <a href="https://wa.me/5544998708294" target="_blank" class="link">Fale comigo no WhatsApp</a>
+        <a href="https://www.instagram.com/marcelogimenes.fotografia" target="_blank" class="link">Instagram</a>
+        <a href="mailto:marcelogimenes.foto@gmail.com" class="link">Enviar e-mail</a>
     </div>
 
+    <main>
+        <section class="section" id="casamentos">
+            <h2 class="section-title">Casamentos</h2>
+            <p class="section-text">
+                Captura de momentos emocionantes em casamentos. Cada sorriso, cada gesto, é eternizado de forma única.
+            </p>
+            <div class="slick-carousel">
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="Casamento 1">
+                    <figcaption>Registro de um momento especial.</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="Casamento 2">
+                    <figcaption>Noivos celebrando a união.</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="Casamento 3">
+                    <figcaption>Um brinde ao amor.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section" id="15anos">
+            <h2 class="section-title">15 Anos</h2>
+            <p class="section-text">
+                A festa de 15 anos é um momento único! Comemore com fotos inesquecíveis.
+            </p>
+            <div class="slick-carousel">
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="15 Anos 1">
+                    <figcaption>Debutante radiante em sua festa.</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="15 Anos 2">
+                    <figcaption>Momento da valsa.</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="15 Anos 3">
+                    <figcaption>Alegria com os amigos.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section" id="gastronomia">
+            <h2 class="section-title">Gastronomia</h2>
+            <p class="section-text">
+                Fotos que valorizam a beleza e os detalhes da gastronomia, capturando o sabor visual.
+            </p>
+            <div class="slick-carousel">
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="Gastronomia 1">
+                    <figcaption>Detalhes de um prato requintado.</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="Gastronomia 2">
+                    <figcaption>A arte da apresentação.</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/3aeb0a8c6ca7a85d9ca9ef75cb35e8c216bdf15c/DSC_0210.jpg"
+                        alt="Gastronomia 3">
+                    <figcaption>Cores e texturas irresistíveis.</figcaption>
+                </figure>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 Marcelo Gimenes Fotografia. Todos os direitos reservados.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
-        function initCarousel(carouselId) {
-            const carousel = document.getElementById(carouselId);
-            const slide = carousel.querySelector('.carousel-slide');
-            const images = slide.querySelectorAll('img');
-            const indicatorsContainer = carousel.querySelector('.carousel-indicators');
-            let currentIndex = 0;
-            let interval;
-            const slideInterval = 5000; // Tempo em milissegundos para cada slide (5 segundos)
-
-            function updateSlidePosition(currentCarousel) {
-                const currentSlide = currentCarousel.querySelector('.carousel-slide');
-                currentSlide.style.transform = `translateX(-${currentIndex * 100}%)`;
-                updateIndicators(currentCarousel);
-            }
-
-            function nextSlide(id) {
-                const currentCarousel = document.getElementById(id);
-                const currentSlide = currentCarousel.querySelector('.carousel-slide');
-                const currentImages = currentSlide.querySelectorAll('img');
-                currentIndex = (currentIndex + 1) % currentImages.length;
-                updateSlidePosition(currentCarousel);
-                resetInterval();
-            }
-
-            function prevSlide(id) {
-                const currentCarousel = document.getElementById(id);
-                const currentSlide = currentCarousel.querySelector('.carousel-slide');
-                const currentImages = currentSlide.querySelectorAll('img');
-                currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
-                updateSlidePosition(currentCarousel);
-                resetInterval();
-            }
-
-            function goToSlide(carouselElement, index) {
-                const slideElement = carouselElement.querySelector('.carousel-slide');
-                currentIndex = index;
-                slideElement.style.transform = `translateX(-${currentIndex * 100}%)`;
-                updateIndicators(carouselElement);
-                resetInterval();
-            }
-
-            function updateIndicators(carouselElement) {
-                const indicators = carouselElement.querySelector('.carousel-indicators');
-                const slideElement = carouselElement.querySelector('.carousel-slide');
-                const imagesCount = slideElement.querySelectorAll('img').length;
-                indicators.innerHTML = '';
-                for (let i = 0; i < imagesCount; i++) {
-                    const indicator = document.createElement('button');
-                    indicator.addEventListener('click', () => goToSlide(carouselElement, i));
-                    if (i === currentIndex) {
-                        indicator.classList.add('active');
-                    }
-                    indicators.appendChild(indicator);
-                }
-            }
-
-            function startInterval() {
-                interval = setInterval(() => nextSlide(carouselId), slideInterval);
-            }
-
-            function resetInterval() {
-                clearInterval(interval);
-                startInterval();
-            }
-
-            // Inicialização
-            if (images.length > 1) {
-                updateIndicators(carousel);
-                startInterval();
-
-                // Adicionar listeners para interação do usuário (deslizar)
-                let startX, distX;
-
-                slide.addEventListener('touchstart', (e) => {
-                    startX = e.touches[0].clientX;
-                }, false);
-
-                slide.addEventListener('touchmove', (e) => {
-                    if (startX || startX === 0) {
-                        let currentX = e.touches[0].clientX;
-                        distX = startX - currentX;
-                    }
-                }, false);
-
-                slide.addEventListener('touchend', (e) => {
-                    if (distX > 50) {
-                        nextSlide(carouselId);
-                    } else if (distX < -50) {
-                        prevSlide(carouselId);
-                    }
-                    startX = null;
-                    distX = 0;
-                }, false);
-
-                slide.addEventListener('mousedown', (e) => {
-                    startX = e.clientX;
-                }, false);
-
-                slide.addEventListener('mousemove', (e) => {
-                    if (startX || startX === 0) {
-                        let currentX = e.clientX;
-                        distX = startX - currentX;
-                    }
-                }, false);
-
-                slide.addEventListener('mouseup', (e) => {
-                    if (distX > 50) {
-                        nextSlide(carouselId);
-                    } else if (distX < -50) {
-                        prevSlide(carouselId);
-                    }
-                    startX = null;
-                    distX = 0;
-                }, false);
-
-                slide.addEventListener('mouseleave', (e) => {
-                    startX = null;
-                    distX = 0;
-                }, false);
-
-            }
-        }
-
-        // Inicializar os carrosséis
-        document.addEventListener('DOMContentLoaded', () => {
-            initCarousel('carouselCasamento');
-            initCarousel('carousel15Anos');
-            initCarousel('carouselEnsaios');
+        $(document).ready(function () {
+            $('.slick-carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                cssEase: 'linear'
+            });
         });
     </script>
 </body>
