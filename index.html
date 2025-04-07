@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu Nome/Nome do Perfil</title>
     <style>
-        /* ... (seu CSS permanece o mesmo) ... */
+        /* ... (seu CSS anterior) ... */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -73,19 +73,77 @@
             text-align: left;
         }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 8px;
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 18px;
         }
 
-        .gallery img {
+        .carousel-slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide img {
             width: 100%;
-            height: 80px;
+            height: auto;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            flex-shrink: 0;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .carousel-nav button {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .carousel-nav button:hover {
+            opacity: 1;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-indicators button {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .carousel-indicators button.active {
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 1;
         }
 
         .button {
@@ -183,15 +241,19 @@
                 margin-bottom: 18px;
             }
 
-            .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-                gap: 6px;
-                margin-bottom: 15px;
+            .carousel-nav button {
+                padding: 8px;
+                font-size: 1em;
             }
 
-            .gallery img {
-                height: 60px;
-                border-radius: 6px;
+            .carousel-indicators {
+                gap: 6px;
+                bottom: 8px;
+            }
+
+            .carousel-indicators button {
+                width: 8px;
+                height: 8px;
             }
 
             .button {
@@ -239,10 +301,18 @@
         <section>
             <h2 class="section-title">Casamento</h2>
             <p class="section-content">Compartilhe seus momentos especiais do casamento, dicas para noivos, fornecedores favoritos ou seu trabalho nessa área. Inspire outros com sua experiência.</p>
-            <div class="gallery">
-                <img src="https://via.placeholder.com/80/ADD8E6/FFFFFF?Text=Casal1" alt="Casamento 1">
-                <img src="https://via.placeholder.com/80/ADD8E6/FFFFFF?Text=Casal2" alt="Casamento 2">
-                <img src="https://via.placeholder.com/80/ADD8E6/FFFFFF?Text=Casal3" alt="Casamento 3">
+            <div class="carousel-container">
+                <div class="carousel-slide" id="carouselCasamento">
+                    <img src="https://via.placeholder.com/550/ADD8E6/FFFFFF?Text=Casal1" alt="Casamento 1">
+                    <img src="https://via.placeholder.com/550/B0E0E6/FFFFFF?Text=Casal2" alt="Casamento 2">
+                    <img src="https://via.placeholder.com/550/87CEEB/FFFFFF?Text=Casal3" alt="Casamento 3">
+                </div>
+                <div class="carousel-nav">
+                    <button onclick="prevSlide('carouselCasamento')">&#10094;</button>
+                    <button onclick="nextSlide('carouselCasamento')">&#10095;</button>
+                </div>
+                <div class="carousel-indicators" id="indicatorsCasamento">
+                    </div>
             </div>
             <a href="#" class="button">Ver Mais sobre Casamento</a>
         </section>
@@ -250,10 +320,18 @@
         <section>
             <h2 class="section-title">15 Anos</h2>
             <p class="section-content">Destaque os momentos mágicos das festas de 15 anos! Compartilhe fotos, dicas para debutantes, detalhes da organização ou seu trabalho como profissional de eventos.</p>
-            <div class="gallery">
-                <img src="https://via.placeholder.com/80/FF69B4/FFFFFF?Text=15Anos1" alt="15 Anos 1">
-                <img src="https://via.placeholder.com/80/FF69B4/FFFFFF?Text=15Anos2" alt="15 Anos 2">
-                <img src="https://via.placeholder.com/80/FF69B4/FFFFFF?Text=15Anos3" alt="15 Anos 3">
+            <div class="carousel-container">
+                <div class="carousel-slide" id="carousel15Anos">
+                    <img src="https://via.placeholder.com/550/FF69B4/FFFFFF?Text=15Anos1" alt="15 Anos 1">
+                    <img src="https://via.placeholder.com/550/FFB6C1/FFFFFF?Text=15Anos2" alt="15 Anos 2">
+                    <img src="https://via.placeholder.com/550/DB7093/FFFFFF?Text=15Anos3" alt="15 Anos 3">
+                </div>
+                <div class="carousel-nav">
+                    <button onclick="prevSlide('carousel15Anos')">&#10094;</button>
+                    <button onclick="nextSlide('carousel15Anos')">&#10095;</button>
+                </div>
+                <div class="carousel-indicators" id="indicators15Anos">
+                    </div>
             </div>
             <a href="#" class="button">Ver Mais sobre 15 Anos</a>
         </section>
@@ -261,10 +339,18 @@
         <section>
             <h2 class="section-title">Ensaios</h2>
             <p class="section-content">Se você trabalha com fotografia, compartilhe seus melhores ensaios (fotográficos, newborn, etc.), informações sobre seus serviços, seu portfólio ou bastidores de suas sessões.</p>
-            <div class="gallery">
-                <img src="https://via.placeholder.com/80/F08080/FFFFFF?Text=Ensaio1" alt="Ensaio 1">
-                <img src="https://via.placeholder.com/80/F08080/FFFFFF?Text=Ensaio2" alt="Ensaio 2">
-                <img src="https://via.placeholder.com/80/F08080/FFFFFF?Text=Ensaio3" alt="Ensaio 3">
+            <div class="carousel-container">
+                <div class="carousel-slide" id="carouselEnsaios">
+                    <img src="https://via.placeholder.com/550/F08080/FFFFFF?Text=Ensaio1" alt="Ensaio 1">
+                    <img src="https://via.placeholder.com/550/CD5C5C/FFFFFF?Text=Ensaio2" alt="Ensaio 2">
+                    <img src="https://via.placeholder.com/550/DC143C/FFFFFF?Text=Ensaio3" alt="Ensaio 3">
+                </div>
+                <div class="carousel-nav">
+                    <button onclick="prevSlide('carouselEnsaios')">&#10094;</button>
+                    <button onclick="nextSlide('carouselEnsaios')">&#10095;</button>
+                </div>
+                <div class="carousel-indicators" id="indicatorsEnsaios">
+                    </div>
             </div>
             <a href="#" class="button">Ver Mais sobre Ensaios</a>
         </section>
@@ -286,5 +372,67 @@
             <p>&copy; 2025 Seu Nome/Nome do Perfil</p>
         </footer>
     </div>
+
+    <script>
+        function initCarousel(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            const slide = carousel.querySelector('.carousel-slide');
+            const images = slide.querySelectorAll('img');
+            const nav = carousel.querySelector('.carousel-nav');
+            const indicatorsContainer = carousel.querySelector('.carousel-indicators');
+            let currentIndex = 0;
+
+            function updateSlidePosition() {
+                slide.style.transform = `translateX(-${currentIndex * 100}%)`;
+                updateIndicators();
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateSlidePosition();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateSlidePosition();
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                updateSlidePosition();
+            }
+
+            function updateIndicators() {
+                indicatorsContainer.innerHTML = ''; // Limpa os indicadores existentes
+                images.forEach((_, index) => {
+                    const indicator = document.createElement('button');
+                    indicator.addEventListener('click', () => goToSlide(index));
+                    if (index === currentIndex) {
+                        indicator.classList.add('active');
+                    }
+                    indicatorsContainer.appendChild(indicator);
+                });
+            }
+
+            // Inicialização
+            if (images.length > 1) {
+                nav.style.display = 'flex';
+                updateIndicators();
+            } else {
+                nav.style.display = 'none';
+            }
+
+            // Expondo as funções para os botões HTML
+            window[`nextSlide${carouselId.replace('carousel', '')}`] = nextSlide;
+            window[`prevSlide${carouselId.replace('carousel', '')}`] = prevSlide;
+        }
+
+        // Inicializar os carrosséis
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel('carouselCasamento');
+            initCarousel('carousel15Anos');
+            initCarousel('carouselEnsaios');
+        });
+    </script>
 </body>
 </html>
