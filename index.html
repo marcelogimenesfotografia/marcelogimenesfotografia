@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu Nome/Nome do Perfil</title>
     <style>
-        /* ... (seu CSS permanece o mesmo) ... */
+        /* Estilos Gerais */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
-            background-color: #f8f8f8;
+            background-color: #f9f9f9;
             color: #333;
             display: flex;
             justify-content: center;
@@ -22,69 +22,72 @@
 
         .container {
             background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 40px;
             width: 100%;
             max-width: 550px;
             text-align: center;
         }
 
         .profile {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .profile-image {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 18px;
-            border: 6px solid #eee;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border: 6px solid #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
         .profile h1 {
             margin-top: 0;
             color: #222;
-            font-size: 1.8em;
-            font-weight: 600;
+            font-size: 2.0em;
+            font-weight: 700;
         }
 
         .profile .bio {
             color: #555;
-            line-height: 1.7;
-            margin-bottom: 25px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.1em;
         }
 
         .section-title {
             color: #222;
-            font-size: 1.5em;
-            font-weight: 600;
-            margin-bottom: 18px;
+            font-size: 1.7em;
+            font-weight: 700;
+            margin-bottom: 25px;
             text-align: left;
             border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
         }
 
         .section-content {
             color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            line-height: 1.7;
+            margin-bottom: 30px;
             text-align: left;
+            font-size: 1.05em;
         }
 
+        /* Carrossel */
         .carousel-container {
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
 
         .carousel-slide {
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.6s ease-in-out;
         }
 
         .carousel-slide img {
@@ -94,48 +97,20 @@
             flex-shrink: 0;
         }
 
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            right: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            pointer-events: none;
-        }
-
-        .carousel-nav button {
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            font-size: 1.2em;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-            pointer-events: auto;
-        }
-
-        .carousel-nav button:hover {
-            opacity: 1;
-        }
-
         .carousel-indicators {
             position: absolute;
-            bottom: 10px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .carousel-indicators button {
             background-color: rgba(0, 0, 0, 0.3);
             border: none;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             cursor: pointer;
             opacity: 0.7;
@@ -149,62 +124,67 @@
 
         .button {
             display: inline-block;
-            background-color: #007bff;
+            background-color: #4CAF50;
             color: white;
-            padding: 12px 24px;
+            padding: 14px 28px;
             text-decoration: none;
-            border-radius: 8px;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-            font-weight: 500;
+            border-radius: 10px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .button:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
+            transform: scale(1.02);
         }
 
         .other-links {
-            margin-top: 35px;
+            margin-top: 40px;
         }
 
         .other-links a {
             display: block;
-            background-color: #eee;
+            background-color: #f0f0f0;
             color: #333;
-            padding: 14px 20px;
+            padding: 16px 24px;
             text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            transition: background-color 0.3s ease;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .other-links a:hover {
-            background-color: #ddd;
+            background-color: #e0e0e0;
+            transform: scale(1.01);
         }
 
         .social-links {
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
         .social-links a {
             display: inline-block;
-            margin: 0 12px;
+            margin: 0 15px;
         }
 
         .social-links img {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             opacity: 0.7;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.2s ease;
         }
 
         .social-links img:hover {
             opacity: 1;
+            transform: scale(1.1);
         }
 
         footer {
-            margin-top: 35px;
+            margin-top: 40px;
             color: #999;
             font-size: 0.9em;
         }
@@ -212,85 +192,83 @@
         /* Responsividade para celular */
         @media (max-width: 480px) {
             .container {
-                padding: 25px;
+                padding: 30px;
                 border-radius: 0;
                 box-shadow: none;
             }
 
             .profile-image {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 15px;
-            }
-
-            .profile h1 {
-                font-size: 1.6em;
-            }
-
-            .bio {
-                font-size: 0.95em;
-            }
-
-            .section-title {
-                font-size: 1.3em;
-                margin-bottom: 15px;
-                padding-bottom: 6px;
-            }
-
-            .section-content {
-                font-size: 0.9em;
+                width: 120px;
+                height: 120px;
                 margin-bottom: 18px;
             }
 
-            .carousel-nav button {
-                padding: 8px;
-                font-size: 1em;
+            .profile h1 {
+                font-size: 1.8em;
+            }
+
+            .bio {
+                font-size: 1.0em;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+                padding-bottom: 8px;
+            }
+
+            .section-content {
+                font-size: 0.95em;
+                margin-bottom: 25px;
             }
 
             .carousel-indicators {
-                gap: 6px;
-                bottom: 8px;
+                gap: 8px;
+                bottom: 10px;
             }
 
             .carousel-indicators button {
-                width: 8px;
-                height: 8px;
+                width: 10px;
+                height: 10px;
             }
 
             .button {
-                padding: 10px 20px;
-                border-radius: 6px;
-                font-size: 0.9em;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 0.95em;
             }
 
             .other-links a {
-                padding: 12px 18px;
-                border-radius: 6px;
-                margin-bottom: 10px;
-                font-size: 0.9em;
+                padding: 14px 20px;
+                border-radius: 8px;
+                margin-bottom: 12px;
+                font-size: 0.95em;
             }
 
             .social-links a {
-                margin: 0 8px;
+                margin: 0 10px;
             }
 
             .social-links img {
-                width: 30px;
-                height: 30px;
+                width: 35px;
+                height: 35px;
             }
 
             footer {
-                margin-top: 25px;
+                margin-top: 30px;
                 font-size: 0.85em;
             }
         }
+
+        /* Nova fonte */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="profile">
-            <img src="https://via.placeholder.com/120/808080/FFFFFF?Text=Perfil" alt="Sua Foto de Perfil"
+            <img src="https://via.placeholder.com/140/808080/FFFFFF?Text=Perfil" alt="Sua Foto de Perfil"
                 class="profile-image">
             <h1>Seu Nome/Nome do Perfil</h1>
             <p class="bio">Sua breve biografia aqui. Destaque seus principais interesses e paixões.</p>
@@ -329,10 +307,6 @@
                     <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
                         alt="Casamento 10">
                 </div>
-                <div class="carousel-nav">
-                    <button onclick="prevSlide('carouselCasamento')">&#10094;</button>
-                    <button onclick="nextSlide('carouselCasamento')">&#10095;</button>
-                </div>
                 <div class="carousel-indicators" id="indicatorsCasamento">
                 </div>
             </div>
@@ -345,30 +319,16 @@
                 debutantes, detalhes da organização ou seu trabalho como profissional de eventos.</p>
             <div class="carousel-container">
                 <div class="carousel-slide" id="carousel15Anos">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 1">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 2">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 3">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 4">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 5">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 6">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 7">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 8">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 9">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 10">
-                </div>
-                <div class="carousel-nav">
-                    <button onclick="prevSlide('carousel15Anos')">&#10094;</button>
-                    <button onclick="nextSlide('carousel15Anos')">&#10095;</button>
+                    <img src="https://via.placeholder.com/550/FF69B4/FFFFFF?Text=15Anos1" alt="15 Anos 1">
+                    <img src="https://via.placeholder.com/550/FFB6C1/FFFFFF?Text=15Anos2" alt="15 Anos 2">
+                    <img src="https://via.placeholder.com/550/DB7093/FFFFFF?Text=15Anos3" alt="15 Anos 3">
+                    <img src="https://via.placeholder.com/550/FF69B4/FFFFFF?Text=15Anos4" alt="15 Anos 4">
+                    <img src="https://via.placeholder.com/550/FFB6C1/FFFFFF?Text=15Anos5" alt="15 Anos 5">
+                    <img src="https://via.placeholder.com/DB7093/FFFFFF?Text=15Anos6" alt="15 Anos 6">
+                    <img src="https://via.placeholder.com/FF69B4/FFFFFF?Text=15Anos7" alt="15 Anos 7">
+                    <img src="https://via.placeholder.com/FFB6C1/FFFFFF?Text=15Anos8" alt="15 Anos 8">
+                    <img src="https://via.placeholder.com/DB7093/FFFFFF?Text=15Anos9" alt="15 Anos 9">
+                    <img src="https://via.placeholder.com/FF69B4/FFFFFF?Text=15Anos10" alt="15 Anos 10">
                 </div>
                 <div class="carousel-indicators" id="indicators15Anos">
                 </div>
@@ -382,30 +342,16 @@
                 newborn, etc.), informações sobre seus serviços, seu portfólio ou bastidores de suas sessões.</p>
             <div class="carousel-container">
                 <div class="carousel-slide" id="carouselEnsaios">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 1">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 2">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 3">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 4">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 5">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 6">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 7">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 8">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 9">
-                    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg"
-                        alt="Casamento 10">
-                </div>
-                <div class="carousel-nav">
-                    <button onclick="prevSlide('carouselEnsaios')">&#10094;</button>
-                    <button onclick="nextSlide('carouselEnsaios')">&#10095;</button>
+                    <img src="https://via.placeholder.com/550/F08080/FFFFFF?Text=Ensaio1" alt="Ensaio 1">
+                    <img src="https://via.placeholder.com/550/CD5C5C/FFFFFF?Text=Ensaio2" alt="Ensaio 2">
+                    <img src="https://via.placeholder.com/DC143C/FFFFFF?Text=Ensaio3" alt="Ensaio 3">
+                    <img src="https://via.placeholder.com/F08080/FFFFFF?Text=Ensaio4" alt="Ensaio 4">
+                    <img src="https://via.placeholder.com/CD5C5C/FFFFFF?Text=Ensaio5" alt="Ensaio 5">
+                    <img src="https://via.placeholder.com/DC143C/FFFFFF?Text=Ensaio6" alt="Ensaio 6">
+                    <img src="https://via.placeholder.com/F08080/FFFFFF?Text=Ensaio7" alt="Ensaio 7">
+                    <img src="https://via.placeholder.com/CD5C5C/FFFFFF?Text=Ensaio8" alt="Ensaio 8">
+                    <img src="https://via.placeholder.com/DC143C/FFFFFF?Text=Ensaio9" alt="Ensaio 9">
+                    <img src="https://via.placeholder.com/F08080/FFFFFF?Text=Ensaio10" alt="Ensaio 10">
                 </div>
                 <div class="carousel-indicators" id="indicatorsEnsaios">
                 </div>
@@ -439,9 +385,10 @@
             const carousel = document.getElementById(carouselId);
             const slide = carousel.querySelector('.carousel-slide');
             const images = slide.querySelectorAll('img');
-            const nav = carousel.querySelector('.carousel-nav');
             const indicatorsContainer = carousel.querySelector('.carousel-indicators');
             let currentIndex = 0;
+            let interval;
+            const slideInterval = 5000; // Tempo em milissegundos para cada slide (5 segundos)
 
             function updateSlidePosition(currentCarousel) {
                 const currentSlide = currentCarousel.querySelector('.carousel-slide');
@@ -455,6 +402,7 @@
                 const currentImages = currentSlide.querySelectorAll('img');
                 currentIndex = (currentIndex + 1) % currentImages.length;
                 updateSlidePosition(currentCarousel);
+                resetInterval();
             }
 
             function prevSlide(id) {
@@ -463,6 +411,7 @@
                 const currentImages = currentSlide.querySelectorAll('img');
                 currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
                 updateSlidePosition(currentCarousel);
+                resetInterval();
             }
 
             function goToSlide(carouselElement, index) {
@@ -470,6 +419,7 @@
                 currentIndex = index;
                 slideElement.style.transform = `translateX(-${currentIndex * 100}%)`;
                 updateIndicators(carouselElement);
+                resetInterval();
             }
 
             function updateIndicators(carouselElement) {
@@ -487,31 +437,78 @@
                 }
             }
 
+            function startInterval() {
+                interval = setInterval(() => nextSlide(carouselId), slideInterval);
+            }
+
+            function resetInterval() {
+                clearInterval(interval);
+                startInterval();
+            }
+
             // Inicialização
-            const carouselCasamento = document.getElementById('carouselCasamento');
-            const carousel15Anos = document.getElementById('carousel15Anos');
-            const carouselEnsaios = document.getElementById('carouselEnsaios');
+            if (images.length > 1) {
+                updateIndicators(carousel);
+                startInterval();
 
-            if (carouselCasamento && carouselCasamento.querySelector('.carousel-slide').querySelectorAll('img').length > 1) {
-                carouselCasamento.querySelector('.carousel-nav').style.display = 'flex';
-                updateIndicators(carouselCasamento);
-            } else if (carouselCasamento) {
-                carouselCasamento.querySelector('.carousel-nav').style.display = 'none';
-            }
+                // Adicionar listeners para interação do usuário (deslizar)
+                let startX, distX;
 
-            if (carousel15Anos && carousel15Anos.querySelector('.carousel-slide').querySelectorAll('img').length > 1) {
-                carousel15Anos.querySelector('.carousel-nav').style.display = 'flex';
-                updateIndicators(carousel15Anos);
-            } else if (carousel15Anos) {
-                carousel15Anos.querySelector('.carousel-nav').style.display = 'none';
-            }
+                slide.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                }, false);
 
-            if (carouselEnsaios && carouselEnsaios.querySelector('.carousel-slide').querySelectorAll('img').length > 1) {
-                carouselEnsaios.querySelector('.carousel-nav').style.display = 'flex';
-                updateIndicators(carouselEnsaios);
-            } else if (carouselEnsaios) {
-                carouselEnsaios.querySelector('.carousel-nav').style.display = 'none';
+                slide.addEventListener('touchmove', (e) => {
+                    if (startX || startX === 0) {
+                        let currentX = e.touches[0].clientX;
+                        distX = startX - currentX;
+                    }
+                }, false);
+
+                slide.addEventListener('touchend', (e) => {
+                    if (distX > 50) {
+                        nextSlide(carouselId);
+                    } else if (distX < -50) {
+                        prevSlide(carouselId);
+                    }
+                    startX = null;
+                    distX = 0;
+                }, false);
+
+                slide.addEventListener('mousedown', (e) => {
+                    startX = e.clientX;
+                }, false);
+
+                slide.addEventListener('mousemove', (e) => {
+                    if (startX || startX === 0) {
+                        let currentX = e.clientX;
+                        distX = startX - currentX;
+                    }
+                }, false);
+
+                slide.addEventListener('mouseup', (e) => {
+                    if (distX > 50) {
+                        nextSlide(carouselId);
+                    } else if (distX < -50) {
+                        prevSlide(carouselId);
+                    }
+                    startX = null;
+                    distX = 0;
+                }, false);
+
+                slide.addEventListener('mouseleave', (e) => {
+                    startX = null;
+                    distX = 0;
+                }, false);
+
             }
+        }
+
+        // Inicializar os carrosséis
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel('carouselCasamento');
+            initCarousel('carousel15Anos');
+            initCarousel('carouselEnsaios');
         });
     </script>
 </body>
