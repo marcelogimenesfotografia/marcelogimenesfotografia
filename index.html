@@ -4,147 +4,282 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Marcelo Gimenes - Fotógrafo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #000000;
+      --primary-color: #111;
       --accent-color: #FFD700;
-      --bg-color: #f5f5f5;
-      --card-bg: #ffffff;
-      --font-color: #222222;
-      --radius: 16px;
+      --bg-color: #f4f4f4;
+      --white: #fff;
+      --black: #333;
+      --font-color: #333;
+      --radius: 10px;
+      --transition: all 0.3s ease-in-out;
     }
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
+
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: var(--bg-color);
       color: var(--font-color);
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .card {
-      background-color: var(--card-bg);
-      padding: 30px;
-      border-radius: var(--radius);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-      margin-bottom: 40px;
-    }
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 20px;
-      border: 3px solid var(--accent-color);
-    }
-    h1 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    p {
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
       font-size: 16px;
-      margin-bottom: 24px;
-      font-weight: 400;
     }
-    .link {
-      display: block;
+
+    header {
+      width: 100%;
+      padding: 15px;
       background-color: var(--primary-color);
-      color: #fff;
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      z-index: 10;
+    }
+
+    header a {
+      color: var(--white);
       text-decoration: none;
-      margin: 8px 0;
-      padding: 14px;
+      font-weight: 600;
+      font-size: 18px;
+      margin-left: 15px;
+    }
+
+    header a:first-child {
+      margin-left: 0;
+    }
+
+    header a:hover {
+      color: var(--accent-color);
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 60vh;
+      background: url('https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg') center center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--white);
+      padding: 20px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .hero h1 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero p {
+      font-size: 18px;
+      font-weight: 300;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero .cta-button {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 15px 30px;
       border-radius: var(--radius);
+      text-decoration: none;
       font-weight: 600;
       transition: background 0.3s;
     }
-    .link:hover {
+
+    .hero .cta-button:hover {
+      background-color: #e5b500;
+    }
+
+    .content {
+      padding: 50px 20px 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .section-text {
+      text-align: center;
+      font-size: 16px;
+      color: var(--black);
+      margin-bottom: 30px;
+      line-height: 1.8;
+    }
+
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .image-gallery img {
+      width: 100%;
+      max-width: 250px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .cta {
+      background-color: var(--accent-color);
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: var(--radius);
+      margin-top: 40px;
+    }
+
+    .cta h2 {
+      font-size: 30px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .cta p {
+      font-size: 16px;
+      font-weight: 300;
+      margin-bottom: 30px;
+      color: var(--primary-color);
+    }
+
+    .cta a {
+      background-color: var(--primary-color);
+      color: var(--white);
+      padding: 15px 30px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .cta a:hover {
       background-color: #333;
     }
-    .section {
-      background-color: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-      margin-bottom: 30px;
-      max-width: 500px;
-      width: 100%;
-    }
-    .section img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .section-title {
-      padding: 16px;
-      font-size: 20px;
-      font-weight: 700;
-    }
-    .section-text {
-      padding: 0 16px 16px 16px;
-      font-size: 15px;
-      line-height: 1.6;
-    }
+
     footer {
-      margin-top: 40px;
-      font-size: 12px;
-      color: #aaa;
+      padding: 20px;
+      text-align: center;
+      background-color: var(--primary-color);
+      color: var(--white);
+      width: 100%;
+    }
+
+    footer a {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Responsividade para dispositivos móveis */
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .cta-button {
+        padding: 12px 25px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .image-gallery img {
+        max-width: 100%;
+      }
+
+      .cta h2 {
+        font-size: 24px;
+      }
+
+      .cta p {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1530026186672-3316f3517f9c?auto=format&fit=crop&w=500&q=80" alt="Marcelo Gimenes" class="profile-pic">
-    <h1>Marcelo Gimenes</h1>
-    <p>Fotógrafo especializado em casamentos, 15 anos, ensaios e gastronomia</p>
+  <header>
+    <a href="#">Início</a>
+    <a href="#casamentos">Casamentos</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </header>
 
-    <a href="https://wa.me/5544998708294" target="_blank" class="link">Fale comigo no WhatsApp</a>
-    <a href="https://www.instagram.com/marcelogimenes.fotografia" target="_blank" class="link">Instagram</a>
-    <a href="mailto:marcelogimenes.foto@gmail.com" class="link">Enviar e-mail</a>
-  </div>
-
-  <div class="section" id="sobremim">
-    <div class="section-title">Sobre mim</div>
-    <div class="section-text">
-      Olá! Me chamo Marcelo Gimenes, fotógrafo apaixonado por eternizar momentos reais e marcantes. Atuo com eventos sociais, gastronomia e ensaios fotográficos, buscando sempre capturar a essência e a emoção de cada história. Tenho um olhar sensível e técnico, aliando criatividade à experiência para entregar registros únicos, com autenticidade e qualidade.
+  <div class="hero">
+    <div>
+      <h1>Capturando Momentos Inesquecíveis</h1>
+      <p>Fotografia especializada em casamentos e eventos, eternizando sua história de uma forma única e emocionante.</p>
+      <a href="https://wa.me/5544998708294" class="cta-button">Solicite seu Orçamento</a>
     </div>
   </div>
 
-  <div class="section" id="casamentos">
-    <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg" alt="Casamentos">
-    <div class="section-title">Casamentos</div>
-    <div class="section-text">Registro cada instante do grande dia com sensibilidade e técnica, capturando emoções verdadeiras e momentos inesquecíveis para que você reviva esse sonho para sempre.</div>
-  </div>
+  <div class="content">
+    <div class="section" id="sobre">
+      <div class="section-title">Sobre Marcelo Gimenes</div>
+      <div class="section-text">
+        Sou apaixonado por contar histórias através da fotografia, seja em casamentos, ensaios ou eventos. Com mais de 10 anos de experiência, busco capturar cada emoção, detalhe e autenticidade dos momentos especiais.
+      </div>
+    </div>
 
-  <div class="section" id="15anos">
-    <img src="https://images.unsplash.com/photo-1624833444798-6f308b3fc1bb?auto=format&fit=crop&w=900&q=80" alt="15 Anos">
-    <div class="section-title">15 Anos</div>
-    <div class="section-text">Celebre essa fase única da vida com fotos que combinam beleza, personalidade e alegria. Meu objetivo é eternizar a essência de quem você é nesse momento especial.</div>
-  </div>
+    <div class="section" id="casamentos">
+      <div class="section-title">Casamentos</div>
+      <div class="section-text">
+        O seu grande dia merece ser lembrado para sempre. Eu me dedico a registrar cada momento de forma única, criando memórias inesquecíveis para o casal e seus convidados.
+      </div>
+      <div class="image-gallery">
+        <img src="https://raw.githubusercontent.com/marcelogimenesfotografia/marcelogimenesfotografia/refs/heads/main/Casamento-609.jpg" alt="Casamento">
+        <img src="https://images.unsplash.com/photo-1533748455091-b5fc79b5f06d" alt="Casamento 2">
+        <img src="https://images.unsplash.com/photo-1511856523779-1d34b6a2d735" alt="Casamento 3">
+      </div>
+    </div>
 
-  <div class="section" id="ensaios">
-    <img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=900&q=80" alt="Ensaios">
-    <div class="section-title">Ensaios</div>
-    <div class="section-text">Ensaios fotográficos personalizados, com direção leve e natural para que você se sinta à vontade e as fotos transmitam sua essência com autenticidade e estilo.</div>
-  </div>
-
-  <div class="section" id="gastronomia">
-    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80" alt="Gastronomia">
-    <div class="section-title">Gastronomia</div>
-    <div class="section-text">Fotografia gastronômica feita para valorizar cada detalhe, textura e cor dos seus pratos, transmitindo sabor e desejo através de imagens impactantes e profissionais.</div>
+    <div class="cta">
+      <h2>Garanta seu Momento Inesquecível</h2>
+      <p>Entre em contato agora mesmo e agende sua sessão exclusiva! Vamos criar juntos as memórias mais lindas do seu grande dia.</p>
+      <a href="https://wa.me/5544998708294">Agende agora!</a>
+    </div>
   </div>
 
   <footer>
-    &copy; 2025 Marcelo Gimenes Fotografia
+    <p>&copy; 2025 Marcelo Gimenes Fotografia | <a href="mailto:marcelogimenes.foto@gmail.com">Contato</a></p>
   </footer>
 </body>
 </html>
