@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FisioGestão - Gerenciador de Pacientes</title>
-    <!-- Incluindo Tailwind CSS -->
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Link para o arquivo de estilos (Crie o arquivo style.css com o conteúdo do BLOCO 2) -->
-    <link rel="stylesheet" href="style.css">
+    <!-- NOVO: Link para o CSS customizado -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <!-- Loading Overlay -->
+    <!-- Loading Overlay (Mantido no HTML) -->
      <div id="loading-overlay" class="loading-overlay hidden">
         <div class="loader"></div>
     </div>
@@ -27,7 +27,7 @@
                 <div class="bg-white p-8 rounded-lg shadow-lg">
                     <div class="text-center mb-8">
                         <h1 class="text-3xl font-bold text-blue-600">FisioGestão</h1>
-                        <p class="text-gray-500">Acesse sua conta para continuar.</p>
+                        <p class="text-gray-500">Acesse sua conta para continuar. v1.0</p>
                     </div>
                     <form id="login-form">
                         <div class="space-y-4">
@@ -60,7 +60,7 @@
                             <!-- Campos Pessoa Física -->
                             <div id="pf-fields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="md:col-span-2"><input id="pf-name" type="text" placeholder="Nome Completo" class="w-full p-2 border rounded-lg"></div>
-                                <div><input id="pf-birthDate" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data de Nascimento" class="w-full p-2 border rounded-lg"></div>
+                                <div><input id="pf-birthDate" type="date" placeholder="Data de Nascimento" class="w-full p-2 border rounded-lg"></div>
                                 <div><input id="pf-rg" type="text" placeholder="RG" class="w-full p-2 border rounded-lg"></div>
                                 <div><input id="pf-cpf" type="text" placeholder="CPF" class="w-full p-2 border rounded-lg"></div>
                                 <div><input id="pf-crefito" type="text" placeholder="CREFITO" class="w-full p-2 border rounded-lg"></div>
@@ -419,11 +419,11 @@
 
         <!-- MODAL PARA FORÇAR ALTERAÇÃO DE SENHA -->
         <div id="force-password-change-modal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
-            <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-md w-full max-h-[90vh] overflow-y-auto" data-modal-id="force-password-change-modal" onclick="event.stopPropagation()">
+            <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-md w-full" onclick="event.stopPropagation()">
                 <form id="force-password-change-form">
-                    <div class="p-6 border-b flex justify-between items-center">
+                    <div class="p-6 border-b">
                         <h2 class="text-2xl font-bold">Alterar Senha Temporária</h2>
-                        <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="force-password-change-modal">&times;</button>
+                        <p class="text-gray-600 mt-1">Por segurança, você precisa criar uma nova senha.</p>
                     </div>
                     <div class="p-6 space-y-4">
                         <div>
@@ -455,11 +455,10 @@
     <!-- MODAIS -->
     <!-- Modal de Salas -->
     <div id="room-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full max-h-[90vh] overflow-y-auto" data-modal-id="room-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full" onclick="event.stopPropagation()">
             <form id="room-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 id="room-modal-title" class="text-2xl font-bold">Adicionar Sala</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="room-modal">&times;</button>
                 </div>
                 <div class="p-6 space-y-4">
                     <input type="hidden" id="room-id">
@@ -469,7 +468,7 @@
                     </div>
                 </div>
                 <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="room-modal">Cancelar</button>
+                    <button type="button" id="cancel-room-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
             </form>
@@ -477,17 +476,16 @@
     </div>
     <!-- Modal de Edição da Clínica -->
     <div id="clinic-edit-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-xl w-full max-h-[90vh] overflow-y-auto" data-modal-id="clinic-edit-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full" onclick="event.stopPropagation()">
             <form id="clinic-edit-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 class="text-2xl font-bold">Editar Dados da Clínica</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="clinic-edit-modal">&times;</button>
                 </div>
                 <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto" id="clinic-edit-form-fields">
                     <!-- Campos de edição serão injetados aqui -->
                 </div>
                 <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="clinic-edit-modal">Cancelar</button>
+                    <button type="button" id="cancel-clinic-edit-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar Alterações</button>
                 </div>
             </form>
@@ -496,11 +494,10 @@
 
     <!-- Modal de Agendamento -->
     <div id="appointment-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full max-h-[95vh] overflow-y-auto" data-modal-id="appointment-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full" onclick="event.stopPropagation()">
             <form id="appointment-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 id="appointment-modal-title" class="text-2xl font-bold">Novo Agendamento</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="appointment-modal">&times;</button>
                 </div>
                 <div class="p-6 space-y-4 max-h-[80vh] overflow-y-auto"> <!-- Added max-h and overflow -->
                     <input type="hidden" id="appointment-id"> <!-- Added for editing/deleting -->
@@ -567,7 +564,7 @@
                 <div class="p-6 flex justify-between space-x-4 bg-gray-50 rounded-b-lg"> <!-- Changed justify-end to justify-between -->
                     <button type="button" id="delete-appointment-btn" class="bg-red-100 text-red-700 font-semibold py-2 px-4 rounded-lg hover:bg-red-200 transition hidden">Excluir</button> <!-- Added Delete Button -->
                     <div class="flex space-x-4"> <!-- Wrapper for cancel/save -->
-                        <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="appointment-modal">Cancelar</button>
+                        <button type="button" id="cancel-appointment-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                         <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                     </div>
                 </div>
@@ -577,11 +574,10 @@
 
     <!-- Modal de Lançamento Financeiro -->
      <div id="financial-record-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full max-h-[90vh] overflow-y-auto" data-modal-id="financial-record-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full" onclick="event.stopPropagation()">
             <form id="financial-record-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 id="financial-modal-title" class="text-2xl font-bold">Lançar Pagamento</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="financial-record-modal">&times;</button>
                 </div>
                 <div class="p-6 space-y-4">
                     <input type="hidden" id="financial-record-id">
@@ -616,43 +612,19 @@
                     </div>
                 </div>
                 <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="financial-record-modal">Cancelar</button>
+                    <button type="button" id="cancel-financial-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal de Detalhes Rápidos do Paciente (NOVO) -->
-     <div id="patient-quick-view-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-xl w-full max-h-[90vh] overflow-y-auto" data-modal-id="patient-quick-view-modal" onclick="event.stopPropagation()">
-            <div class="p-6 border-b flex justify-between items-center">
-                <h2 id="quick-view-patient-name" class="text-2xl font-bold">Detalhes do Paciente</h2>
-                <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="patient-quick-view-modal">&times;</button>
-            </div>
-            <div class="p-6 space-y-4 text-gray-700" id="patient-quick-view-content">
-                <!-- Conteúdo dos detalhes rápidos será injetado aqui -->
-                <p><strong class="font-semibold">Idade:</strong> <span id="quick-view-age"></span></p>
-                <p><strong class="font-semibold">Telefone:</strong> <span id="quick-view-phone"></span></p>
-                <p><strong class="font-semibold">CPF:</strong> <span id="quick-view-cpf"></span></p>
-                <p><strong class="font-semibold">Endereço:</strong> <span id="quick-view-address"></span></p>
-                <p><strong class="font-semibold">Responsável:</strong> <span id="quick-view-caregiver"></span></p>
-                <p><strong class="font-semibold">Observações:</strong> <span id="quick-view-observations" class="whitespace-pre-wrap"></span></p>
-            </div>
-             <div class="p-6 flex justify-end bg-gray-50 rounded-b-lg">
-                <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="patient-quick-view-modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-
     <!-- Outros modais... -->
     <div id="change-role-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-sm w-full max-h-[90vh] overflow-y-auto" data-modal-id="change-role-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-sm w-full" onclick="event.stopPropagation()">
             <form id="change-role-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 class="text-2xl font-bold">Alterar Função</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="change-role-modal">&times;</button>
                 </div>
                  <div class="p-6 space-y-4">
                     <input type="hidden" id="change-role-user-id">
@@ -664,18 +636,17 @@
                     </select>
                 </div>
                 <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="change-role-modal">Cancelar</button>
+                    <button type="button" id="cancel-change-role-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
     <div id="patient-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-3xl w-full max-h-[95vh] overflow-y-auto" data-modal-id="patient-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full" onclick="event.stopPropagation()">
          <form id="patient-form">
-             <div class="p-6 border-b flex justify-between items-center">
+             <div class="p-6 border-b">
                 <h2 id="patient-modal-title" class="text-2xl font-bold">Adicionar Novo Paciente</h2>
-                <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="patient-modal">&times;</button>
              </div>
              <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto"> <!-- Added scroll -->
                 <input type="hidden" id="patient-id">
@@ -708,7 +679,7 @@
                 </div>
             </div>
              <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
-                <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="patient-modal">Cancelar</button>
+                <button type="button" id="cancel-patient-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                 <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
             </div>
             </form>
@@ -716,11 +687,10 @@
     </div>
     <!-- Modal de Avaliação Inicial -->
     <div id="assessment-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full max-h-[95vh] overflow-y-auto" data-modal-id="assessment-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full" onclick="event.stopPropagation()">
             <form id="assessment-form" data-type="initial"> 
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 id="assessment-modal-title" class="text-2xl font-bold">Nova Avaliação Inicial</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="assessment-modal">&times;</button>
                 </div>
                 <!-- Campo de Profissional -->
                 <div class="p-4 border-b">
@@ -736,7 +706,7 @@
                     <button type="button" data-tab="tab5" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">5. Ambiente</button>
                     <button type="button" data-tab="tab6" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">6. Objetivos</button>
                 </div>
-                <div class="p-6 max-h-[60vh] overflow-y-auto">
+                <div class="p-6 h-[60vh] overflow-y-auto">
                     <div id="tab1" class="tab-content space-y-4">
                         <h3 class="font-bold text-lg">Histórico Clínico</h3>
                         <div class="grid grid-cols-1 gap-4">
@@ -771,7 +741,7 @@
                               <div><label class="block text-sm font-medium">Marcha</label><input id="marcha" type="text" class="w-full p-2 border rounded"></div>
                               <div><label class="block text-sm font-medium">Equilíbrio</label><input id="equilibrio" type="text" class="w-full p-2 border rounded"></div>
                               <div><label class="block text-sm font-medium">ADM</label><input id="adm" type="text" class="w-full p-2 border rounded"></div>
-                              <div><label class="block text-sm font-medium">Força Muscular (0-5)</label><select id="forca" class="w-full p-2 border rounded"><option>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+                              <div><label class="block text-sm font-medium">Força Muscular (0-5)</label><select id="forca" class="w-full p-2 border rounded"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
                               <div><label class="block text-sm font-medium">Tônus</label><input id="tonus" type="text" class="w-full p-2 border rounded"></div>
                               <div><label class="block text-sm font-medium">Coordenação Motora</label><input id="coordenacao" type="text" class="w-full p-2 border rounded"></div>
                               <div><label class="block text-sm font-medium">Sensibilidade</label><input id="sensibilidade" type="text" class="w-full p-2 border rounded"></div>
@@ -810,7 +780,7 @@
                 </div>
 
                 <div class="mt-4 p-6 flex justify-end space-x-4 border-t">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="assessment-modal">Cancelar</button>
+                    <button type="button" id="cancel-assessment-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar Avaliação</button>
                 </div>
             </form>
@@ -819,11 +789,10 @@
     <!-- Fim Modal de Avaliação Inicial -->
     <!-- Modal de Evolução Simples -->
     <div id="evolution-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full max-h-[95vh] overflow-y-auto" data-modal-id="evolution-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full" onclick="event.stopPropagation()">
             <form id="evolution-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 id="evolution-modal-title" class="text-2xl font-bold">Novo Registro de Evolução</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="evolution-modal">&times;</button>
                 </div>
                  <!-- Campo de Profissional (Repetido, mas necessário para este novo modal) -->
                  <div class="p-4 border-b">
@@ -855,7 +824,7 @@
                     </div>
                 </div>
                 <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="evolution-modal">Cancelar</button>
+                    <button type="button" id="cancel-evolution-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar Evolução</button>
                 </div>
             </form>
@@ -864,11 +833,10 @@
     <!-- Fim Modal Evolução Simples -->
     <!-- Modal de Alta (Discharge) - Reutiliza as Abas do Assessment -->
     <div id="discharge-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full max-h-[95vh] overflow-y-auto" data-modal-id="discharge-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full" onclick="event.stopPropagation()">
             <form id="discharge-form">
-                <div class="p-6 border-b flex justify-between items-center">
+                <div class="p-6 border-b">
                     <h2 id="discharge-modal-title" class="text-2xl font-bold">Alta Fisioterapêutica</h2>
-                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="discharge-modal">&times;</button>
                 </div>
                 <!-- Campo de Profissional (Repetido, mas necessário para este novo modal) -->
                  <div class="p-4 border-b">
@@ -877,11 +845,11 @@
                 </div>
                 <div class="p-4 flex flex-wrap gap-2 border-b">
                     <!-- Abas de Avaliação para preencher o estado final -->
-                    <button type="button" data-tab="discharge-tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Histórico/Queixas Finais</button>
+                    <button type="button" data-tab="discharge-tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Queixas Finais</button>
                     <button type="button" data-tab="discharge-tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Avaliação Física Final</button>
                     <button type="button" data-tab="discharge-tab7" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Resultados e Desfecho</button>
                 </div>
-                <div class="p-6 max-h-[60vh] overflow-y-auto">
+                <div class="p-6 h-[60vh] overflow-y-auto">
                     <!-- Tab 1 e 3 podem reutilizar o HTML do assessment se for injetado.
                          Por simplicidade, vamos criar o HTML necessário (Queixas e Resultados) -->
                     <div id="discharge-tab1" class="tab-content space-y-4">
@@ -909,7 +877,7 @@
                     </div>
                 </div>
                 <div class="mt-4 p-6 flex justify-end space-x-4 border-t">
-                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="discharge-modal">Cancelar</button>
+                    <button type="button" id="cancel-discharge-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition">Confirmar Alta</button>
                 </div>
             </form>
@@ -917,10 +885,10 @@
     </div>
     <!-- Fim Modal Alta -->
     <div id="assessment-detail-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full max-h-[95vh] overflow-y-auto" data-modal-id="assessment-detail-modal" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full" onclick="event.stopPropagation()">
             <div class="p-6 border-b flex justify-between items-center">
                 <h2 class="text-2xl font-bold">Detalhes do Registro Clínico</h2>
-                <button id="close-assessment-detail-modal" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl" data-modal-target="assessment-detail-modal">&times;</button>
+                <button id="close-assessment-detail-modal" class="text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
             </div>
 
             <div class="p-4 flex flex-wrap gap-2 border-b">
@@ -935,7 +903,7 @@
                  <!-- FIM NOVO -->
             </div>
 
-            <div class="p-6 max-h-[60vh] overflow-y-auto">
+            <div class="p-6 h-[60vh] overflow-y-auto">
                  <div id="detail-tab1" class="tab-content grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div><h4 class="detail-label">Diagnóstico Médico Principal</h4><p id="detail-diagMedico" class="detail-value"></p></div>
                     <div><h4 class="detail-label">Comorbidades</h4><p id="detail-comorbidades" class="detail-value"></p></div>
@@ -943,7 +911,7 @@
                     <div><h4 class="detail-label">Internações/Cirurgias Prévias</h4><p id="detail-cirurgias" class="detail-value"></p></div>
                     <div class="md:col-span-2"><h4 class="detail-label">Principais Queixas</h4><p id="detail-queixas" class="detail-value whitespace-pre-wrap"></p></div>
                     <div><h4 class="detail-label">Dor (EVA 0-10)</h4><p id="detail-dorEva" class="detail-value"></p></div>
-                    <div><h4 class="detail-label">Local da Dor</h4><p id="detail-dorLocal" class="detail-value"></p></div>
+                    <div><h4 classD="detail-label">Local da Dor</h4><p id="detail-dorLocal" class="detail-value"></p></div>
                     <div class="md:col-span-2"><h4 class="detail-label">Hábitos</h4><p id="detail-habitos" class="detail-value whitespace-pre-wrap"></p></div>
                 </div>
                 <div id="detail-tab2" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -971,7 +939,7 @@
                        <div><h4 class="detail-label">Continência</h4><p id="detail-continencia" class="detail-value"></p></div>
                        <div><h4 class="detail-label">Uso de Fraldas</h4><p id="detail-fraldas" class="detail-value"></p></div>
                        <div><h4 class="detail-label">Transferências</h4><p id="detail-transferencias" class="detail-value"></p></div>
-                       <div><h4 class="detail-label">Deambulacao</h4><p id="detail-deambulacao" class="detail-value"></p></div>
+                       <div><h4 class="detail-label">Deambulação</h4><p id="detail-deambulacao" class="detail-value"></p></div>
                 </div>
                 <div id="detail-tab5" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div><h4 class="detail-label">Tipo de Residência</h4><p id="detail-residencia" class="detail-value"></p></div>
@@ -1003,22 +971,23 @@
                  </div>
             </div>
              <div class="mt-4 p-6 flex justify-end space-x-4 border-t">
-                <button type="button" id="close-assessment-detail-modal-btn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="assessment-detail-modal">Fechar</button>
+                <button type="button" id="close-assessment-detail-modal-btn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Fechar</button>
             </div>
         </div>
     </div>
-    <div id="confirm-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full" data-modal-id="confirm-modal" onclick="event.stopPropagation()">
+    <div id="confirm-modal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full">
             <h3 id="confirm-modal-title" class="text-xl font-bold mb-4">Confirmar Exclusão</h3>
             <p id="confirm-modal-text" class="text-gray-600 mb-6">Você tem certeza? Esta ação não pode ser desfeita.</p>
             <div class="flex justify-end space-x-4">
-                <button id="confirm-modal-cancel" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn" data-modal-target="confirm-modal">Cancelar</button>
+                <button id="confirm-modal-cancel" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                 <button id="confirm-modal-confirm" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition">Excluir</button>
             </div>
         </div>
     </div>
 
-    <!-- Link para o arquivo de script (Crie o arquivo script.js com o conteúdo do BLOCO 3) -->
-    <script type="module" src="script.js"></script>
+    <!-- NOVO: Ponto de entrada do JavaScript modularizado -->
+    <script type="module" src="assets/js/main.js"></script>
+
 </body>
 </html>
