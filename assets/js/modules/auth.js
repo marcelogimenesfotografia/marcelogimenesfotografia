@@ -240,9 +240,10 @@ export async function handleCreateUser(e) {
 }
 
 
-// --- AUTH STATE CHANGE HANDLER ---
 
+// --- AUTH STATE CHANGE HANDLER ---
 export async function handleAuthStateChange(user) {
+    console.log("DEBUG: handleAuthStateChange chamada. User:", user ? user.uid : 'null'); // <-- ADICIONE ISTO
     const authView = document.getElementById('auth-view');
     const dashboardView = document.getElementById('dashboard-view');
     
