@@ -70,19 +70,17 @@ export const loadingOverlay = document.getElementById('loading-overlay');
 
 
 // --- GLOBAL STATE SETTERS (To be used by other modules) ---
-export function setGlobalState(newState) {
-    Object.keys(newState).forEach(key => {
-        if (key in module.exports) { // Check if the key is one of the exported state vars
-            module.exports[key] = newState[key];
+export function setGlobalState(updates) {
+    for (const key in updates) {
+        if (key in module.exports) {
+            // Esta é a sintaxe correta para mutar uma variável exportada (live binding)
+            module.exports[key] = updates[key];
+        } else if (key === 'currentDate' && updates[key] instanceof Date) {
+            currentDate = updates[key];
         } else {
-             // Handle special cases like currentDate which needs to be a Date object
-             if (key === 'currentDate' && newState[key] instanceof Date) {
-                currentDate = newState[key];
-             } else {
-                 console.warn(`Attempted to set unexported global state key: ${key}`);
-             }
+            console.warn(`Tentativa de atribuir estado global não exportado ou inválido: ${key}`);
         }
-    });
+    }
 }
 
 export function setUnsubscribe(key, func) {
