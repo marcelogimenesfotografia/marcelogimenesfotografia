@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document */
+body { font-family: 'Inter', sans-serif; }
+.modal-backdrop { background-color: rgba(0,0,0,0.5); }
+.sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; transition: background-color 0.2s; color: #D1D5DB; }
+.sidebar-link:hover { background-color: #374151; }
+.sidebar-link.active { background-color: #4B5563; color: #FFFFFF; font-weight: 600; }
+.sidebar-link svg { margin-right: 0.75rem; width: 1.25rem; height: 1.25rem; }
+.tab-button { transition: background-color 0.2s, color 0.2s; }
+.tab-button.active { background-color: #3B82F6; color: white; }
+.tab-button:not(.active) { background-color: #E5E7EB; color: #4B5563; }
+.tab-content { border-top: 1px solid #D1D5DB; }
+.detail-label { font-weight: 600; color: #4B5563; }
+.detail-value { min-height: 1.5rem; }
+.calendar-day { min-height: 120px; }
+.appointment-badge, .appointment-item { 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer; 
+}
+/* Style for datalist */
+input::-webkit-calendar-picker-indicator {
+    display: none !important; /* Hide ugly dropdown arrow for datalist inputs */
+}
+/* Loading Spinner */
+.loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto; /* Center the spinner */
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.loading-overlay {
+     position: fixed;
+     inset: 0;
+     background-color: rgba(255, 255, 255, 0.7);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     z-index: 9999; /* Ensure it's on top */
+ }
+ /* Classe para esconder páginas */
+ .page-content {
+    display: none; /* Escondido por padrão */
+ }
+ .page-content.active {
+    display: block; /* Visível quando ativo */
+ }
