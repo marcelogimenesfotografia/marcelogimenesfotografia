@@ -8,7 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .modal-backdrop { background-color: rgba(0,0,0,0.5); }
+        .modal-backdrop { background-color: rgba(0,0,0,0.5); z-index: 50; }
+        .sub-modal { z-index: 51; } /* Z-index para modais sobre modais */
+        /* Z-index elevado para modais de alerta/confirmação */
+        #js-message-modal, #confirm-modal, #recurrence-options-modal { z-index: 60; }
+
         .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; transition: background-color 0.2s; color: #D1D5DB; }
         .sidebar-link:hover { background-color: #374151; }
         .sidebar-link.active { background-color: #4B5563; color: #FFFFFF; font-weight: 600; }
@@ -79,8 +83,8 @@
                     </div>
                     <form id="login-form">
                         <div class="space-y-4">
-                            <input id="login-email" type="email" placeholder="Seu e-mail" class="w-full p-3 border rounded-lg" required>
-                            <input id="login-password" type="password" placeholder="Sua senha" class="w-full p-3 border rounded-lg" required>
+                            <input id="login-email" type="email" placeholder="Seu e-mail" value="ellengimenes@gmail.com" class="w-full p-3 border rounded-lg" required>
+                            <input id="login-password" type="password" placeholder="Sua senha" value="100200" class="w-full p-3 border rounded-lg" required>
                         </div>
                         <p id="login-error" class="text-red-500 text-sm mt-4 text-center h-4"></p>
                         <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-300 mt-6">
@@ -115,10 +119,10 @@
 
                             <!-- Campos Pessoa Física -->
                             <div id="pf-fields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="md:col-span-2"><input id="pf-name" type="text" placeholder="Nome Completo" class="w-full p-2 border rounded-lg"></div>
+                                <div class="md:col-span-2"><input id="pf-name" type="text" placeholder="Nome Completo" class="w-full p-2 border rounded-lg" data-mask="name"></div>
                                 <div><input id="pf-birthDate" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data de Nascimento" class="w-full p-2 border rounded-lg"></div>
                                 <div><input id="pf-rg" type="text" placeholder="RG" class="w-full p-2 border rounded-lg"></div>
-                                <div><input id="pf-cpf" type="text" placeholder="CPF" class="w-full p-2 border rounded-lg"></div>
+                                <div><input id="pf-cpf" type="text" placeholder="CPF" class="w-full p-2 border rounded-lg" data-mask="cpf"></div>
                                 <div><input id="pf-crefito" type="text" placeholder="CREFITO" class="w-full p-2 border rounded-lg"></div>
 
                                 <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
@@ -130,13 +134,13 @@
                                     <div class="md:col-span-3"><input id="pf-state" type="text" placeholder="Estado (UF)" class="w-full p-2 border rounded-lg"></div>
                                 </div>
 
-                                <div class="md:col-span-2"><input id="pf-phone" type="tel" placeholder="Telefone" class="w-full p-2 border rounded-lg"></div>
+                                <div class="md:col-span-2"><input id="pf-phone" type="tel" placeholder="Telefone" class="w-full p-2 border rounded-lg" data-mask="phone"></div>
                             </div>
 
                              <!-- Campos Pessoa Jurídica -->
                             <div id="pj-fields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="md:col-span-2"><input id="pj-razaoSocial" type="text" placeholder="Razão Social" class="w-full p-2 border rounded-lg"></div>
-                                <div><input id="pj-cnpj" type="text" placeholder="CNPJ" class="w-full p-2 border rounded-lg"></div>
+                                <div><input id="pj-cnpj" type="text" placeholder="CNPJ" class="w-full p-2 border rounded-lg" data-mask="cnpj"></div>
                                 <div><input id="pj-crefito" type="text" placeholder="CREFITO da Clínica" class="w-full p-2 border rounded-lg"></div>
 
                                 <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
@@ -148,11 +152,11 @@
                                     <div class="md:col-span-3"><input id="pj-state" type="text" placeholder="Estado (UF)" class="w-full p-2 border rounded-lg"></div>
                                 </div>
 
-                                <div class="md:col-span-2"><input id="pj-phone" type="tel" placeholder="Telefone Comercial" class="w-full p-2 border rounded-lg"></div>
+                                <div class="md:col-span-2"><input id="pj-phone" type="tel" placeholder="Telefone Comercial" class="w-full p-2 border rounded-lg" data-mask="phone"></div>
                                 <hr class="md:col-span-2 my-2"/>
                                 <div class="md:col-span-2"><p class="text-sm font-semibold text-gray-600">Dados do Responsável Técnico</p></div>
-                                <div class="md:col-span-2"><input id="pj-responsavel" type="text" placeholder="Nome do Responsável" class="w-full p-2 border rounded-lg"></div>
-                                <div><input id="pj-responsavel-cpf" type="text" placeholder="CPF do Responsável" class="w-full p-2 border rounded-lg"></div>
+                                <div class="md:col-span-2"><input id="pj-responsavel" type="text" placeholder="Nome do Responsável" class="w-full p-2 border rounded-lg" data-mask="name"></div>
+                                <div><input id="pj-responsavel-cpf" type="text" placeholder="CPF do Responsável" class="w-full p-2 border rounded-lg" data-mask="cpf"></div>
                                 <div><input id="pj-responsavel-crefito" type="text" placeholder="CREFITO do Responsável" class="w-full p-2 border rounded-lg"></div>
                             </div>
 
@@ -208,8 +212,6 @@
                         <p class="text-sm text-gray-400">Usuário:</p>
                         <strong id="user-email" class="font-mono text-sm break-words">...</strong>
                         
-                        <button id="change-password-btn" class="w-full mt-2 text-center text-sm bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 rounded-lg">Alterar Senha</button>
-                        
                         <button id="logout-btn" class="w-full mt-2 text-center text-sm bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg">Sair</button>
                     </div>
                 </aside>
@@ -259,7 +261,7 @@
 
                             <!-- Página Pacientes -->
                             <div id="page-pacientes" class="page-content">
-                                <div id="patient-list-view" class="active">
+                                <div id="patient-list-view">
                                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                                         <div>
                                             <h2 class="text-2xl font-semibold">Pacientes</h2>
@@ -280,23 +282,6 @@
                                         <div id="no-patients-message" class="hidden text-center py-12 bg-white rounded-lg shadow"><p class="text-gray-500">Nenhum paciente encontrado.</p></div>
                                     </div>
                                 </div>
-                                <div id="patient-detail-view" class="page-content">
-                                    <button id="back-to-list-btn" class="mb-6 bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300">&larr; Voltar para a Lista</button>
-                                    <div id="patient-info-container" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg"></div>
-                                    <hr class="my-8">
-                                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                                        <div class="flex justify-between items-center mb-6">
-                                            <h3 class="text-2xl font-semibold">Histórico de Evolução</h3>
-                                            <div class="flex space-x-4">
-                                                <button id="add-initial-assessment-btn" class="bg-yellow-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-yellow-600 transition duration-300 whitespace-nowrap">+ Nova Avaliação Inicial</button>
-                                                <button id="add-evolution-btn" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition duration-300 whitespace-nowrap">+ Nova Evolução</button>
-                                                <button id="add-discharge-btn" class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-red-600 transition duration-300 whitespace-nowrap">+ Alta</button>
-                                            </div>
-                                        </div>
-                                        <div id="assessments-container" class="space-y-4"></div>
-                                        <div id="no-assessments-message" class="hidden text-center py-8 text-gray-500"><p>Nenhuma evolução registrada.</p></div>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Página Agenda -->
@@ -307,7 +292,7 @@
                                             <h2 class="text-2xl font-semibold">Agenda</h2>
                                             <p class="text-gray-500">Visualize e gerencie seus agendamentos.</p>
                                         </div>
-                                        <div class="flex items-center gap-2">
+                                        <div class="flex flex-wrap items-center gap-2">
                                             <button id="add-appointment-agenda-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-300 whitespace-nowrap">
                                                 + Novo Agendamento
                                             </button>
@@ -369,14 +354,17 @@
                             <div id="page-configuracoes" class="page-content">
                                 <div id="admin-view" class="space-y-8">
                                      <div>
-                                        <h2 class="text-2xl font-semibold">Configurações</h2>
+                                        <h2 class="text-3xl font-semibold">Configurações</h2>
                                         <p class="text-gray-500">Gerencie os dados da clínica e sua equipe.</p>
                                     </div>
 
                                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                                        <div class="flex justify-between items-start mb-4">
+                                        <div class="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
                                             <h3 class="text-xl font-semibold">Dados da Clínica</h3>
-                                            <button id="edit-clinic-data-btn" class="text-sm bg-gray-200 text-gray-700 font-semibold py-1 px-3 rounded-lg hover:bg-gray-300">Editar Dados</button>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button id="config-change-password-btn" class="text-sm bg-yellow-500 text-white font-semibold py-1 px-3 rounded-lg hover:bg-yellow-600">Alterar Minha Senha</button>
+                                                <button id="edit-clinic-data-btn" class="text-sm bg-gray-200 text-gray-700 font-semibold py-1 px-3 rounded-lg hover:bg-gray-300">Editar Dados</button>
+                                            </div>
                                         </div>
                                         <div id="clinic-data-display" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
                                             <!-- Dados da clínica serão exibidos aqui -->
@@ -408,18 +396,18 @@
                                     </div>
 
                                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                                        <h3 class="text-xl font-semibold mb-6">Membros da Equipe</h3>
+                                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
+                                            <h3 class="text-xl font-semibold">Membros da Equipe</h3>
+                                        </div>
                                         <div id="members-list" class="space-y-4">
                                             <!-- Membros serão listados aqui -->
                                         </div>
                                     </div>
 
                                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-                                        <div class="flex justify-between items-center mb-6">
+                                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
                                             <h3 class="text-xl font-semibold">Salas de Atendimento</h3>
-                                            <button id="add-room-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-300 whitespace-nowrap">
-                                                + Adicionar Sala
-                                            </button>
+                                            <button id="add-room-btn" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition">+ Nova Sala</button>
                                         </div>
                                         <div id="rooms-list" class="space-y-4">
                                             <!-- Salas serão listadas aqui -->
@@ -458,57 +446,95 @@
             </div>
         </div>
 
-        <!-- MODAL PARA FORÇAR ALTERAÇÃO DE SENHA / ALTERAR SENHA DO USUÁRIO LOGADO -->
-        <div id="force-password-change-modal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
-            <!-- Container do modal precisa ser flex-col e ter max-h -->
-            <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-md w-full max-h-[90vh] flex flex-col">
-                <!-- Formulario precisa ser h-full flex flex-col -->
-                <form id="force-password-change-form" class="flex flex-col h-full">
-                    <div class="p-6 border-b flex justify-between items-center">
-                        <h2 id="password-modal-title" class="text-2xl font-bold">Alterar Senha</h2>
-                        <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
-                    </div>
-                    <!-- Corpo precisa de overflow-y-auto e flex-1 -->
-                    <div class="p-6 space-y-4 overflow-y-auto flex-1">
-                        <p id="password-modal-description" class="text-gray-600 text-sm"></p>
-                        <div>
-                            <label for="current-password" class="block text-sm font-medium text-gray-700">Senha Atual</label>
-                            <input type="password" id="current-password" class="mt-1 w-full p-2 border rounded-lg" required>
-                        </div>
-                        <div>
-                            <label for="new-password" class="block text-sm font-medium text-gray-700">Nova Senha</label>
-                            <input type="password" id="new-password" class="mt-1 w-full p-2 border rounded-lg" required>
-                            <p class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres, com pelo menos um número.</p>
-                        </div>
-                         <div>
-                            <label for="confirm-new-password" class="block text-sm font-medium text-gray-700">Confirme a Nova Senha</label>
-                            <input type="password" id="confirm-new-password" class="mt-1 w-full p-2 border rounded-lg" required>
-                        </div>
-                         <p id="force-password-change-error" class="text-red-500 text-sm text-center h-4"></p>
-                    </div>
-                    <div class="p-6 flex justify-end bg-gray-50 rounded-b-lg mt-auto">
-                        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow hover:bg-blue-700 transition">Salvar Nova Senha</button>
-                    </div>
-                </form>
+    <!-- ================================== -->
+    <!-- == INÍCIO DOS MODAIS CORRIGIDOS == -->
+    <!-- ================================== -->
+
+    <!-- MODAL PARA EXIBIÇÃO DE MENSAGENS -->
+    <div id="js-message-modal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl p-6 m-4 sm:m-8 max-w-sm w-full">
+            <h3 id="js-message-title" class="text-xl font-bold mb-3 text-blue-600">Mensagem</h3>
+            <p id="js-message-text" class="text-gray-600 mb-6"></p>
+            <div class="flex justify-end">
+                <button id="js-message-close" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- Datalists needed for searchable inputs -->
+    <!-- MODAL DE CONFIRMAÇÃO -->
+    <div id="confirm-modal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full">
+            <h3 id="confirm-modal-title" class="text-xl font-bold mb-4">Confirmar Ação</h3>
+            <p id="confirm-modal-text" class="text-gray-600 mb-6">Você tem certeza?</p>
+            <div class="flex justify-end space-x-4">
+                <button id="confirm-modal-cancel" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+                <button id="confirm-modal-confirm" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL DE OPÇÕES DE RECORRÊNCIA -->
+    <div id="recurrence-options-modal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full">
+            <h3 id="recurrence-options-title" class="text-xl font-bold mb-4">Editar evento recorrente</h3>
+            <p id="recurrence-options-text" class="text-gray-600 mb-6">Como você gostaria de salvar as alterações?</p>
+            <div class="flex flex-col space-y-3">
+                <button id="recurrence-option-single" class="w-full bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Somente este evento</button>
+                <button id="recurrence-option-future" class="w-full bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Este e os eventos futuros</button>
+                <button id="recurrence-option-cancel" class="w-full mt-4 bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Datalists -->
     <datalist id="patient-list"></datalist>
 
-    <!-- MODAIS -->
+    <!-- MODAL PARA ALTERAR SENHA -->
+    <div id="force-password-change-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-md w-full max-h-[90vh] flex flex-col">
+            <form id="force-password-change-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
+                    <h2 id="password-modal-title" class="text-2xl font-bold">Alterar Senha</h2>
+                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
+                </div>
+                <!-- CORPO ROLÁVEL -->
+                <div class="p-6 space-y-4 overflow-y-auto flex-1">
+                    <p id="password-modal-description" class="text-gray-600 text-sm">Por segurança, confirme sua senha atual para definir uma nova.</p>
+                    <div>
+                        <label for="current-password" class="block text-sm font-medium text-gray-700">Senha Atual</label>
+                        <input type="password" id="current-password" class="mt-1 w-full p-2 border rounded-lg" required>
+                    </div>
+                    <div>
+                        <label for="new-password" class="block text-sm font-medium text-gray-700">Nova Senha</label>
+                        <input type="password" id="new-password" class="mt-1 w-full p-2 border rounded-lg" required>
+                        <p class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres.</p>
+                    </div>
+                     <div>
+                        <label for="confirm-new-password" class="block text-sm font-medium text-gray-700">Confirme a Nova Senha</label>
+                        <input type="password" id="confirm-new-password" class="mt-1 w-full p-2 border rounded-lg" required>
+                    </div>
+                     <p id="force-password-change-error" class="text-red-500 text-sm text-center h-4"></p>
+                </div>
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end bg-gray-50 rounded-b-lg flex-shrink-0">
+                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow hover:bg-blue-700 transition">Salvar Nova Senha</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal de Salas -->
-    <div id="room-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <!-- CORREÇÃO APLICADA: Container do modal precisa ser flex-col e ter max-h -->
+    <div id="room-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full max-h-[90vh] flex flex-col">
-            <!-- CORREÇÃO APLICADA: Formulario precisa ser h-full flex flex-col -->
-            <form id="room-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="room-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 id="room-modal-title" class="text-2xl font-bold">Adicionar Sala</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                <!-- CORREÇÃO APLICADA: Corpo precisa de overflow-y-auto e flex-1 -->
+                <!-- CORPO ROLÁVEL -->
                 <div class="p-6 space-y-4 overflow-y-auto flex-1">
                     <input type="hidden" id="room-id">
                     <div>
@@ -516,51 +542,91 @@
                         <input type="text" id="room-name" class="mt-1 w-full p-2 border rounded-lg" required>
                     </div>
                 </div>
-                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg mt-auto">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
                     <button type="button" id="cancel-room-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
+
     <!-- Modal de Edição da Clínica -->
-    <div id="clinic-edit-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-xl w-full max-h-[90vh] flex flex-col">
-            <form id="clinic-edit-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+    <div id="clinic-edit-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full max-h-[90vh] flex flex-col">
+            <form id="clinic-edit-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 class="text-2xl font-bold">Editar Dados da Clínica</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
-                <div class="p-6 space-y-4 overflow-y-auto flex-1" id="clinic-edit-form-fields">
+                <!-- CORPO ROLÁVEL -->
+                <div class="p-6 overflow-y-auto flex-1" id="clinic-edit-form-fields">
                     <!-- Campos de edição serão injetados aqui -->
                 </div>
-                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg mt-auto">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
                     <button type="button" id="cancel-clinic-edit-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar Alterações</button>
                 </div>
             </form>
         </div>
     </div>
+    
+    <!-- Modal Prontuário do Paciente -->
+    <div id="patient-record-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
+        <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-5xl w-full max-h-[95vh] flex flex-col">
+            <!-- CABEÇALHO FIXO -->
+            <div class="p-6 border-b flex justify-between items-start flex-shrink-0">
+                <div>
+                    <h2 id="record-modal-patient-name" class="text-3xl font-bold">Prontuário do Paciente</h2>
+                    <div id="record-modal-patient-info" class="grid grid-cols-1 md:grid-cols-3 gap-x-6 text-sm text-gray-600 mt-2">
+                        <!-- Detalhes do paciente serão inseridos aqui -->
+                    </div>
+                </div>
+                <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
+            </div>
+            <!-- ÁREA DE BOTÕES -->
+            <div class="p-4 flex flex-wrap gap-2 border-b bg-gray-50 flex-shrink-0">
+                <button id="record-modal-add-initial-assessment-btn" class="bg-yellow-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-yellow-600 transition duration-300 whitespace-nowrap text-sm">+ Nova Avaliação Inicial</button>
+                <button id="record-modal-add-evolution-btn" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition duration-300 whitespace-nowrap text-sm">+ Nova Evolução</button>
+                <button id="record-modal-add-discharge-btn" class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-red-600 transition duration-300 whitespace-nowrap text-sm">+ Alta</button>
+            </div>
+            <!-- CORPO ROLÁVEL -->
+            <div class="p-6 overflow-y-auto flex-1">
+                <h3 class="text-2xl font-semibold mb-4">Histórico de Evolução</h3>
+                <div id="record-modal-assessments-container" class="space-y-4">
+                    <!-- Lista de evoluções será renderizada aqui -->
+                </div>
+                <div id="record-modal-no-assessments-message" class="hidden text-center py-8 text-gray-500"><p>Nenhuma evolução registrada.</p></div>
+            </div>
+            <!-- RODAPÉ FIXO -->
+            <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
+                <button type="button" id="cancel-patient-record-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Fechar</button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Modal de Agendamento -->
-    <div id="appointment-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+    <div id="appointment-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full max-h-[95vh] flex flex-col">
-            <form id="appointment-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="appointment-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 id="appointment-modal-title" class="text-2xl font-bold">Novo Agendamento</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                <!-- CORREÇÃO APLICADA: Adicionado flex-1 (para limitar a altura) -->
+                <!-- CORPO ROLÁVEL -->
                 <div class="p-6 space-y-4 overflow-y-auto flex-1">
                     <input type="hidden" id="appointment-id">
                     <input type="hidden" id="appointment-date">
+                    <input type="hidden" id="appointment-recurrence-id">
                     <div>
                         <label for="appointment-patient-input" class="block text-sm font-medium text-gray-700">Paciente</label>
                         <input type="text" id="appointment-patient-input" list="patient-list" class="mt-1 w-full p-2 border rounded-lg" placeholder="Digite para buscar..." required autocomplete="off">
                         <input type="hidden" id="appointment-patient-id">
                     </div>
-
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tipo de Atendimento</label>
                         <div class="flex gap-4 mt-2">
@@ -568,19 +634,14 @@
                             <label class="flex items-center"><input type="radio" name="serviceType" value="domiciliar" class="mr-2"> Domiciliar</label>
                         </div>
                     </div>
-
                     <div>
                         <label for="appointment-professional" class="block text-sm font-medium text-gray-700">Profissional</label>
                         <select id="appointment-professional" class="mt-1 w-full p-2 border rounded-lg" required></select>
                     </div>
-
                     <div id="sala-container">
-                        <div>
-                            <label for="appointment-room" class="block text-sm font-medium text-gray-700">Sala</label>
-                            <select id="appointment-room" class="mt-1 w-full p-2 border rounded-lg" required></select>
-                        </div>
+                        <label for="appointment-room" class="block text-sm font-medium text-gray-700">Sala</label>
+                        <select id="appointment-room" class="mt-1 w-full p-2 border rounded-lg" required></select>
                     </div>
-
                     <div id="domiciliar-container" class="hidden space-y-2 border p-3 rounded-lg bg-gray-50">
                         <label class="block text-sm font-medium text-gray-700">Endereço do Atendimento</label>
                         <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
@@ -592,7 +653,6 @@
                             <div class="md:col-span-3"><input id="appointment-state" type="text" placeholder="Estado (UF)" class="w-full p-2 border rounded-lg"></div>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                              <label for="appointment-time" class="block text-sm font-medium text-gray-700">Horário</label>
@@ -607,8 +667,35 @@
                         <label for="appointment-notes" class="block text-sm font-medium text-gray-700">Observações</label>
                         <textarea id="appointment-notes" rows="3" class="mt-1 w-full p-2 border rounded-lg"></textarea>
                     </div>
+                    
+                    <!-- RECORRÊNCIA (A VISIBILIDADE É CONTROLADA VIA JS) -->
+                    <div id="recurrence-section" class="space-y-3 border-t pt-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="recurrence-toggle" class="mr-2 h-4 w-4">
+                            Repetir agendamento
+                        </label>
+                        <div id="recurrence-container" class="hidden space-y-3 p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <label for="recurrence-count" class="block text-sm font-medium text-gray-700">Quantidade de sessões</label>
+                                <input type="number" id="recurrence-count" value="8" min="1" max="52" class="mt-1 w-full p-2 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Dias da semana</label>
+                                <div id="recurrence-days" class="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-sm">
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="1" class="mr-1">Seg</label>
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="2" class="mr-1">Ter</label>
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="3" class="mr-1">Qua</label>
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="4" class="mr-1">Qui</label>
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="5" class="mr-1">Sex</label>
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="6" class="mr-1">Sáb</label>
+                                    <label class="flex items-center"><input type="checkbox" name="weekday" value="0" class="mr-1">Dom</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-6 flex justify-between space-x-4 bg-gray-50 rounded-b-lg mt-auto">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-between space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
                     <button type="button" id="delete-appointment-btn" class="bg-red-100 text-red-700 font-semibold py-2 px-4 rounded-lg hover:bg-red-200 transition hidden">Excluir</button>
                     <div class="flex space-x-4">
                         <button type="button" id="cancel-appointment-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
@@ -620,16 +707,15 @@
     </div>
 
     <!-- Modal de Lançamento Financeiro -->
-     <div id="financial-record-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <!-- Container do modal precisa ser flex-col e ter max-h -->
+     <div id="financial-record-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-lg w-full max-h-[90vh] flex flex-col">
-            <!-- Formulario precisa ser h-full flex flex-col -->
-            <form id="financial-record-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="financial-record-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 id="financial-modal-title" class="text-2xl font-bold">Lançar Pagamento</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                <!-- CORREÇÃO APLICADA: Adicionado flex-1 (para limitar a altura) -->
+                <!-- CORPO ROLÁVEL -->
                 <div class="p-6 space-y-4 overflow-y-auto flex-1">
                     <input type="hidden" id="financial-record-id">
                     <div>
@@ -647,21 +733,20 @@
                             <input type="number" step="0.01" id="financial-value" placeholder="100.00" class="w-full p-2 border rounded-lg" required>
                         </div>
                     </div>
-                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                             <label for="financial-status" class="block text-sm font-medium text-gray-700">Status</label>
-                             <select id="financial-status" class="mt-1 w-full p-2 border rounded-lg" required>
-                                <option value="pago">Pago</option>
-                                <option value="pendente">Pendente</option>
-                             </select>
-                        </div>
+                     <div>
+                         <label for="financial-status" class="block text-sm font-medium text-gray-700">Status</label>
+                         <select id="financial-status" class="mt-1 w-full p-2 border rounded-lg" required>
+                            <option value="pago">Pago</option>
+                            <option value="pendente">Pendente</option>
+                         </select>
                     </div>
                     <div>
                         <label for="financial-description" class="block text-sm font-medium text-gray-700">Descrição</label>
                         <textarea id="financial-description" rows="3" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Pacote de 10 sessões"></textarea>
                     </div>
                 </div>
-                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg mt-auto">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
                     <button type="button" id="cancel-financial-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
@@ -670,13 +755,14 @@
     </div>
 
     <!-- Modal de Detalhes Rápidos do Paciente -->
-     <div id="patient-quick-view-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+     <div id="patient-quick-view-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-xl w-full max-h-[90vh] flex flex-col">
-            <div class="p-6 border-b flex justify-between items-center">
+            <!-- CABEÇALHO FIXO -->
+            <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                 <h2 id="quick-view-patient-name" class="text-2xl font-bold">Detalhes do Paciente</h2>
                 <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
             </div>
-            <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
+            <!-- CORPO ROLÁVEL -->
             <div class="p-6 space-y-4 text-gray-700 overflow-y-auto flex-1" id="patient-quick-view-content">
                 <p><strong class="font-semibold">Idade:</strong> <span id="quick-view-age"></span></p>
                 <p><strong class="font-semibold">Telefone:</strong> <span id="quick-view-phone"></span></p>
@@ -685,24 +771,23 @@
                 <p><strong class="font-semibold">Responsável:</strong> <span id="quick-view-caregiver"></span></p>
                 <p><strong class="font-semibold">Observações:</strong> <span id="quick-view-observations" class="whitespace-pre-wrap"></span></p>
             </div>
-             <div class="p-6 flex justify-end bg-gray-50 rounded-b-lg mt-auto">
+            <!-- RODAPÉ FIXO -->
+             <div class="p-6 flex justify-end bg-gray-50 rounded-b-lg flex-shrink-0">
                 <button type="button" id="cancel-patient-quick-view-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Fechar</button>
             </div>
         </div>
     </div>
 
-
-    <!-- Outros modais... -->
-    <div id="change-role-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
-        <!-- CORREÇÃO APLICADA: Container do modal precisa ser flex-col e ter max-h -->
+    <!-- Modal de Alterar Função -->
+    <div id="change-role-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-sm w-full max-h-[90vh] flex flex-col">
-            <!-- CORREÇÃO APLICADA: Formulario precisa ser h-full flex flex-col -->
-            <form id="change-role-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="change-role-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 class="text-2xl font-bold">Alterar Função</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                 <!-- CORREÇÃO APLICADA: Adicionado overflow-y-auto flex-1 -->
+                 <!-- CORPO ROLÁVEL -->
                  <div class="p-6 space-y-4 overflow-y-auto flex-1">
                     <input type="hidden" id="change-role-user-id">
                     <p>Alterar função de <strong id="change-role-user-email"></strong> para:</p>
@@ -712,78 +797,85 @@
                         <option value="admin">Admin</option>
                     </select>
                 </div>
-                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg mt-auto">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
                     <button type="button" id="cancel-change-role-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
-    <div id="patient-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+    
+    <!-- Modal de Paciente (Adicionar/Editar) -->
+    <div id="patient-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-3xl w-full max-h-[95vh] flex flex-col">
-         <form id="patient-form" class="flex flex-col h-full">
-             <div class="p-6 border-b flex justify-between items-center">
-                <h2 id="patient-modal-title" class="text-2xl font-bold">Adicionar Novo Paciente</h2>
-                <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
-             </div>
-             <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
-             <div class="p-6 space-y-4 overflow-y-auto flex-1">
-                <input type="hidden" id="patient-id">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="md:col-span-2"><input id="patient-name" type="text" placeholder="Nome Completo" class="w-full p-2 border rounded" required></div>
-                    <div><input id="patient-cpf" type="text" placeholder="CPF" class="w-full p-2 border rounded"></div>
-                    <div><input id="patient-birthDate" type="date" placeholder="Data de Nascimento" class="w-full p-2 border rounded" required></div>
-                    <div>
-                        <select id="patient-gender" class="w-full p-2 border rounded" required>
-                            <option value="" disabled selected>Sexo</option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Feminino">Feminino</option>
-                            <option value="Outro">Outro</option>
-                        </select>
+             <form id="patient-form" class="flex flex-col flex-1 min-h-0">
+                 <!-- CABEÇALHO FIXO -->
+                 <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
+                    <h2 id="patient-modal-title" class="text-2xl font-bold">Adicionar Novo Paciente</h2>
+                    <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
+                 </div>
+                 <!-- CORPO ROLÁVEL -->
+                 <div class="p-6 space-y-4 overflow-y-auto flex-1">
+                    <input type="hidden" id="patient-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2"><input id="patient-name" type="text" placeholder="Nome Completo" class="w-full p-2 border rounded" required data-mask="name"></div>
+                        <div><input id="patient-cpf" type="text" placeholder="CPF" class="w-full p-2 border rounded" data-mask="cpf"></div>
+                        <div><input id="patient-birthDate" type="date" placeholder="Data de Nascimento" class="w-full p-2 border rounded" required></div>
+                        <div>
+                            <select id="patient-gender" class="w-full p-2 border rounded" required>
+                                <option value="" disabled selected>Sexo</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Feminino">Feminino</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div><input id="patient-phone" type="tel" placeholder="Telefone" class="w-full p-2 border rounded" data-mask="phone"></div>
+                        <div class="md:col-span-2"><input id="patient-caregiver" type="text" placeholder="Responsável/Cuidador (Opcional)" class="w-full p-2 border rounded" data-mask="name"></div>
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
+                            <div class="md:col-span-2"><input id="patient-cep" type="text" placeholder="CEP" class="w-full p-2 border rounded-lg" data-form-prefix="patient"></div>
+                            <div class="md:col-span-4"><input id="patient-street" type="text" placeholder="Rua / Endereço" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-2"><input id="patient-number" type="text" placeholder="Número" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-4"><input id="patient-neighborhood" type="text" placeholder="Bairro" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-3"><input id="patient-city" type="text" placeholder="Cidade" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-3"><input id="patient-state" type="text" placeholder="Estado (UF)" class="w-full p-2 border rounded-lg"></div>
+                        </div>
+                        <div class="md:col-span-2"><textarea id="patient-observations" placeholder="Observações" class="w-full p-2 border rounded" rows="3"></textarea></div>
                     </div>
-                    <div><input id="patient-phone" type="tel" placeholder="Telefone" class="w-full p-2 border rounded"></div>
-                    <div class="md:col-span-2"><input id="patient-caregiver" type="text" placeholder="Responsável/Cuidador (Opcional)" class="w-full p-2 border rounded"></div>
-
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
-                        <div class="md:col-span-2"><input id="patient-cep" type="text" placeholder="CEP" class="w-full p-2 border rounded-lg" data-form-prefix="patient"></div>
-                        <div class="md:col-span-4"><input id="patient-street" type="text" placeholder="Rua / Endereço" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-2"><input id="patient-number" type="text" placeholder="Número" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-4"><input id="patient-neighborhood" type="text" placeholder="Bairro" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-3"><input id="patient-city" type="text" placeholder="Cidade" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-3"><input id="patient-state" type="text" placeholder="Estado (UF)" class="w-full p-2 border rounded-lg"></div>
-                    </div>
-
-                    <div class="md:col-span-2"><textarea id="patient-observations" placeholder="Observações" class="w-full p-2 border rounded" rows="3"></textarea></div>
                 </div>
-            </div>
-             <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg mt-auto">
-                <button type="button" id="cancel-patient-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
-                <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
-            </div>
+                 <!-- RODAPÉ FIXO -->
+                 <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
+                    <button type="button" id="cancel-patient-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
+                </div>
             </form>
         </div>
     </div>
+
     <!-- Modal de Avaliação Inicial -->
-    <div id="assessment-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+    <div id="assessment-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop sub-modal">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full max-h-[95vh] flex flex-col">
-            <form id="assessment-form" data-type="initial" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="assessment-form" data-type="initial" class="flex flex-col flex-1 min-h-0">
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 id="assessment-modal-title" class="text-2xl font-bold">Nova Avaliação Inicial</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                <div class="p-4 border-b">
-                    <label for="assessment-professional" class="block text-sm font-medium text-gray-700">Profissional Responsável</label>
-                    <select id="assessment-professional" class="mt-1 w-full p-2 border rounded-lg" required></select>
+                
+                <div class="flex-shrink-0">
+                    <div class="p-4 border-b">
+                        <label for="assessment-professional" class="block text-sm font-medium text-gray-700">Profissional Responsável</label>
+                        <select id="assessment-professional" class="mt-1 w-full p-2 border rounded-lg" required></select>
+                    </div>
+                    <div class="p-4 flex flex-wrap gap-2 border-b">
+                        <button type="button" data-tab="tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Histórico</button>
+                        <button type="button" data-tab="tab2" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Cognitivo</button>
+                        <button type="button" data-tab="tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Físico</button>
+                        <button type="button" data-tab="tab4" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">4. Funcional</button>
+                        <button type="button" data-tab="tab5" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">5. Ambiente</button>
+                        <button type="button" data-tab="tab6" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">6. Objetivos</button>
+                    </div>
                 </div>
-                <div class="p-4 flex flex-wrap gap-2 border-b">
-                    <button type="button" data-tab="tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Histórico Clínico</button>
-                    <button type="button" data-tab="tab2" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Cognitivo/Emocional</button>
-                    <button type="button" data-tab="tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Avaliação Física</button>
-                    <button type="button" data-tab="tab4" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">4. Funcionalidade</button>
-                    <button type="button" data-tab="tab5" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">5. Ambiente</button>
-                    <button type="button" data-tab="tab6" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">6. Objetivos</button>
-                </div>
-                <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
+
                 <div class="p-6 overflow-y-auto flex-1">
                     <div id="tab1" class="tab-content space-y-4">
                         <h3 class="font-bold text-lg">Histórico Clínico</h3>
@@ -839,7 +931,7 @@
                         </div>
                         <div class="grid grid-cols-1 gap-4 pt-4">
                              <div><label class="block text-sm font-medium">Transferências</label><input id="transferencias" type="text" class="w-full p-2 border rounded"></div>
-                             <div><label class="block text-sm font-medium">Deambulação</label><input id="deambulacao" type="text" class="w-full p-2 border rounded"></div>
+                             <div><label class="block text-sm font-medium">Deambulacao</label><input id="deambulacao" type="text" class="w-full p-2 border rounded"></div>
                         </div>
                     </div>
                     <div id="tab5" class="tab-content hidden space-y-4">
@@ -853,31 +945,34 @@
                     </div>
                     <div id="tab6" class="tab-content hidden space-y-4">
                         <h3 class="font-bold text-lg">Objetivos da Fisioterapia</h3>
-                        <div><label class="block text-sm font-medium">Defina os objetivos de curto, médio e longo prazo.</label><textarea id="objetivos" class="w-full p-2 border rounded" rows="8"></textarea></div>
+                        <div class="grid grid-cols-1 gap-6">
+                            <label class="block text-sm font-medium">Defina os objetivos de curto, médio e longo prazo.</label><textarea id="objetivos" class="w-full p-2 border rounded" rows="8"></textarea>
+                        </div>
                     </div>
                 </div>
-
-                <div class="mt-auto p-6 flex justify-end space-x-4 border-t">
-                    <button type="button" id="cancel-assessment-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
-                    <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar Avaliação</button>
+                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
+                    <button type="button" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition close-modal-btn">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- Fim Modal de Avaliação Inicial -->
+
     <!-- Modal de Evolução Simples -->
-    <div id="evolution-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+    <div id="evolution-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop sub-modal">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-2xl w-full max-h-[95vh] flex flex-col">
-            <form id="evolution-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="evolution-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 id="evolution-modal-title" class="text-2xl font-bold">Novo Registro de Evolução</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                 <div class="p-4 border-b">
+                <!-- ÁREA NÃO-ROLÁVEL (PROFISSIONAL) -->
+                <div class="p-4 border-b flex-shrink-0">
                     <label for="evolution-professional" class="block text-sm font-medium text-gray-700">Profissional Responsável</label>
                     <select id="evolution-professional" class="mt-1 w-full p-2 border rounded-lg" required></select>
                 </div>
-                <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
+                <!-- CORPO ROLÁVEL -->
                 <div class="p-6 space-y-4 overflow-y-auto flex-1">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -891,43 +986,48 @@
                     </div>
                     <div>
                         <label for="evolution-procedures" class="block text-sm font-medium text-gray-700">Procedimentos Realizados</label>
-                        <textarea id="evolution-procedures" rows="3" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Mobilização articular, Cinesioterapia, Eletroterapia..."></textarea>
+                        <textarea id="evolution-procedures" rows="5" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Mobilização articular, Cinesioterapia..."></textarea>
                     </div>
                     <div>
                         <label for="evolution-response" class="block text-sm font-medium text-gray-700">Resposta do Paciente</label>
-                        <textarea id="evolution-response" rows="3" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Relatou diminuição da dor, Melhora na ADM de joelho..."></textarea>
+                        <textarea id="evolution-response" rows="5" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Relatou diminuição da dor..."></textarea>
                     </div>
                     <div>
                         <label for="evolution-notes" class="block text-sm font-medium text-gray-700">Observações/Intercorrências</label>
-                        <textarea id="evolution-notes" rows="3" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Paciente chegou atrasado, Apresentou leve edema..."></textarea>
+                        <textarea id="evolution-notes" rows="4" class="mt-1 w-full p-2 border rounded-lg" placeholder="Ex: Paciente chegou atrasado..."></textarea>
                     </div>
                 </div>
-                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg mt-auto">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end space-x-4 bg-gray-50 rounded-b-lg flex-shrink-0">
                     <button type="button" id="cancel-evolution-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Salvar Evolução</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- Fim Modal Evolução Simples -->
+
     <!-- Modal de Alta (Discharge) -->
-    <div id="discharge-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+    <div id="discharge-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop sub-modal">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full max-h-[95vh] flex flex-col">
-            <form id="discharge-form" class="flex flex-col h-full">
-                <div class="p-6 border-b flex justify-between items-center">
+            <form id="discharge-form" class="flex flex-col flex-1 min-h-0">
+                <!-- CABEÇALHO FIXO -->
+                <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                     <h2 id="discharge-modal-title" class="text-2xl font-bold">Alta Fisioterapêutica</h2>
                     <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
                 </div>
-                 <div class="p-4 border-b">
-                    <label for="discharge-professional" class="block text-sm font-medium text-gray-700">Profissional Responsável pela Alta</label>
-                    <select id="discharge-professional" class="mt-1 w-full p-2 border rounded-lg" required></select>
+                <!-- ÁREA NÃO-ROLÁVEL (PROFISSIONAL E ABAS) -->
+                <div class="flex-shrink-0">
+                    <div class="p-4 border-b">
+                        <label for="discharge-professional" class="block text-sm font-medium text-gray-700">Profissional Responsável pela Alta</label>
+                        <select id="discharge-professional" class="mt-1 w-full p-2 border rounded-lg" required></select>
+                    </div>
+                    <div class="p-4 flex flex-wrap gap-2 border-b">
+                        <button type="button" data-tab="discharge-tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Queixas Finais</button>
+                        <button type="button" data-tab="discharge-tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Avaliação Final</button>
+                        <button type="button" data-tab="discharge-tab7" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Desfecho</button>
+                    </div>
                 </div>
-                <div class="p-4 flex flex-wrap gap-2 border-b">
-                    <button type="button" data-tab="discharge-tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Histórico/Queixas Finais</button>
-                    <button type="button" data-tab="discharge-tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Avaliação Física Final</button>
-                    <button type="button" data-tab="discharge-tab7" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Resultados e Desfecho</button>
-                </div>
-                <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
+                <!-- CORPO ROLÁVEL (CONTEÚDO DAS ABAS) -->
                 <div class="p-6 overflow-y-auto flex-1">
                     <div id="discharge-tab1" class="tab-content space-y-4">
                         <h3 class="font-bold text-lg">Estado Final: Queixas e Dor (EVA)</h3>
@@ -952,31 +1052,34 @@
                         <div><label class="block text-sm font-medium">Motivo da Alta / Próximos Passos</label><textarea id="discharge-motivo" class="w-full p-2 border rounded" rows="3" placeholder="Ex: Objetivos atingidos, Encaminhamento para outro especialista, Desistência."></textarea></div>
                     </div>
                 </div>
-                <div class="mt-auto p-6 flex justify-end space-x-4 border-t">
+                <!-- RODAPÉ FIXO -->
+                <div class="p-6 flex justify-end space-x-4 border-t flex-shrink-0">
                     <button type="button" id="cancel-discharge-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
                     <button type="submit" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition">Confirmar Alta</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- Fim Modal Alta -->
-    <div id="assessment-detail-modal" class="fixed inset-0 z-50 items-center justify-center hidden overflow-auto modal-backdrop">
+
+    <!-- Modal de Detalhes da Avaliação/Evolução -->
+    <div id="assessment-detail-modal" class="fixed inset-0 items-center justify-center hidden overflow-auto modal-backdrop sub-modal">
         <div class="bg-white rounded-lg shadow-xl m-4 sm:m-8 max-w-4xl w-full max-h-[95vh] flex flex-col">
-            <div class="p-6 border-b flex justify-between items-center">
+            <!-- CABEÇALHO FIXO -->
+            <div class="p-6 border-b flex justify-between items-center flex-shrink-0">
                 <h2 class="text-2xl font-bold">Detalhes do Registro Clínico</h2>
                 <button type="button" class="close-modal-btn text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
             </div>
-
-            <div class="p-4 flex flex-wrap gap-2 border-b">
-                 <button type="button" data-tab="detail-tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Histórico Clínico</button>
-                 <button type="button" data-tab="detail-tab2" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Cognitivo/Emocional</button>
-                 <button type="button" data-tab="detail-tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Avaliação Física</button>
-                 <button type="button" data-tab="detail-tab4" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">4. Funcionalidade</button>
+            <!-- ÁREA NÃO-ROLÁVEL (ABAS) -->
+            <div class="p-4 flex flex-wrap gap-2 border-b flex-shrink-0">
+                 <button type="button" data-tab="detail-tab1" class="tab-button active font-semibold py-2 px-4 rounded-lg text-sm">1. Histórico</button>
+                 <button type="button" data-tab="detail-tab2" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">2. Cognitivo</button>
+                 <button type="button" data-tab="detail-tab3" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">3. Físico</button>
+                 <button type="button" data-tab="detail-tab4" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">4. Funcional</button>
                  <button type="button" data-tab="detail-tab5" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">5. Ambiente</button>
                  <button type="button" data-tab="detail-tab6" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">6. Objetivos</button>
                  <button type="button" data-tab="detail-tab-discharge" class="tab-button font-semibold py-2 px-4 rounded-lg text-sm">Alta</button>
             </div>
-            <!-- CORREÇÃO APLICADA: Adicionado flex-1 -->
+            <!-- CORPO ROLÁVEL -->
             <div class="p-6 overflow-y-auto flex-1">
                  <div id="detail-tab1" class="tab-content grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div><h4 class="detail-label">Diagnóstico Médico Principal</h4><p id="detail-diagMedico" class="detail-value"></p></div>
@@ -1021,7 +1124,7 @@
                     <div><h4 class="detail-label">Espaço para Exercícios</h4><p id="detail-espaco" class="detail-value"></p></div>
                     <div><h4 class="detail-label">Barreiras Arquitetônicas</h4><p id="detail-barreiras" class="detail-value"></p></div>
                 </div>
-                <div id="detail-tab6" class="tab-content hidden grid grid-cols-1">
+                <div id="detail-tab6" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                     <div><h4 class="detail-label">Objetivos da Fisioterapia</h4><p id="detail-objetivos" class="detail-value whitespace-pre-wrap"></p></div>
                 </div>
                  <div id="detail-tab-evolution" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -1042,28 +1145,17 @@
                      <div class="md:col-span-2"><h4 class="detail-label">Motivo da Alta / Próximos Passos</h4><p id="detail-discharge-motivo" class="detail-value whitespace-pre-wrap"></p></div>
                  </div>
             </div>
-             <div class="mt-auto p-6 flex justify-end space-x-4 border-t">
+             <!-- RODAPÉ FIXO -->
+             <div class="p-6 flex justify-end space-x-4 border-t flex-shrink-0">
                 <button type="button" id="cancel-assessment-detail-modal" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Fechar</button>
             </div>
         </div>
     </div>
-    <div id="confirm-modal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full">
-            <h3 id="confirm-modal-title" class="text-xl font-bold mb-4">Confirmar Exclusão</h3>
-            <p id="confirm-modal-text" class="text-gray-600 mb-6">Você tem certeza? Esta ação não pode ser desfeita.</p>
-            <div class="flex justify-end space-x-4">
-                <button id="confirm-modal-cancel" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
-                <button id="confirm-modal-confirm" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition">Excluir</button>
-            </div>
-        </div>
-    </div>
-
+    
     <script type="module">
-        import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword, signInAnonymously, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, collection, addDoc, getDoc, setDoc, deleteDoc, onSnapshot, query, where, updateDoc, arrayRemove, arrayUnion, serverTimestamp, deleteField, orderBy, setLogLevel, getDocs, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        setLogLevel('debug');
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, collection, addDoc, getDoc, setDoc, deleteDoc, onSnapshot, query, where, updateDoc, deleteField, orderBy, getDocs, limit, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB5DK7R3WGtKIUy_fMt8iNKBtz9wgdBxVs",
@@ -1074,7 +1166,7 @@
             appId: "1:551406348997:web:7b21e0d90ebf4969955eac",
             measurementId: "G-RDGZ2MKLWK"
         };
-
+        
         let app;
         try {
             app = initializeApp(firebaseConfig);
@@ -1106,6 +1198,11 @@
         let roomsUnsubscribe = null;
         let dashboardAppointmentsUnsubscribe = null;
         let initialDataLoaded = false;
+        let recurrenceAction = {
+            type: null, // 'save' or 'delete'
+            appointmentData: null,
+            originalEventDate: null,
+        };
 
         // --- ELEMENT SELECTORS ---
         const authView = document.getElementById('auth-view');
@@ -1114,12 +1211,14 @@
         const dashboardView = document.getElementById('dashboard-view');
         const mainContentContainer = document.getElementById('main-content');
         const patientModal = document.getElementById('patient-modal');
+        const patientRecordModal = document.getElementById('patient-record-modal');
         const patientQuickViewModal = document.getElementById('patient-quick-view-modal');
         const assessmentModal = document.getElementById('assessment-modal');
         const assessmentDetailModal = document.getElementById('assessment-detail-modal');
         const evolutionModal = document.getElementById('evolution-modal');
         const dischargeModal = document.getElementById('discharge-modal');
         const confirmModal = document.getElementById('confirm-modal');
+        const recurrenceOptionsModal = document.getElementById('recurrence-options-modal');
         const sidebar = document.getElementById('sidebar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -1132,6 +1231,7 @@
         const patientDatalist = document.getElementById('patient-list');
         const loadingOverlay = document.getElementById('loading-overlay');
         const googleSignInBtn = document.getElementById('google-sign-in-btn');
+        const jsMessageModal = document.getElementById('js-message-modal');
 
         // --- UTILITY FUNCTIONS ---
         function showLoading() { if(loadingOverlay) loadingOverlay.classList.remove('hidden'); }
@@ -1139,6 +1239,20 @@
 
         function openModal(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
         function closeModal(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+
+        function showJsMessage(title, text, isError = false) {
+             const titleEl = document.getElementById('js-message-title');
+             const textEl = document.getElementById('js-message-text');
+             titleEl.textContent = title;
+             textEl.textContent = text;
+             titleEl.classList.toggle('text-red-600', isError);
+             titleEl.classList.toggle('text-blue-600', !isError);
+             openModal(jsMessageModal);
+        }
+
+        document.getElementById('js-message-close').addEventListener('click', () => {
+             closeModal(jsMessageModal);
+        });
 
         function showConfirmation(title, text, onConfirm) {
             document.getElementById('confirm-modal-title').textContent = title;
@@ -1203,11 +1317,10 @@
                             <div class="flex flex-col sm:flex-row sm:gap-4 text-sm text-gray-600">
                                 <p>${age} anos</p>
                                 <p class="hidden sm:block">|</p>
-                                <p>${patient.phone || 'Sem telefone'}</p>
+                                <p>${formatPhone(patient.phone)}</p>
                             </div>
                         </div>
                         <div class="mt-4 sm:mt-0 flex-shrink-0 flex space-x-2">
-                            <!-- BOTÃO CORRIGIDO: Agora tem a classe 'view-record-btn' para abrir a página de detalhes -->
                             <button data-id="${patient.id}" class="view-record-btn bg-green-100 text-green-800 font-semibold p-2 rounded-lg hover:bg-green-200 transition" title="Ver Prontuário Completo">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" /></svg>
                             </button>
@@ -1234,34 +1347,19 @@
             ];
             return addressParts.filter(Boolean).join(', ');
         }
-
-
-        function renderPatientDetails(patient) {
-            const container = mainContentContainer.querySelector('#patient-info-container');
-            if(!container) return;
-            const age = patient.birthDate ? new Date().getFullYear() - new Date(patient.birthDate).getFullYear() : 'N/A';
-            const fullAddress = constructPatientAddress(patient);
-
-            container.innerHTML = `
-                <h2 class="text-3xl font-bold mb-2">${patient.name}</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 text-gray-700">
-                    <p><strong>Idade:</strong> ${age} anos</p><p><strong>Sexo:</strong> ${patient.gender || 'Não informado'}</p><p><strong>CPF:</strong> ${patient.cpf || 'Não informado'}</p>
-                    <p><strong>Telefone:</strong> ${patient.phone || 'Não informado'}</p>
-                    <p class="md:col-span-2 lg:col-span-3"><strong>Endereço:</strong> ${fullAddress || 'Não informado'}</p>
-                    <p class="md:col-span-2 lg:col-span-3"><strong>Responsável/Cuidador:</strong> ${patient.caregiver || 'Não informado'}</p>
-                    <p class="md:col-span-2 lg:col-span-3"><strong>Observações:</strong> ${patient.observations || 'Não informado'}</p>
-                </div>`;
-        }
-
-        function renderAssessmentList(assessments) {
-            const container = mainContentContainer.querySelector('#assessments-container');
-            const noAssessmentsMsg = mainContentContainer.querySelector('#no-assessments-message');
+        
+        function renderAssessmentsForModal(assessments) {
+            const container = document.getElementById('record-modal-assessments-container');
+            const noAssessmentsMsg = document.getElementById('record-modal-no-assessments-message');
             if (!container || !noAssessmentsMsg) return;
             container.innerHTML = '';
-            if (assessments.length === 0) { noAssessmentsMsg.classList.remove('hidden'); return; }
+
+            const filteredAssessments = assessments.filter(a => a.type !== 'system_init');
+
+            if (filteredAssessments.length === 0) { noAssessmentsMsg.classList.remove('hidden'); return; }
             noAssessmentsMsg.classList.add('hidden');
 
-            assessments.forEach(assessment => {
+            filteredAssessments.forEach(assessment => {
                  const assessmentDate = assessment.createdAt && assessment.createdAt.toDate
                     ? assessment.createdAt.toDate().toLocaleString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                     : 'Data pendente...';
@@ -1295,6 +1393,7 @@
                 container.appendChild(card);
             });
         }
+
 
         // --- AGENDA FUNCTIONS ---
         function renderAgendaView(appointments, searchTerm = '') {
@@ -1467,12 +1566,7 @@
 
             } else { // 'initial'
                 document.getElementById('detail-tab1')?.classList.remove('hidden');
-                document.getElementById('detail-tab2')?.classList.remove('hidden');
-                document.getElementById('detail-tab3')?.classList.remove('hidden');
-                document.getElementById('detail-tab4')?.classList.remove('hidden');
-                document.getElementById('detail-tab5')?.classList.remove('hidden');
-                document.getElementById('detail-tab6')?.classList.remove('hidden');
-
+                
                 document.getElementById('detail-diagMedico').textContent = orDefault(data.diagMedico);
                 document.getElementById('detail-comorbidades').textContent = orDefault(data.comorbidades);
                 document.getElementById('detail-medicacoes').textContent = orDefault(data.medicacoes);
@@ -1514,14 +1608,12 @@
         function fetchAndRenderPatients() {
              if (!currentUserClinicId) return Promise.reject("No clinic ID");
             if (patientsUnsubscribe) patientsUnsubscribe();
-            console.log("Setting up patients listener...");
-
+            
             const patientsCollection = collection(db, "clinics", currentUserClinicId, "patients");
             const q = query(patientsCollection);
 
             return new Promise((resolve, reject) => {
                 patientsUnsubscribe = onSnapshot(q, (snapshot) => {
-                    console.log(`Patients snapshot received: ${snapshot.size} docs`);
                     allPatients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     populatePatientDatalist();
                     if(document.getElementById('patient-list-view')) {
@@ -1541,7 +1633,6 @@
 
         function populatePatientDatalist() {
             if (!patientDatalist) return;
-            console.log("Populating patient datalist...");
             patientDatalist.innerHTML = '';
             allPatients.sort((a, b) => a.name.localeCompare(b.name)).forEach(patient => {
                 const option = document.createElement('option');
@@ -1549,21 +1640,6 @@
                 option.dataset.id = patient.id;
                 patientDatalist.appendChild(option);
             });
-        }
-
-        function fetchAndRenderAssessments(patientId) {
-            if (!currentUserClinicId || !patientId) return;
-            if (assessmentsUnsubscribe) assessmentsUnsubscribe();
-
-            const assessmentsCollection = collection(db, "clinics", currentUserClinicId, "patients", patientId, "assessments");
-            const q = query(assessmentsCollection, orderBy("createdAt", "desc"));
-
-            assessmentsUnsubscribe = onSnapshot(q, (snapshot) => {
-                if (selectedPatientId === patientId && document.getElementById('patient-detail-view')) {
-                    const assessments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderAssessmentList(assessments);
-                }
-            }, (error) => console.error("Erro ao buscar avaliações: ", error));
         }
 
         function populateProfessionalSelects(users, targetSelectId) {
@@ -1592,12 +1668,10 @@
         function fetchAndRenderMembers() {
             if (!currentUserClinicId) return Promise.reject("No clinic ID");
             const q = query(collection(db, "users"), where("clinicId", "==", currentUserClinicId));
-            console.log("Setting up members listener...");
-
+            
             if (membersUnsubscribe) membersUnsubscribe();
             return new Promise((resolve, reject) => {
                 membersUnsubscribe = onSnapshot(q, (snapshot) => {
-                     console.log(`Members snapshot received: ${snapshot.size} docs`);
                     clinicUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     const currentMembersListDiv = document.getElementById('members-list');
                     if(currentMembersListDiv) renderMembersList(clinicUsers);
@@ -1622,8 +1696,7 @@
         function fetchAndRenderClinicData() {
              if (!currentUserClinicId) return Promise.reject("No clinic ID");
              const clinicDocRef = doc(db, 'clinics', currentUserClinicId);
-             console.log("Setting up clinic data listener...");
-
+             
              return new Promise((resolve, reject) => {
                  const unsubscribe = onSnapshot(clinicDocRef, (docSnap) => {
                      if (docSnap.exists()) {
@@ -1665,25 +1738,25 @@
                 html = `
                     <p><strong class="detail-label">Nome:</strong> <span class="detail-value">${orDefault(data.name)}</span></p>
                     <p><strong class="detail-label">E-mail:</strong> <span class="detail-value">${orDefault(data.ownerEmail)}</span></p>
-                    <p><strong class="detail-label">CPF:</strong> <span class="detail-value">${orDefault(data.cpf)}</span></p>
+                    <p><strong class="detail-label">CPF:</strong> <span class="detail-value">${formatCPF(data.cpf)}</span></p>
                     <p><strong class="detail-label">RG:</strong> <span class="detail-value">${orDefault(data.rg)}</span></p>
                     <p><strong class="detail-label">Data de Nascimento:</strong> <span class="detail-value">${orDefault(data.birthDate)}</span></p>
                     <p><strong class="detail-label">CREFITO:</strong> <span class="detail-value">${orDefault(data.crefito)}</span></p>
-                    <p><strong class="detail-label">Telefone:</strong> <span class="detail-value">${orDefault(data.phone)}</span></p>
+                    <p><strong class="detail-label">Telefone:</strong> <span class="detail-value">${formatPhone(data.phone)}</span></p>
                     <p class="md:col-span-2"><strong class="detail-label">Endereço:</strong> <span class="detail-value">${orDefault(fullAddress)}</span></p>
                 `;
             } else { // pj
                 html = `
                     <p><strong class="detail-label">Razão Social:</strong> <span class="detail-value">${orDefault(data.name)}</span></p>
                     <p><strong class="detail-label">E-mail de Contato:</strong> <span class="detail-value">${orDefault(data.ownerEmail)}</span></p>
-                    <p><strong class="detail-label">CNPJ:</strong> <span class="detail-value">${orDefault(data.cnpj)}</span></p>
+                    <p><strong class="detail-label">CNPJ:</strong> <span class="detail-value">${formatCNPJ(data.cnpj)}</span></p>
                     <p><strong class="detail-label">CREFITO da Clínica:</strong> <span class="detail-value">${orDefault(data.crefito)}</span></p>
-                    <p><strong class="detail-label">Telefone:</strong> <span class="detail-value">${orDefault(data.phone)}</span></p>
+                    <p><strong class="detail-label">Telefone:</strong> <span class="detail-value">${formatPhone(data.phone)}</span></p>
                     <p class="md:col-span-2"><strong class="detail-label">Endereço:</strong> <span class="detail-value">${orDefault(fullAddress)}</span></p>
                     <hr class="md:col-span-2 my-2"/>
                     <div class="md:col-span-2"><p class="font-semibold text-gray-600">Responsável Técnico</p></div>
                     <p><strong class="detail-label">Nome:</strong> <span class="detail-value">${orDefault(data.responsavelNome)}</span></p>
-                    <p><strong class="detail-label">CPF:</strong> <span class="detail-value">${orDefault(data.responsavelCpf)}</span></p>
+                    <p><strong class="detail-label">CPF:</strong> <span class="detail-value">${formatCPF(data.responsavelCpf)}</span></p>
                     <p><strong class="detail-label">CREFITO:</strong> <span class="detail-value">${orDefault(data.responsavelCrefito)}</span></p>
                 `;
             }
@@ -1694,82 +1767,88 @@
             const container = document.getElementById('clinic-edit-form-fields');
             if (!container) return;
             let html = '';
+            const val = (field) => field || '';
+
             if (data.accountType === 'pf') {
                 html = `
                     <input type="hidden" id="edit-accountType" value="pf">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium">Nome Completo</label>
-                        <input id="edit-pf-name" type="text" value="${data.name || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Data de Nascimento</label>
-                        <input id="edit-pf-birthDate" type="date" value="${data.birthDate || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">RG</label>
-                        <input id="edit-pf-rg" type="text" value="${data.rg || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">CPF</label>
-                        <input id="edit-pf-cpf" type="text" value="${data.cpf || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">CREFITO</label>
-                        <input id="edit-pf-crefito" type="text" value="${data.crefito || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
-                        <div class="md:col-span-2"><input id="edit-pf-cep" type="text" placeholder="CEP" value="${data.cep || ''}" class="w-full p-2 border rounded-lg" data-form-prefix="edit-pf"></div>
-                        <div class="md:col-span-4"><input id="edit-pf-street" type="text" placeholder="Rua / Endereço" value="${data.street || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-2"><input id="edit-pf-number" type="text" placeholder="Número" value="${data.number || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-4"><input id="edit-pf-neighborhood" type="text" placeholder="Bairro" value="${data.neighborhood || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-3"><input id="edit-pf-city" type="text" placeholder="Cidade" value="${data.city || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-3"><input id="edit-pf-state" type="text" placeholder="Estado (UF)" value="${data.state || ''}" class="w-full p-2 border rounded-lg"></div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Telefone</label>
-                        <input id="edit-pf-phone" type="tel" value="${data.phone || ''}" class="w-full p-2 border rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium">Nome Completo</label>
+                            <input id="edit-pf-name" type="text" value="${val(data.name)}" class="w-full p-2 border rounded-lg" data-mask="name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Data de Nascimento</label>
+                            <input id="edit-pf-birthDate" type="date" value="${val(data.birthDate)}" class="w-full p-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">RG</label>
+                            <input id="edit-pf-rg" type="text" value="${val(data.rg)}" class="w-full p-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">CPF</label>
+                            <input id="edit-pf-cpf" type="text" value="${formatCPF(val(data.cpf))}" class="w-full p-2 border rounded-lg" data-mask="cpf">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">CREFITO</label>
+                            <input id="edit-pf-crefito" type="text" value="${val(data.crefito)}" class="w-full p-2 border rounded-lg">
+                        </div>
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
+                            <div class="md:col-span-2"><input id="edit-pf-cep" type="text" placeholder="CEP" value="${val(data.cep)}" class="w-full p-2 border rounded-lg" data-form-prefix="edit-pf"></div>
+                            <div class="md:col-span-4"><input id="edit-pf-street" type="text" placeholder="Rua / Endereço" value="${val(data.street)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-2"><input id="edit-pf-number" type="text" placeholder="Número" value="${val(data.number)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-4"><input id="edit-pf-neighborhood" type="text" placeholder="Bairro" value="${val(data.neighborhood)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-3"><input id="edit-pf-city" type="text" placeholder="Cidade" value="${val(data.city)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-3"><input id="edit-pf-state" type="text" placeholder="Estado (UF)" value="${val(data.state)}" class="w-full p-2 border rounded-lg"></div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium">Telefone</label>
+                            <input id="edit-pf-phone" type="tel" value="${formatPhone(val(data.phone))}" class="w-full p-2 border rounded-lg" data-mask="phone">
+                        </div>
                     </div>
                 `;
             } else { // pj
                 html = `
                     <input type="hidden" id="edit-accountType" value="pj">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium">Razão Social</label>
-                        <input id="edit-pj-razaoSocial" type="text" value="${data.name || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">CNPJ</label>
-                        <input id="edit-pj-cnpj" type="text" value="${data.cnpj || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">CREFITO da Clínica</label>
-                        <input id="edit-pj-crefito" type="text" value="${data.crefito || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                     <div class="md:col-span-2">
-                         <label class="block text-sm font-medium">Telefone Comercial</label>
-                        <input id="edit-pj-phone" type="tel" value="${data.phone || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
-                        <div class="md:col-span-2"><input id="edit-pj-cep" type="text" placeholder="CEP" value="${data.cep || ''}" class="w-full p-2 border rounded-lg" data-form-prefix="edit-pj"></div>
-                        <div class="md:col-span-4"><input id="edit-pj-street" type="text" placeholder="Rua / Endereço" value="${data.street || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-2"><input id="edit-pj-number" type="text" placeholder="Número" value="${data.number || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-4"><input id="edit-pj-neighborhood" type="text" placeholder="Bairro" value="${data.neighborhood || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-3"><input id="edit-pj-city" type="text" placeholder="Cidade" value="${data.city || ''}" class="w-full p-2 border rounded-lg"></div>
-                        <div class="md:col-span-3"><input id="edit-pj-state" type="text" placeholder="Estado (UF)" value="${data.state || ''}" class="w-full p-2 border rounded-lg"></div>
-                    </div>
-                    <hr class="md:col-span-2 my-2"/>
-                    <div class="md:col-span-2"><p class="text-sm font-semibold text-gray-600">Dados do Responsável Técnico</p></div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium">Nome do Responsável</label>
-                        <input id="edit-pj-responsavel" type="text" value="${data.responsavelNome || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">CPF do Responsável</label>
-                        <input id="edit-pj-responsavel-cpf" type="text" value="${data.responsavelCpf || ''}" class="w-full p-2 border rounded-lg">
-                    </div>
-                    <div>
-                         <label class="block text-sm font-medium">CREFITO do Responsável</label>
-                        <input id="edit-pj-responsavel-crefito" type="text" value="${data.responsavelCrefito || ''}" class="w-full p-2 border rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium">Razão Social</label>
+                            <input id="edit-pj-razaoSocial" type="text" value="${val(data.name)}" class="w-full p-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">CNPJ</label>
+                            <input id="edit-pj-cnpj" type="text" value="${formatCNPJ(val(data.cnpj))}" class="w-full p-2 border rounded-lg" data-mask="cnpj">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">CREFITO da Clínica</label>
+                            <input id="edit-pj-crefito" type="text" value="${val(data.crefito)}" class="w-full p-2 border rounded-lg">
+                        </div>
+                         <div class="md:col-span-2">
+                             <label class="block text-sm font-medium">Telefone Comercial</label>
+                            <input id="edit-pj-phone" type="tel" value="${formatPhone(val(data.phone))}" class="w-full p-2 border rounded-lg" data-mask="phone">
+                        </div>
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-6 gap-4 border p-3 rounded-lg bg-gray-50">
+                            <div class="md:col-span-2"><input id="edit-pj-cep" type="text" placeholder="CEP" value="${val(data.cep)}" class="w-full p-2 border rounded-lg" data-form-prefix="edit-pj"></div>
+                            <div class="md:col-span-4"><input id="edit-pj-street" type="text" placeholder="Rua / Endereço" value="${val(data.street)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-2"><input id="edit-pj-number" type="text" placeholder="Número" value="${val(data.number)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-4"><input id="edit-pj-neighborhood" type="text" placeholder="Bairro" value="${val(data.neighborhood)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-3"><input id="edit-pj-city" type="text" placeholder="Cidade" value="${val(data.city)}" class="w-full p-2 border rounded-lg"></div>
+                            <div class="md:col-span-3"><input id="edit-pj-state" type="text" placeholder="Estado (UF)" value="${val(data.state)}" class="w-full p-2 border rounded-lg"></div>
+                        </div>
+                        <hr class="md:col-span-2 my-2"/>
+                        <div class="md:col-span-2"><p class="text-sm font-semibold text-gray-600">Dados do Responsável Técnico</p></div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium">Nome do Responsável</label>
+                            <input id="edit-pj-responsavel" type="text" value="${val(data.responsavelNome)}" class="w-full p-2 border rounded-lg" data-mask="name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">CPF do Responsável</label>
+                            <input id="edit-pj-responsavel-cpf" type="text" value="${formatCPF(val(data.responsavelCpf))}" class="w-full p-2 border rounded-lg" data-mask="cpf">
+                        </div>
+                        <div>
+                             <label class="block text-sm font-medium">CREFITO do Responsável</label>
+                            <input id="edit-pj-responsavel-crefito" type="text" value="${val(data.responsavelCrefito)}" class="w-full p-2 border rounded-lg">
+                        </div>
                     </div>
                 `;
             }
@@ -1912,45 +1991,22 @@
                openAppointmentDetailModal(null, defaultDate);
             } else if (target.closest('#delete-appointment-btn')) {
                 const appointmentId = document.getElementById('appointment-id').value;
-                if (appointmentId) {
-                   showConfirmation('Excluir Agendamento', 'Tem certeza que deseja excluir este agendamento?', async () => {
-                        showLoading();
-                       try {
-                           await deleteDoc(doc(db, 'clinics', currentUserClinicId, 'appointments', appointmentId));
-                           closeModal(appointmentModal);
-                       } catch (error) {
-                           console.error("Erro ao excluir agendamento:", error);
-                           alert("Erro ao excluir agendamento.");
-                       } finally {
-                            hideLoading();
-                       }
-                   });
+                const recurrenceId = document.getElementById('appointment-recurrence-id').value;
+                
+                if (recurrenceId) {
+                    recurrenceAction.type = 'delete';
+                    recurrenceAction.originalEventDate = document.getElementById('appointment-date').value;
+                    recurrenceAction.appointmentData = { id: appointmentId, recurrenceId };
+                    openModal(recurrenceOptionsModal);
+                    document.getElementById('recurrence-options-title').textContent = 'Excluir evento recorrente';
+                    document.getElementById('recurrence-options-text').textContent = 'Como você gostaria de excluir?';
+                } else if (appointmentId) {
+                   showConfirmation('Excluir Agendamento', 'Tem certeza que deseja excluir este agendamento?', () => handleAppointmentDeletion(appointmentId));
                 }
             }
-             // CORREÇÃO: O listener para `.view-record-btn` agora é o principal para ver o prontuário.
              else if (target.closest('.view-record-btn')) {
-                 selectedPatientId = target.closest('.view-record-btn').dataset.id;
-                 const patientDocRef = doc(db, 'clinics', currentUserClinicId, 'patients', selectedPatientId);
-                 try {
-                     showLoading();
-                     const patientDocSnap = await getDoc(patientDocRef);
-                     if (patientDocSnap.exists()) {
-                         const listView = mainContentContainer.querySelector('#patient-list-view');
-                         const detailView = mainContentContainer.querySelector('#patient-detail-view');
-                         if (listView) listView.classList.remove('active');
-                         if (detailView) {
-                             detailView.classList.add('active');
-                              renderPatientDetails({id: selectedPatientId, ...patientDocSnap.data()});
-                              await fetchAndRenderAssessments(selectedPatientId);
-                         }
-                     } else {
-                         console.error("Paciente não encontrado:", selectedPatientId);
-                     }
-                 } catch (error) {
-                     console.error("Erro ao buscar detalhes do paciente:", error);
-                 } finally {
-                     hideLoading();
-                 }
+                 const patientId = target.closest('.view-record-btn').dataset.id;
+                 openPatientRecordModal(patientId);
             } else if (target.closest('.edit-patient-btn')) {
                 const patientId = target.closest('.edit-patient-btn').dataset.id;
                 const patientDocRef = doc(db, 'clinics', currentUserClinicId, 'patients', patientId);
@@ -1960,11 +2016,12 @@
                         const patient = docSnap.data();
                         document.getElementById('patient-modal-title').innerText = 'Editar Paciente';
                         document.getElementById('patient-id').value = patientId;
-                        document.getElementById('patient-name').value = patient.name || '';
-                        document.getElementById('patient-cpf').value = patient.cpf || '';
+                        document.getElementById('patient-name').value = formatName(patient.name || '');
+                        document.getElementById('patient-cpf').value = formatCPF(patient.cpf || '');
                         document.getElementById('patient-birthDate').value = patient.birthDate || '';
                         document.getElementById('patient-gender').value = patient.gender || '';
-                        document.getElementById('patient-phone').value = patient.phone || '';
+                        document.getElementById('patient-phone').value = formatPhone(patient.phone || '');
+                        document.getElementById('patient-caregiver').value = formatName(patient.caregiver || '');
                         document.getElementById('patient-cep').value = patient.cep || '';
                         document.getElementById('patient-street').value = patient.street || '';
                         document.getElementById('patient-number').value = patient.number || '';
@@ -1976,12 +2033,13 @@
                     }
                  } catch (error) {
                       console.error("Erro ao buscar paciente para edição:", error);
+                      showJsMessage('Erro', 'Erro ao carregar dados do paciente.', true);
                  }
             } else if (target.closest('.delete-patient-btn')) {
                 const patientId = target.closest('.delete-patient-btn').dataset.id;
-                showConfirmation('Excluir Paciente', 'Isso excluirá o paciente e todas as suas avaliações. Continuar?', () => {
+                showConfirmation('Excluir Paciente', 'Isso excluirá o paciente e todas as suas evoluções. Continuar?', () => {
                     const patientDocRef = doc(db, 'clinics', currentUserClinicId, 'patients', patientId);
-                    deleteDoc(patientDocRef).catch(error => console.error("Erro ao excluir paciente:", error));
+                    deleteDoc(patientDocRef).catch(error => showJsMessage('Erro', 'Erro ao excluir paciente.', true));
                 });
             } else if (target.closest('#add-patient-btn') || target.closest('#quick-add-patient-btn')) {
                 document.getElementById('patient-form').reset();
@@ -1989,24 +2047,17 @@
                 document.getElementById('patient-modal-title').innerText = 'Adicionar Novo Paciente';
                 openModal(patientModal);
             }
-            else if (target.closest('#back-to-list-btn')) {
-                const detailView = mainContentContainer.querySelector('#patient-detail-view');
-                const listView = mainContentContainer.querySelector('#patient-list-view');
-                if(detailView) detailView.classList.remove('active');
-                if(listView) listView.classList.add('active');
-                if(assessmentsUnsubscribe) { assessmentsUnsubscribe(); assessmentsUnsubscribe = null; }
-                selectedPatientId = null;
-            } else if (target.closest('#add-initial-assessment-btn')) {
-                 if(!selectedPatientId) return;
+            else if (target.closest('#record-modal-add-initial-assessment-btn')) {
+                 if(!selectedPatientId) return showJsMessage('Erro', 'Nenhum paciente selecionado.', true);
                  openAssessmentModal('initial');
-            } else if (target.closest('#add-evolution-btn')) {
-                 if(!selectedPatientId) return;
+            } else if (target.closest('#record-modal-add-evolution-btn')) {
+                 if(!selectedPatientId) return showJsMessage('Erro', 'Nenhum paciente selecionado.', true);
                  openEvolutionModal();
-            } else if (target.closest('#add-discharge-btn')) {
-                 if(!selectedPatientId) return;
+            } else if (target.closest('#record-modal-add-discharge-btn')) {
+                 if(!selectedPatientId) return showJsMessage('Erro', 'Nenhum paciente selecionado.', true);
                  openDischargeModal();
             } else if (target.closest('.view-assessment-btn')) {
-                if(!selectedPatientId) return;
+                if(!selectedPatientId) return showJsMessage('Erro', 'Nenhum paciente selecionado.', true);
                 const assessmentId = target.closest('.view-assessment-btn').dataset.id;
                 const assessmentDocRef = doc(db, 'clinics', currentUserClinicId, 'patients', selectedPatientId, 'assessments', assessmentId);
                  try {
@@ -2031,9 +2082,11 @@
                         openModal(assessmentDetailModal);
                     } else {
                          console.error("Avaliação não encontrada:", assessmentId);
+                         showJsMessage('Erro', 'Avaliação não encontrada.', true);
                     }
                 } catch(error) {
                      console.error("Erro ao buscar detalhes da avaliação:", error);
+                     showJsMessage('Erro', 'Erro ao buscar detalhes da avaliação.', true);
                 }
             }
             else if (target.closest('.change-role-btn')) {
@@ -2048,35 +2101,36 @@
                      showLoading();
                     try {
                         const userDocRef = doc(db, 'users', userIdToRemove);
-                        const clinicDocRef = doc(db, 'clinics', currentUserClinicId);
-
-                        await updateDoc(clinicDocRef, {
-                            members: arrayRemove(userIdToRemove),
-                            [`roles.${userIdToRemove}`]: deleteField()
-                        });
-
                         await updateDoc(userDocRef, {
-                            clinicId: null,
-                            role: null
+                            clinicId: deleteField(),
+                            role: deleteField()
                         });
+                        showJsMessage('Sucesso', 'Membro removido com sucesso!');
                     } catch (error) {
                         console.error("Erro ao remover membro:", error);
-                        alert("Erro ao remover membro.");
+                        showJsMessage('Erro', 'Erro ao remover membro.', true);
                     } finally {
                          hideLoading();
                     }
                 });
             } else if (target.closest('#edit-clinic-data-btn')) {
+                if (!currentUserClinicId) {
+                    showJsMessage('Erro', 'ID da clínica não encontrado. Tente recarregar a página.', true);
+                    return;
+                }
                 const clinicDocRef = doc(db, 'clinics', currentUserClinicId);
                  try {
                      showLoading();
                     const clinicDocSnap = await getDoc(clinicDocRef);
-                    if (docSnap.exists()) {
-                        populateClinicEditModal(docSnap.data());
+                    if (clinicDocSnap.exists()) {
+                        populateClinicEditModal(clinicDocSnap.data());
                         openModal(clinicEditModal);
+                    } else {
+                        throw new Error("Documento da clínica não encontrado no Firestore.");
                     }
                  } catch (error) {
                      console.error("Erro ao buscar dados da clínica para edição:", error);
+                     showJsMessage('Erro', 'Erro ao buscar dados da clínica.', true);
                  } finally {
                       hideLoading();
                  }
@@ -2107,19 +2161,21 @@
                      showLoading();
                     try {
                         await deleteDoc(doc(db, 'clinics', currentUserClinicId, 'rooms', roomId));
+                        showJsMessage('Sucesso', 'Sala excluída com sucesso!');
                     } catch (error) {
                         console.error("Erro ao excluir sala:", error);
-                        alert("Erro ao excluir sala.");
+                        showJsMessage('Erro', 'Erro ao excluir sala.', true);
                     } finally {
                          hideLoading();
                     }
                 });
             } else if (target.closest('#save-preferences-btn')) {
                 handleSavePreferences();
-            } else if (target.closest('#change-password-btn')) {
+            } else if (target.closest('#change-password-btn') || target.closest('#config-change-password-btn')) {
                  document.getElementById('force-password-change-form').reset();
                  document.getElementById('password-modal-title').textContent = 'Alterar Senha';
                  document.getElementById('password-modal-description').textContent = 'Por segurança, confirme sua senha atual para definir uma nova.';
+                 document.getElementById('force-password-change-error').textContent = '';
                  openModal(forcePasswordChangeModal);
             }
         });
@@ -2147,15 +2203,64 @@
 
                      openModal(patientQuickViewModal);
                  } else {
-                     alert("Detalhes do paciente não encontrados.");
+                     showJsMessage('Erro', 'Detalhes do paciente não encontrados.', true);
                  }
              } catch(error) {
                   console.error("Erro ao abrir detalhes rápidos:", error);
-                  alert("Erro ao carregar detalhes do paciente.");
+                  showJsMessage('Erro', 'Erro ao carregar detalhes do paciente.', true);
              } finally {
                  hideLoading();
              }
          }
+
+        async function openPatientRecordModal(patientId) {
+            if (!currentUserClinicId || !patientId) return;
+
+            showLoading();
+            selectedPatientId = patientId;
+
+            try {
+                const patientDocRef = doc(db, 'clinics', currentUserClinicId, 'patients', patientId);
+                const patientDocSnap = await getDoc(patientDocRef);
+
+                if (!patientDocSnap.exists()) {
+                    throw new Error("Paciente não encontrado");
+                }
+                const patient = patientDocSnap.data();
+
+                // Populate patient info
+                document.getElementById('record-modal-patient-name').textContent = patient.name;
+                const infoContainer = document.getElementById('record-modal-patient-info');
+                const age = patient.birthDate ? `${new Date().getFullYear() - new Date(patient.birthDate).getFullYear()} anos` : 'N/A';
+                infoContainer.innerHTML = `
+                    <p><strong>Idade:</strong> ${age}</p>
+                    <p><strong>Telefone:</strong> ${formatPhone(patient.phone)}</p>
+                    <p><strong>CPF:</strong> ${formatCPF(patient.cpf)}</p>
+                `;
+
+                // Set up listener for assessments
+                if (assessmentsUnsubscribe) assessmentsUnsubscribe();
+                const assessmentsCol = collection(db, 'clinics', currentUserClinicId, 'patients', patientId, 'assessments');
+                const q = query(assessmentsCol, orderBy("createdAt", "desc"));
+                assessmentsUnsubscribe = onSnapshot(q, (snapshot) => {
+                    const assessments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderAssessmentsForModal(assessments);
+                }, (error) => {
+                    console.error("Erro ao buscar evoluções no modal:", error);
+                    document.getElementById('record-modal-assessments-container').innerHTML = '<p class="text-red-500">Erro ao carregar histórico.</p>';
+                });
+
+                openModal(patientRecordModal);
+
+            } catch (error) {
+                console.error("Erro ao abrir prontuário do paciente:", error);
+                showJsMessage('Erro', 'Não foi possível carregar o prontuário do paciente.', true);
+                selectedPatientId = null;
+            } finally {
+                hideLoading();
+            }
+        }
+
 
         async function openAssessmentModal(type, assessmentData = null) {
             if (!selectedPatientId || !currentUserClinicId) return;
@@ -2192,7 +2297,7 @@
             let nextSessionNumber = 1;
             try {
                 const assessmentsCol = collection(db, 'clinics', currentUserClinicId, 'patients', selectedPatientId, 'assessments');
-                const q = query(assessmentsCol, where('type', 'in', ['initial', 'evolution']), orderBy("createdAt", "desc"), limit(1));
+                const q = query(assessmentsCol, orderBy("createdAt", "desc"), limit(1));
                 const snapshot = await getDocs(q);
 
                 if (!snapshot.empty) {
@@ -2202,12 +2307,15 @@
                 }
             } catch (error) {
                 console.error("Erro ao buscar último Nº da Sessão:", error);
+                showJsMessage(
+                    'Ação Necessária no Firebase', 
+                    'A busca pelo número da sessão falhou. Isso geralmente significa que um índice precisa ser criado no seu banco de dados. Por favor, verifique o console do navegador (F12) para o link de criação do índice.',
+                    true
+                );
             }
 
             document.getElementById('evolution-session-number').value = nextSessionNumber;
-
             populateProfessionalSelects(clinicUsers, 'evolution-professional');
-
             hideLoading();
             openModal(evolutionModal);
         }
@@ -2222,8 +2330,8 @@
             dischargeModal.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             dischargeModal.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
 
-            dischargeModal.querySelector('[data-tab="discharge-tab7"]')?.classList.add('active');
-            dischargeModal.querySelector('#discharge-tab7')?.classList.remove('hidden');
+            dischargeModal.querySelector('[data-tab="discharge-tab1"]')?.classList.add('active');
+            dischargeModal.querySelector('#discharge-tab1')?.classList.remove('hidden');
 
             openModal(dischargeModal);
         }
@@ -2234,10 +2342,10 @@
             const patientId = document.getElementById('patient-id').value;
             const patientData = {
                 name: document.getElementById('patient-name').value,
-                cpf: document.getElementById('patient-cpf').value,
+                cpf: document.getElementById('patient-cpf').value.replace(/\D/g,''),
                 birthDate: document.getElementById('patient-birthDate').value,
                 gender: document.getElementById('patient-gender').value,
-                phone: document.getElementById('patient-phone').value,
+                phone: document.getElementById('patient-phone').value.replace(/\D/g,''),
                 caregiver: document.getElementById('patient-caregiver').value,
                 observations: document.getElementById('patient-observations').value,
                 cep: document.getElementById('patient-cep').value,
@@ -2259,15 +2367,29 @@
                 if (patientId) {
                     const patientDocRef = doc(db, 'clinics', currentUserClinicId, 'patients', patientId);
                     await setDoc(patientDocRef, patientData, { merge: true });
+                    showJsMessage('Sucesso', 'Paciente editado com sucesso!');
                 } else {
                     patientData.createdAt = serverTimestamp();
                     const patientsCollection = collection(db, 'clinics', currentUserClinicId, 'patients');
-                    await addDoc(patientsCollection, patientData);
+                    const newPatientDocRef = await addDoc(patientsCollection, patientData);
+
+                    // Adicionado: Cria registro de sessão zero para o novo paciente
+                    const assessmentsCol = collection(db, 'clinics', currentUserClinicId, 'patients', newPatientDocRef.id, 'assessments');
+                    const sessionZeroData = {
+                        type: 'system_init',
+                        sessionNumber: 0,
+                        createdAt: serverTimestamp(),
+                        professionalId: currentUserId,
+                        professionalName: currentUserName
+                    };
+                    await addDoc(assessmentsCol, sessionZeroData);
+                    
+                    showJsMessage('Sucesso', 'Paciente adicionado com sucesso!');
                 }
                 closeModal(patientModal);
             } catch (error) {
                  console.error("Erro ao salvar paciente:", error);
-                 alert("Erro ao salvar paciente.");
+                 showJsMessage('Erro', 'Erro ao salvar paciente.', true);
             } finally {
                  hideLoading();
             }
@@ -2276,7 +2398,7 @@
         document.getElementById('assessment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!selectedPatientId) {
-                alert("Nenhum paciente selecionado para adicionar evolução.");
+                showJsMessage('Erro', 'Nenhum paciente selecionado para adicionar evolução.', true);
                 return;
             }
             showLoading();
@@ -2286,13 +2408,13 @@
             const professionalSelect = document.getElementById('assessment-professional');
             const professionalId = professionalSelect.value;
             const selectedOption = professionalSelect.options[professionalSelect.selectedIndex];
-            const professionalName = selectedOption.dataset.name || selectedOption.textContent.replace(/\s\(.*\)/, '');
-
+            
             if (!professionalId) {
-                alert("Por favor, selecione o profissional responsável pelo registro.");
+                showJsMessage('Erro', 'Por favor, selecione o profissional responsável pelo registro.', true);
                 hideLoading();
                 return;
             }
+            const professionalName = selectedOption.dataset.name || selectedOption.textContent.replace(/\s\(.*\)/, '');
 
 
             const barreiras = Array.from(document.querySelectorAll('input[name="barreiras"]:checked')).map(el => el.value);
@@ -2322,9 +2444,10 @@
                 const assessmentsCol = collection(db, 'clinics', currentUserClinicId, 'patients', selectedPatientId, 'assessments');
                 await addDoc(assessmentsCol, assessmentData);
                 closeModal(assessmentModal);
+                showJsMessage('Sucesso', 'Avaliação inicial registrada com sucesso!');
              } catch (error) {
                   console.error("Erro ao salvar avaliação inicial:", error);
-                 alert("Erro ao salvar avaliação inicial.");
+                 showJsMessage('Erro', 'Erro ao salvar avaliação inicial.', true);
              } finally {
                   hideLoading();
              }
@@ -2333,7 +2456,7 @@
         document.getElementById('evolution-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!selectedPatientId) {
-                alert("Nenhum paciente selecionado para adicionar evolução.");
+                showJsMessage('Erro', 'Nenhum paciente selecionado para adicionar evolução.', true);
                 return;
             }
             showLoading();
@@ -2344,7 +2467,7 @@
             const professionalName = selectedOption.dataset.name || selectedOption.textContent.replace(/\s\(.*\)/, '');
 
             if (!professionalId) {
-                alert("Por favor, selecione o profissional responsável pelo registro.");
+                showJsMessage('Erro', 'Por favor, selecione o profissional responsável pelo registro.', true);
                 hideLoading();
                 return;
             }
@@ -2367,9 +2490,10 @@
                 const assessmentsCol = collection(db, 'clinics', currentUserClinicId, 'patients', selectedPatientId, 'assessments');
                 await addDoc(assessmentsCol, evolutionData);
                 closeModal(evolutionModal);
+                showJsMessage('Sucesso', 'Evolução registrada com sucesso!');
             } catch (error) {
                 console.error("Erro ao salvar evolução:", error);
-                alert("Erro ao salvar evolução.");
+                showJsMessage('Erro', 'Erro ao salvar evolução.', true);
             } finally {
                 hideLoading();
             }
@@ -2378,7 +2502,7 @@
         document.getElementById('discharge-form').addEventListener('submit', async (e) => {
             e.preventDefault();
              if (!selectedPatientId) {
-                alert("Nenhum paciente selecionado para dar alta.");
+                showJsMessage('Erro', 'Nenhum paciente selecionado para dar alta.', true);
                 return;
             }
             showLoading();
@@ -2389,7 +2513,7 @@
             const professionalName = selectedOption.dataset.name || selectedOption.textContent.replace(/\s\(.*\)/, '');
 
             if (!professionalId) {
-                alert("Por favor, selecione o profissional responsável pela alta.");
+                showJsMessage('Erro', 'Por favor, selecione o profissional responsável pela alta.', true);
                 hideLoading();
                 return;
             }
@@ -2415,63 +2539,49 @@
                 const assessmentsCol = collection(db, 'clinics', currentUserClinicId, 'patients', selectedPatientId, 'assessments');
                 await addDoc(assessmentsCol, dischargeData);
                 closeModal(dischargeModal);
+                showJsMessage('Sucesso', 'Alta registrada com sucesso!');
             } catch (error) {
                 console.error("Erro ao registrar alta:", error);
-                alert("Erro ao registrar alta.");
+                showJsMessage('Erro', 'Erro ao registrar alta.', true);
             } finally {
                 hideLoading();
             }
         });
 
+        // --- APPOINTMENT & RECURRENCE LOGIC ---
 
-        document.getElementById('appointment-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const appointmentId = document.getElementById('appointment-id').value;
+        function getAppointmentDataFromForm() {
+            const form = document.getElementById('appointment-form');
+            if (!form) return null;
+        
             const patientInput = document.getElementById('appointment-patient-input');
             let patientId = document.getElementById('appointment-patient-id').value;
             const patientName = patientInput.value;
-
-             if (!patientId || !allPatients.some(p => p.id === patientId && p.name === patientName)) {
-                 const foundPatient = allPatients.find(p => p.name.toLowerCase() === patientName.toLowerCase());
-                 if (!foundPatient) {
-                     alert("Paciente inválido ou não encontrado na lista. Por favor, selecione um paciente válido.");
-                     return;
-                 }
+        
+            if (!patientId || !allPatients.some(p => p.id === patientId && p.name === patientName)) {
+                const foundPatient = allPatients.find(p => p.name.toLowerCase() === patientName.toLowerCase());
+                if (!foundPatient) {
+                    showJsMessage('Erro de Validação', 'Paciente inválido ou não encontrado. Por favor, selecione um paciente da lista.', true);
+                    return null;
+                }
                  patientId = foundPatient.id;
+                 document.getElementById('appointment-patient-id').value = patientId;
             }
-
-
+        
             const professionalSelect = document.getElementById('appointment-professional');
             const professionalId = professionalSelect.value;
-            const professionalName = professionalSelect.options[professionalSelect.selectedIndex]?.text.replace(/\s\(.*\)/, '') || '';
-            const serviceType = document.querySelector('input[name="serviceType"]:checked').value;
-
-             if (!professionalId) {
-                 alert("Por favor, selecione um profissional.");
-                 return;
-             }
-
-            const appointmentData = {
-                patientId, patientName, professionalId, professionalName,
-                date: document.getElementById('appointment-date').value,
-                time: document.getElementById('appointment-time').value,
-                duration: document.getElementById('appointment-duration').value,
-                notes: document.getElementById('appointment-notes').value,
-                status: 'agendado',
-                serviceType: serviceType,
-            };
-
-            if (serviceType === 'local') {
-                appointmentData.roomId = document.getElementById('appointment-room').value;
-                appointmentData.roomName = document.getElementById('appointment-room').options[document.getElementById('appointment-room').selectedIndex]?.text || '';
-                 if (!appointmentData.roomId) {
-                     alert("Por favor, selecione uma sala para atendimento local.");
-                     return;
-                 }
-                 appointmentData.addressDetails = deleteField();
-                 appointmentData.address = deleteField();
-            } else { // domiciliar
-                 const addressDetails = {
+            const professionalName = professionalSelect.options[professionalSelect.selectedIndex].dataset.name;
+        
+            const roomSelect = document.getElementById('appointment-room');
+            const roomId = roomSelect.value;
+            const roomName = roomSelect.options[roomSelect.selectedIndex]?.text || '';
+        
+            const serviceType = form.querySelector('input[name="serviceType"]:checked').value;
+        
+            let addressDetails = {};
+            let fullAddress = '';
+            if (serviceType === 'domiciliar') {
+                addressDetails = {
                     cep: document.getElementById('appointment-cep').value,
                     street: document.getElementById('appointment-street').value,
                     number: document.getElementById('appointment-number').value,
@@ -2479,37 +2589,184 @@
                     city: document.getElementById('appointment-city').value,
                     state: document.getElementById('appointment-state').value,
                 };
-
-                if (!addressDetails.street || !addressDetails.number || !addressDetails.city) {
-                     alert("Por favor, preencha os campos de endereço (Rua, Número, Cidade) para atendimento domiciliar.");
-                     return;
+                fullAddress = constructPatientAddress(addressDetails);
+            }
+        
+            return {
+                patientId: patientId,
+                patientName: patientName,
+                professionalId,
+                professionalName,
+                roomId,
+                roomName,
+                serviceType,
+                addressDetails,
+                address: fullAddress,
+                date: document.getElementById('appointment-date').value,
+                time: document.getElementById('appointment-time').value,
+                duration: document.getElementById('appointment-duration').value,
+                notes: document.getElementById('appointment-notes').value
+            };
+        }
+        
+        async function handleAppointmentSaving(appointmentData) {
+            if (!appointmentData) return;
+        
+            showLoading();
+            const appointmentId = document.getElementById('appointment-id').value;
+            const isRecurrence = document.getElementById('recurrence-toggle').checked;
+        
+            try {
+                const appointmentsCol = collection(db, 'clinics', currentUserClinicId, 'appointments');
+        
+                if (isRecurrence && !appointmentId) {
+                    // --- Criar nova recorrência ---
+                    const recurrenceId = doc(collection(db, 'dummy')).id; // Gera um ID único
+                    const count = parseInt(document.getElementById('recurrence-count').value) || 1;
+                    const days = Array.from(document.querySelectorAll('#recurrence-days input:checked')).map(el => parseInt(el.value));
+        
+                    if (days.length === 0) {
+                        throw new Error("Selecione ao menos um dia da semana para a recorrência.");
+                    }
+        
+                    const batch = writeBatch(db);
+                    let currentDate = new Date(appointmentData.date + 'T12:00:00');
+                    let sessionsCreated = 0;
+        
+                    while (sessionsCreated < count) {
+                        if (days.includes(currentDate.getDay())) {
+                            const newAppointmentData = {
+                                ...appointmentData,
+                                date: getDateString(currentDate),
+                                recurrenceId: recurrenceId,
+                                createdAt: serverTimestamp(),
+                            };
+                            batch.set(doc(appointmentsCol), newAppointmentData);
+                            sessionsCreated++;
+                        }
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    await batch.commit();
+                    showJsMessage('Sucesso', 'Agendamentos recorrentes criados com sucesso!');
+        
+                } else if (appointmentId) {
+                    // --- Editar agendamento único ---
+                    const appointmentDocRef = doc(appointmentsCol, appointmentId);
+                    await updateDoc(appointmentDocRef, appointmentData);
+                    showJsMessage('Sucesso', 'Agendamento atualizado com sucesso!');
+                } else {
+                    // --- Criar agendamento único ---
+                    const newAppointmentData = { ...appointmentData, createdAt: serverTimestamp() };
+                    await addDoc(appointmentsCol, newAppointmentData);
+                    showJsMessage('Sucesso', 'Agendamento criado com sucesso!');
                 }
+        
+                closeModal(appointmentModal);
+        
+            } catch (error) {
+                console.error("Erro ao salvar agendamento:", error);
+                showJsMessage('Erro', error.message || 'Ocorreu um erro ao salvar o agendamento.', true);
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        async function handleAppointmentDeletion(appointmentId) {
+            if (!appointmentId) return;
+            showLoading();
+            try {
+                const appointmentDocRef = doc(db, 'clinics', currentUserClinicId, 'appointments', appointmentId);
+                await deleteDoc(appointmentDocRef);
+                showJsMessage('Sucesso', 'Agendamento excluído com sucesso!');
+            } catch(error) {
+                console.error("Erro ao excluir agendamento:", error);
+                showJsMessage('Erro', 'Erro ao excluir agendamento.', true);
+            } finally {
+                closeModal(appointmentModal);
+                hideLoading();
+            }
+        }
 
-                 appointmentData.addressDetails = addressDetails;
-                 appointmentData.address = constructPatientAddress(addressDetails);
-                 appointmentData.roomId = deleteField();
-                 appointmentData.roomName = 'Domiciliar';
+        async function handleRecurrenceAction(scope) {
+            const { type, appointmentData, originalEventDate } = recurrenceAction;
+            
+            if (!appointmentData || !appointmentData.recurrenceId) {
+                showJsMessage('Erro', 'Dados de recorrência inválidos.', true);
+                return;
             }
 
-
+            showLoading();
             const appointmentsCol = collection(db, 'clinics', currentUserClinicId, 'appointments');
 
             try {
-                showLoading();
-                if (appointmentId) {
-                    const appointmentDocRef = doc(appointmentsCol, appointmentId);
-                    await updateDoc(appointmentDocRef, appointmentData);
-                } else {
-                    appointmentData.createdAt = serverTimestamp();
-                    await addDoc(appointmentsCol, appointmentData);
+                if (type === 'save') {
+                    if (scope === 'single') {
+                        const { id, ...dataToUpdate } = appointmentData;
+                        await updateDoc(doc(appointmentsCol, id), dataToUpdate);
+                        showJsMessage('Sucesso', 'Agendamento atualizado com sucesso.');
+                    } else if (scope === 'future') {
+                        const q = query(appointmentsCol, where("recurrenceId", "==", appointmentData.recurrenceId), where("date", ">=", originalEventDate));
+                        const snapshot = await getDocs(q);
+                        const batch = writeBatch(db);
+                        const { id, recurrenceId, date, ...dataToUpdate } = appointmentData;
+                        snapshot.forEach(doc => {
+                            batch.update(doc.ref, dataToUpdate);
+                        });
+                        await batch.commit();
+                        showJsMessage('Sucesso', 'Este e os futuros agendamentos foram atualizados.');
+                    }
+                } else if (type === 'delete') {
+                    if (scope === 'single') {
+                        await deleteDoc(doc(appointmentsCol, appointmentData.id));
+                        showJsMessage('Sucesso', 'Agendamento excluído com sucesso.');
+                    } else if (scope === 'future') {
+                        const q = query(appointmentsCol, where("recurrenceId", "==", appointmentData.recurrenceId), where("date", ">=", originalEventDate));
+                        const snapshot = await getDocs(q);
+                        const batch = writeBatch(db);
+                        snapshot.forEach(doc => {
+                            batch.delete(doc.ref);
+                        });
+                        await batch.commit();
+                        showJsMessage('Sucesso', 'Este e os futuros agendamentos foram excluídos.');
+                    }
                 }
+
+                closeModal(recurrenceOptionsModal);
                 closeModal(appointmentModal);
             } catch (error) {
-                console.error("Erro ao salvar agendamento:", error);
-                alert("Erro ao salvar agendamento. Tente novamente.");
+                console.error(`Erro ao ${type} recorrência (${scope}):`, error);
+                showJsMessage('Erro', `Falha ao processar a operação nos agendamentos recorrentes.`, true);
             } finally {
-                 hideLoading();
+                hideLoading();
             }
+        }
+
+        document.getElementById('recurrence-option-single').addEventListener('click', () => handleRecurrenceAction('single'));
+        document.getElementById('recurrence-option-future').addEventListener('click', () => handleRecurrenceAction('future'));
+        document.getElementById('recurrence-option-cancel').addEventListener('click', () => closeModal(recurrenceOptionsModal));
+
+
+        document.getElementById('appointment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const appointmentId = document.getElementById('appointment-id').value;
+            const recurrenceId = document.getElementById('appointment-recurrence-id').value;
+
+            const appointmentData = getAppointmentDataFromForm();
+            if (!appointmentData) return;
+
+            if (appointmentId && recurrenceId) {
+                recurrenceAction = {
+                    type: 'save',
+                    appointmentData: { id: appointmentId, ...appointmentData },
+                    originalEventDate: document.getElementById('appointment-date').value,
+                };
+                openModal(recurrenceOptionsModal);
+                document.getElementById('recurrence-options-title').textContent = 'Salvar evento recorrente';
+                document.getElementById('recurrence-options-text').textContent = 'Como você gostaria de salvar as alterações?';
+                return;
+            }
+
+            handleAppointmentSaving(appointmentData);
         });
 
         document.getElementById('financial-record-form').addEventListener('submit', async (e) => {
@@ -2522,7 +2779,7 @@
              if (!patientId || !allPatients.some(p => p.id === patientId && p.name === patientName)) {
                  const foundPatient = allPatients.find(p => p.name.toLowerCase() === patientName.toLowerCase());
                  if (!foundPatient) {
-                     alert("Paciente inválido ou não encontrado na lista. Por favor, selecione um paciente válido.");
+                     showJsMessage('Erro', 'Paciente inválido ou não encontrado na lista. Por favor, selecione um paciente válido.', true);
                      return;
                  }
                  patientId = foundPatient.id;
@@ -2547,9 +2804,10 @@
                     await addDoc(paymentsCol, paymentData);
                  }
                  closeModal(financialRecordModal);
+                 showJsMessage('Sucesso', 'Lançamento financeiro salvo com sucesso!');
              } catch (error) {
                   console.error("Erro ao salvar lançamento financeiro:", error);
-                  alert("Erro ao salvar lançamento. Tente novamente.");
+                  showJsMessage('Erro', 'Erro ao salvar lançamento. Tente novamente.', true);
              } finally {
                  hideLoading();
              }
@@ -2571,14 +2829,16 @@
                 if (roomId) {
                     const roomDocRef = doc(roomsCol, roomId);
                     await updateDoc(roomDocRef, roomData);
+                    showJsMessage('Sucesso', 'Sala atualizada com sucesso!');
                 } else {
                     roomData.createdAt = serverTimestamp();
                     await addDoc(roomsCol, roomData);
+                    showJsMessage('Sucesso', 'Nova sala adicionada com sucesso!');
                 }
                 closeModal(roomModal);
             } catch (error) {
                 console.error("Erro ao salvar sala:", error);
-                alert("Erro ao salvar sala. Tente novamente.");
+                showJsMessage('Erro', 'Erro ao salvar sala. Tente novamente.', true);
             } finally {
                 hideLoading();
             }
@@ -2590,16 +2850,15 @@
             const newRole = document.getElementById('change-role-select').value;
 
             const userDocRef = doc(db, 'users', userIdToChange);
-            const clinicDocRef = doc(db, 'clinics', currentUserClinicId);
-
+            
             try {
                 showLoading();
                 await updateDoc(userDocRef, { role: newRole });
-                await updateDoc(clinicDocRef, { [`roles.${userIdToChange}`]: newRole });
                 closeModal(changeRoleModal);
+                showJsMessage('Sucesso', 'Função alterada com sucesso!');
             } catch(error) {
                  console.error("Erro ao alterar função:", error);
-                 alert("Erro ao alterar função. Tente novamente.");
+                 showJsMessage('Erro', 'Erro ao alterar função. Tente novamente.', true);
             } finally {
                 hideLoading();
             }
@@ -2610,14 +2869,22 @@
             let updatedData = {};
             const accountType = document.getElementById('edit-accountType').value;
 
+            const unmask = (value, type) => {
+                if (!value) return '';
+                if (type === 'cpf' || type === 'cnpj' || type === 'phone') {
+                    return value.replace(/\D/g, '');
+                }
+                return value;
+            }
+
             if (accountType === 'pf') {
                 updatedData = {
                     name: document.getElementById('edit-pf-name').value,
                     birthDate: document.getElementById('edit-pf-birthDate').value,
                     rg: document.getElementById('edit-pf-rg').value,
-                    cpf: document.getElementById('edit-pf-cpf').value,
+                    cpf: unmask(document.getElementById('edit-pf-cpf').value, 'cpf'),
                     crefito: document.getElementById('edit-pf-crefito').value,
-                    phone: document.getElementById('edit-pf-phone').value,
+                    phone: unmask(document.getElementById('edit-pf-phone').value, 'phone'),
                     cep: document.getElementById('edit-pf-cep').value,
                     street: document.getElementById('edit-pf-street').value,
                     number: document.getElementById('edit-pf-number').value,
@@ -2625,15 +2892,14 @@
                     city: document.getElementById('edit-pf-city').value,
                     state: document.getElementById('edit-pf-state').value,
                 };
-                 updatedData.address = constructPatientAddress(updatedData);
             } else { // pj
                 updatedData = {
                     name: document.getElementById('edit-pj-razaoSocial').value,
-                    cnpj: document.getElementById('edit-pj-cnpj').value,
+                    cnpj: unmask(document.getElementById('edit-pj-cnpj').value, 'cnpj'),
                     crefito: document.getElementById('edit-pj-crefito').value,
-                    phone: document.getElementById('edit-pj-phone').value,
+                    phone: unmask(document.getElementById('edit-pj-phone').value, 'phone'),
                     responsavelNome: document.getElementById('edit-pj-responsavel').value,
-                    responsavelCpf: document.getElementById('edit-pj-responsavel-cpf').value,
+                    responsavelCpf: unmask(document.getElementById('edit-pj-responsavel-cpf').value, 'cpf'),
                     responsavelCrefito: document.getElementById('edit-pj-responsavel-crefito').value,
                     cep: document.getElementById('edit-pj-cep').value,
                     street: document.getElementById('edit-pj-street').value,
@@ -2642,17 +2908,18 @@
                     city: document.getElementById('edit-pj-city').value,
                     state: document.getElementById('edit-pj-state').value,
                 };
-                updatedData.address = constructPatientAddress(updatedData);
             }
+            updatedData.address = constructPatientAddress(updatedData);
 
             try {
                 showLoading();
                 const clinicDocRef = doc(db, 'clinics', currentUserClinicId);
                 await updateDoc(clinicDocRef, updatedData);
                 closeModal(clinicEditModal);
+                showJsMessage('Sucesso', 'Dados da clínica atualizados com sucesso!');
             } catch (error) {
                 console.error("Erro ao atualizar dados da clínica:", error);
-                alert("Erro ao atualizar dados da clínica. Tente novamente.");
+                showJsMessage('Erro', 'Erro ao atualizar dados da clínica. Tente novamente.', true);
             } finally {
                 hideLoading();
             }
@@ -2660,16 +2927,15 @@
 
         // --- NAVIGATION & VIEW CONTROL ---
         function switchView(viewName) {
-             console.log(`Switching view to: ${viewName}`);
             showLoading();
 
-            if (patientsUnsubscribe) { console.log("Unsubscribing patients"); patientsUnsubscribe(); patientsUnsubscribe = null; }
-            if (appointmentsUnsubscribe) { console.log("Unsubscribing agenda appointments"); appointmentsUnsubscribe(); appointmentsUnsubscribe = null; }
-            if (paymentsUnsubscribe) { console.log("Unsubscribing payments"); paymentsUnsubscribe(); paymentsUnsubscribe = null; }
-            if (membersUnsubscribe) { console.log("Unsubscribing members"); membersUnsubscribe(); membersUnsubscribe = null; }
-            if (roomsUnsubscribe) { console.log("Unsubscribing rooms"); roomsUnsubscribe(); roomsUnsubscribe = null; }
-             if (dashboardAppointmentsUnsubscribe) { console.log("Unsubscribing dashboard appointments"); dashboardAppointmentsUnsubscribe(); dashboardAppointmentsUnsubscribe = null; }
-             if (assessmentsUnsubscribe) { console.log("Unsubscribing assessments"); assessmentsUnsubscribe(); assessmentsUnsubscribe = null;}
+            if (patientsUnsubscribe) { patientsUnsubscribe(); patientsUnsubscribe = null; }
+            if (appointmentsUnsubscribe) { appointmentsUnsubscribe(); appointmentsUnsubscribe = null; }
+            if (paymentsUnsubscribe) { paymentsUnsubscribe(); paymentsUnsubscribe = null; }
+            if (membersUnsubscribe) { membersUnsubscribe(); membersUnsubscribe = null; }
+            if (roomsUnsubscribe) { roomsUnsubscribe(); roomsUnsubscribe = null; }
+             if (dashboardAppointmentsUnsubscribe) { dashboardAppointmentsUnsubscribe(); dashboardAppointmentsUnsubscribe = null; }
+             if (assessmentsUnsubscribe) { assessmentsUnsubscribe(); assessmentsUnsubscribe = null;}
 
 
             document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
@@ -2683,7 +2949,6 @@
             const targetPage = document.getElementById(`page-${viewName}`);
             if(targetPage) {
                 targetPage.classList.add('active');
-                console.log(`Page ${viewName} activated.`);
             } else {
                  console.error(`Page #page-${viewName} not found!`);
                  hideLoading();
@@ -2703,10 +2968,7 @@
                      searchInput.parentNode.replaceChild(newSearchInput, searchInput);
                      newSearchInput.addEventListener('input', handlePatientSearch);
                  }
-                 if(document.getElementById('patient-list-view').classList.contains('active')) {
-                      selectedPatientId = null;
-                      if(assessmentsUnsubscribe) { assessmentsUnsubscribe(); assessmentsUnsubscribe = null; }
-                 }
+                 selectedPatientId = null;
 
              } else if (viewName === 'agenda') {
                  currentAgendaView = clinicPreferences.defaultAgendaView;
@@ -2760,8 +3022,7 @@
                    newAppInput.addEventListener('input', handlePatientInput);
               }
 
-             Promise.allSettled(fetchDataPromises).then((results) => {
-                 console.log(`Initial data fetch/render for ${viewName} settled.`);
+             Promise.allSettled(fetchDataPromises).then(() => {
                  hideLoading();
              }).catch(err => {
                  console.error(`Error during initial data fetch/render for ${viewName}:`, err);
@@ -2814,10 +3075,10 @@
                     });
                     clinicPreferences.defaultAgendaView = newDefaultView;
                     clinicPreferences.defaultServiceType = newDefaultServiceType;
-                    alert('Preferências salvas!');
+                    showJsMessage('Sucesso', 'Preferências salvas!');
                 } catch (error) {
                     console.error("Erro ao salvar preferências:", error);
-                    alert("Erro ao salvar preferências.");
+                    showJsMessage('Erro', 'Erro ao salvar preferências.', true);
                 } finally {
                      hideLoading();
                 }
@@ -2843,35 +3104,30 @@
             for (let i = 0; i < options.length; i++) {
                 if (options[i].value === inputValue) {
                     hiddenIdInput.value = options[i].dataset.id;
-                    console.log("Patient ID selected:", hiddenIdInput.value);
-
+                    
                      if (e.target.id === 'appointment-patient-input') {
                          const serviceType = document.querySelector('input[name="serviceType"]:checked')?.value;
                          if (serviceType === 'domiciliar') {
                              const patient = allPatients.find(p => p.id === hiddenIdInput.value);
-                             document.getElementById('appointment-cep').value = (patient && patient.cep) ? patient.cep : '';
-                             document.getElementById('appointment-street').value = (patient && patient.street) ? patient.street : '';
-                             document.getElementById('appointment-number').value = (patient && patient.number) ? patient.number : '';
-                             document.getElementById('appointment-neighborhood').value = (patient && patient.neighborhood) ? patient.neighborhood : '';
-                             document.getElementById('appointment-city').value = (patient && patient.city) ? patient.city : '';
-                             document.getElementById('appointment-state').value = (patient && patient.state) ? patient.state : '';
+                             if (patient) {
+                                document.getElementById('appointment-cep').value = patient.cep || '';
+                                document.getElementById('appointment-street').value = patient.street || '';
+                                document.getElementById('appointment-number').value = patient.number || '';
+                                document.getElementById('appointment-neighborhood').value = patient.neighborhood || '';
+                                document.getElementById('appointment-city').value = patient.city || '';
+                                document.getElementById('appointment-state').value = patient.state || '';
+                             }
                          }
                      }
                     break;
                 }
             }
-             if (!hiddenIdInput.value) {
-                  console.log("No exact match found for patient ID yet.");
-             }
         }
 
 
         async function fetchAddressFromCEP(cep, formPrefix = 'patient') {
             const cepClean = cep.replace(/\D/g, '');
-            if (cepClean.length !== 8) {
-                console.log("CEP inválido ou incompleto.");
-                return;
-            }
+            if (cepClean.length !== 8) return;
 
             const streetEl = document.getElementById(`${formPrefix}-street`);
             const neighborhoodEl = document.getElementById(`${formPrefix}-neighborhood`);
@@ -2892,18 +3148,15 @@
                 const data = await response.json();
 
                 if (data.erro) {
-                    console.log("CEP não encontrado (ViaCEP).");
                     streetEl.value = '';
                     neighborhoodEl.value = '';
                     cityEl.value = '';
                     stateEl.value = '';
                 } else {
-                    console.log("CEP encontrado:", data);
                     streetEl.value = data.logradouro || '';
                     neighborhoodEl.value = data.bairro || '';
                     cityEl.value = data.localidade || '';
                     stateEl.value = data.uf || '';
-
                     if (numberEl) numberEl.focus();
                 }
             } catch (error) {
@@ -2918,7 +3171,6 @@
              if (!currentUserClinicId) return Promise.resolve();
 
              if (dashboardAppointmentsUnsubscribe) {
-                  console.log("Unsubscribing previous dashboard appointments listener.");
                   dashboardAppointmentsUnsubscribe();
                   dashboardAppointmentsUnsubscribe = null;
               }
@@ -2940,7 +3192,6 @@
              const todayAppointmentsEl = document.getElementById('today-appointments');
              if (todayAppointmentsEl) {
                  const todayStr = getDateString(new Date());
-                 console.log("Fetching dashboard appointments for date:", todayStr);
                  const appointmentsCol = collection(db, 'clinics', currentUserClinicId, 'appointments');
                  const q = query(appointmentsCol, where('date', '==', todayStr));
 
@@ -2952,8 +3203,7 @@
                               resolve();
                               return;
                          }
-                          console.log(`Dashboard appointments snapshot: ${snapshot.size} docs`);
-
+                         
                          if(snapshot.empty) {
                              currentTodayAppointmentsEl.innerHTML = '<p class="text-gray-500">Nenhum agendamento para hoje.</p>';
                          } else {
@@ -3076,7 +3326,7 @@
                      console.error("Erro ao buscar agendamentos:", error);
                       const currentAgendaContentEl = mainContentContainer.querySelector('#agenda-content');
                       if (currentAgendaContentEl) {
-                          currentAgendaContentel.innerHTML = '<p class="text-center text-red-500 py-8">Erro ao carregar agendamentos.</p>';
+                          currentAgendaContentEl.innerHTML = '<p class="text-center text-red-500 py-8">Erro ao carregar agendamentos.</p>';
                       }
                       reject(error);
                  });
@@ -3111,12 +3361,10 @@
         function fetchAndRenderRooms() {
              if (!currentUserClinicId) return Promise.reject("No clinic ID");
              const q = query(collection(db, "clinics", currentUserClinicId, "rooms"));
-             console.log("Setting up rooms listener...");
-
+             
              if (roomsUnsubscribe) { roomsUnsubscribe(); roomsUnsubscribe = null; }
              return new Promise((resolve, reject) => {
                  roomsUnsubscribe = onSnapshot(q, (snapshot) => {
-                     console.log(`Rooms snapshot received: ${snapshot.size} docs`);
                      clinicRooms = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                      const currentRoomsListDiv = document.getElementById('rooms-list');
                      if(currentRoomsListDiv) renderRoomsList(clinicRooms);
@@ -3139,7 +3387,10 @@
 
              document.getElementById('appointment-form').reset();
              document.getElementById('appointment-id').value = '';
+             document.getElementById('appointment-recurrence-id').value = '';
              document.getElementById('delete-appointment-btn').classList.add('hidden');
+             
+             const recurrenceSection = document.getElementById('recurrence-section');
 
              if (allPatients.length === 0) console.warn("Patient data not loaded for modal.");
              if (clinicUsers.length === 0) console.warn("User data not loaded for modal.");
@@ -3155,6 +3406,7 @@
 
 
              if (appointmentId) {
+                recurrenceSection.style.display = 'none';
                  try {
                     const appointmentDocRef = doc(db, 'clinics', currentUserClinicId, 'appointments', appointmentId);
                     const docSnap = await getDoc(appointmentDocRef);
@@ -3164,6 +3416,7 @@
 
                         document.getElementById('appointment-id').value = appointmentId;
                         document.getElementById('appointment-date').value = appData.date;
+                        document.getElementById('appointment-recurrence-id').value = appData.recurrenceId || '';
                         document.getElementById('appointment-modal-title').textContent = `Editar Agendamento - ${new Date(appData.date + 'T12:00:00').toLocaleDateString('pt-BR')}`;
                         document.getElementById('appointment-patient-input').value = appData.patientName;
                         document.getElementById('appointment-patient-id').value = appData.patientId;
@@ -3202,15 +3455,19 @@
 
                     } else {
                         console.error("Agendamento não encontrado:", appointmentId);
-                        alert("Agendamento não encontrado.");
+                        showJsMessage('Erro', 'Agendamento não encontrado.', true);
                         hideLoading();
                     }
                  } catch(error) {
                      console.error("Erro ao abrir detalhes do agendamento:", error);
-                     alert("Erro ao abrir detalhes do agendamento.");
+                     showJsMessage('Erro', 'Erro ao abrir detalhes do agendamento.', true);
                      hideLoading();
                  }
              } else {
+                recurrenceSection.style.display = 'block';
+                document.getElementById('recurrence-toggle').checked = false;
+                document.getElementById('recurrence-container').classList.add('hidden');
+
                 const dateToSet = defaultDate || getDateString(new Date());
                 document.getElementById('appointment-date').value = dateToSet;
                 document.getElementById('appointment-modal-title').textContent = `Novo Agendamento - ${new Date(dateToSet + 'T12:00:00').toLocaleDateString('pt-BR')}`;
@@ -3248,40 +3505,21 @@
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
 
-                // 1. Verificar se o usuário já está associado a uma clínica
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDocSnap = await getDoc(userDocRef);
 
                 if (userDocSnap.exists() && userDocSnap.data().clinicId) {
-                    // Usuário já cadastrado e associado: login bem-sucedido, o onAuthStateChanged fará o resto.
-                    console.log("Login com Google bem-sucedido. Usuário existente.");
+                    // Usuário existente e associado, onAuthStateChanged cuidará do resto.
                     return;
-
                 } else {
-                    // Novo usuário ou usuário sem clínica.
-                    // Para simplificar e manter a segurança, se for um novo usuário,
-                    // ele precisa ser convidado por um administrador da clínica existente.
-                    // Se a clínica ainda não foi criada, ele não pode se auto-cadastrar com Google.
-
-                    if (userDocSnap.exists()) {
-                         // Usuário existe, mas não tem clinicId (caiu por um erro ou não foi convidado corretamente)
-                        alert("Sua conta Google foi autenticada, mas não está associada a nenhuma clínica. Por favor, entre em contato com o administrador da sua clínica para ser convidado.");
-                    } else {
-                         // Novo usuário Google: precisamos associá-lo, mas não podemos auto-cadastrar uma clínica completa
-                        alert("Esta é uma nova conta Google. Você precisa ser convidado por um administrador de uma clínica existente para usar este sistema.");
-                    }
-
-                    // Força o logout do Firebase para voltar para a tela de login.
+                    showJsMessage('Conta Não Associada', 'Sua conta Google foi autenticada, mas não está associada a nenhuma clínica. Peça ao administrador da sua clínica para te convidar.', true);
                     await signOut(auth);
                 }
-
             } catch (error) {
                 console.error("Erro no login com Google:", error);
                  const errorEl = document.getElementById('login-error');
                  if (error.code === 'auth/popup-closed-by-user') {
                      errorEl.textContent = 'Pop-up de login fechado.';
-                 } else if (error.code === 'auth/account-exists-with-different-credential') {
-                     errorEl.textContent = 'Este e-mail já está em uso com outro provedor (e-mail/senha).';
                  } else {
                       errorEl.textContent = 'Erro ao fazer login com Google.';
                  }
@@ -3300,6 +3538,11 @@
             const newPassword = document.getElementById('new-password').value;
             const confirmNewPassword = document.getElementById('confirm-new-password').value;
             
+            if (newPassword.length < 8) {
+                errorEl.textContent = 'A nova senha deve ter no mínimo 8 caracteres.';
+                hideLoading();
+                return;
+            }
             if (newPassword !== confirmNewPassword) {
                  errorEl.textContent = 'As novas senhas não coincidem.';
                  hideLoading();
@@ -3308,7 +3551,7 @@
 
             const user = auth.currentUser;
             if (!user || !user.email) {
-                 errorEl.textContent = 'Nenhum usuário logado. Faça login novamente.';
+                 showJsMessage('Erro de Autenticação', 'Nenhum usuário logado. Faça login novamente.', true);
                  await signOut(auth);
                  hideLoading();
                  return;
@@ -3317,30 +3560,21 @@
             const credential = EmailAuthProvider.credential(user.email, currentPassword);
 
             try {
-                // Reautenticar o usuário
                 await reauthenticateWithCredential(user, credential);
-
-                // Atualizar a senha
                 await updatePassword(user, newPassword);
 
-                // Remover a flag de "mustChangePassword" se for o caso
                 const userDocRef = doc(db, 'users', user.uid);
-                const userDocSnap = await getDoc(userDocRef);
-                if (userDocSnap.exists() && userDocSnap.data().mustChangePassword) {
-                    await updateDoc(userDocRef, {
-                        mustChangePassword: deleteField() // Remove o campo
-                    });
-                }
+                await updateDoc(userDocRef, { mustChangePassword: deleteField() });
                 
                 closeModal(forcePasswordChangeModal);
-                alert("Senha alterada com sucesso!");
+                showJsMessage("Sucesso", "Senha alterada com sucesso!");
 
             } catch (error) {
                 console.error("Erro ao alterar senha:", error);
                  if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
                      errorEl.textContent = 'Senha atual incorreta.';
                  } else if (error.code === 'auth/weak-password') {
-                     errorEl.textContent = 'Senha muito fraca. Use pelo menos 8 caracteres com números.';
+                     errorEl.textContent = 'Senha muito fraca.';
                  } else {
                      errorEl.textContent = 'Erro ao alterar senha. Tente novamente.';
                  }
@@ -3348,10 +3582,45 @@
                 hideLoading();
             }
         }
+        
+        async function handleCreateUser(e) {
+            e.preventDefault();
+            const feedbackEl = document.getElementById('create-user-feedback');
+            feedbackEl.textContent = '';
+            feedbackEl.classList.remove('text-red-500', 'text-green-500');
+
+            const email = document.getElementById('new-user-email').value;
+            const role = document.getElementById('new-user-role').value;
+
+            showLoading();
+            try {
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("email", "==", email));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    feedbackEl.textContent = 'Este e-mail já está cadastrado no sistema.';
+                    feedbackEl.classList.add('text-red-500');
+                    hideLoading();
+                    return;
+                }
+                
+                showJsMessage("Convite Simulado", `Para convidar ${email}, peça para ele se registrar com este e-mail. O sistema irá associá-lo à sua clínica. (Em uma versão futura, um e-mail de convite será enviado).`);
+
+                e.target.reset();
+
+            } catch(error) {
+                console.error("Erro ao tentar criar usuário:", error);
+                feedbackEl.textContent = 'Erro ao criar usuário.';
+                feedbackEl.classList.add('text-red-500');
+            } finally {
+                hideLoading();
+            }
+        }
 
         document.getElementById('force-password-change-form').addEventListener('submit', handlePasswordChange);
         googleSignInBtn?.addEventListener('click', handleGoogleSignIn);
-
+        
         document.getElementById('show-register-btn').addEventListener('click', (e) => { e.preventDefault(); loginContainer.classList.add('hidden'); registerContainer.classList.remove('hidden'); });
         document.getElementById('show-login-btn').addEventListener('click', (e) => { e.preventDefault(); registerContainer.classList.add('hidden'); loginContainer.classList.remove('hidden'); });
 
@@ -3388,7 +3657,7 @@
                     name: clinicNameForDisplay,
                     birthDate: document.getElementById('pf-birthDate').value,
                     rg: document.getElementById('pf-rg').value,
-                    cpf: document.getElementById('pf-cpf').value,
+                    cpf: document.getElementById('pf-cpf').value.replace(/\D/g,''),
                     crefito: document.getElementById('pf-crefito').value,
                     cep: document.getElementById('pf-cep').value,
                     street: document.getElementById('pf-street').value,
@@ -3396,7 +3665,7 @@
                     neighborhood: document.getElementById('pf-neighborhood').value,
                     city: document.getElementById('pf-city').value,
                     state: document.getElementById('pf-state').value,
-                    phone: document.getElementById('pf-phone').value,
+                    phone: document.getElementById('pf-phone').value.replace(/\D/g,''),
                 };
                  clinicData.address = constructPatientAddress(clinicData);
             } else { // pj
@@ -3404,7 +3673,7 @@
                 clinicData = {
                     ...clinicData,
                     name: clinicNameForDisplay,
-                    cnpj: document.getElementById('pj-cnpj').value,
+                    cnpj: document.getElementById('pj-cnpj').value.replace(/\D/g,''),
                     crefito: document.getElementById('pj-crefito').value,
                     cep: document.getElementById('pj-cep').value,
                     street: document.getElementById('pj-street').value,
@@ -3412,9 +3681,9 @@
                     neighborhood: document.getElementById('pj-neighborhood').value,
                     city: document.getElementById('pj-city').value,
                     state: document.getElementById('pj-state').value,
-                    phone: document.getElementById('pj-phone').value,
+                    phone: document.getElementById('pj-phone').value.replace(/\D/g,''),
                     responsavelNome: document.getElementById('pj-responsavel').value,
-                    responsavelCpf: document.getElementById('pj-responsavel-cpf').value,
+                    responsavelCpf: document.getElementById('pj-responsavel-cpf').value.replace(/\D/g,''),
                     responsavelCrefito: document.getElementById('pj-responsavel-crefito').value,
                 };
                 clinicData.address = constructPatientAddress(clinicData);
@@ -3433,8 +3702,6 @@
                 clinicData = {
                     ...clinicData,
                     ownerId: user.uid,
-                    members: [user.uid],
-                    roles: { [user.uid]: 'admin' },
                     status: 'active',
                     createdAt: serverTimestamp()
                 };
@@ -3454,7 +3721,7 @@
                 if (error.code === 'auth/email-already-in-use') {
                     errorEl.textContent = 'Este e-mail já está em uso. Tente outro.';
                 } else if (error.code === 'auth/weak-password'){
-                     errorEl.textContent = 'Senha muito fraca. Use pelo menos 6 caracteres.';
+                     errorEl.textContent = 'Senha muito fraca. Use pelo menos 8 caracteres.';
                 } else {
                     errorEl.textContent = 'Erro ao criar conta. Tente novamente.';
                 }
@@ -3472,51 +3739,42 @@
         });
 
         onAuthStateChanged(auth, async (user) => {
-             console.log("Auth state changed. User:", user ? user.uid : 'null');
             if (user) {
                 currentUserId = user.uid;
-                const loadUserProfileAndDashboard = async (retriesLeft = 5) => {
-                    console.log(`Loading profile, retries left: ${retriesLeft}`);
-                    const userDocRef = doc(db, 'users', user.uid);
+
+                const loadUserProfileAndDashboard = async (retriesLeft = 20) => {
                     try {
+                        const userDocRef = doc(db, 'users', user.uid);
                         const userDocSnap = await getDoc(userDocRef);
 
-                        if (userDocSnap.exists() && userDocSnap.data().clinicId) {
+                        if (userDocSnap.exists() && userDocSnap.data()?.clinicId) {
                             const userData = userDocSnap.data();
-                             console.log("User data found:", userData);
-
                             const clinicDocRef = doc(db, 'clinics', userData.clinicId);
                             const clinicDocSnap = await getDoc(clinicDocRef);
 
                             if (!clinicDocSnap.exists()) {
-                                console.error("Clinic document not found!");
-                                document.getElementById('login-error').textContent = 'Erro: Clínica não encontrada.';
-                                await signOut(auth);
+                                console.error("ERRO CRÍTICO: O clinicId do usuário aponta para uma clínica que não existe.");
                                 hideLoading();
+                                showJsMessage('Erro de Configuração', `Sua conta está associada a uma clínica (ID: ${userData.clinicId}) que não foi encontrada. Por favor, contate o suporte.`, true);
                                 return;
                             }
 
                             const clinicData = clinicDocSnap.data();
-                            console.log("Clinic data found:", clinicData);
 
                             if (clinicData.status === 'inactive') {
-                                document.getElementById('login-error').textContent = 'Sua clínica está inativa. Contate o suporte.';
-                                await signOut(auth);
+                                console.error("Acesso bloqueado: Clínica inativa.");
                                 hideLoading();
+                                showJsMessage('Acesso Bloqueado', 'A sua clínica está atualmente inativa. Por favor, contate o administrador.', true);
                                 return;
                             }
-
-                            clinicPreferences = clinicData.preferences || { defaultAgendaView: 'monthly', defaultServiceType: 'local' };
-
+                            
                             if (userData.mustChangePassword) {
                                 authView.classList.add('hidden');
                                 dashboardView.classList.add('hidden');
                                 hideLoading();
-                                
                                 document.getElementById('force-password-change-form').reset();
                                 document.getElementById('password-modal-title').textContent = 'Alterar Senha Temporária';
                                 document.getElementById('password-modal-description').textContent = 'Sua senha temporária expirou. Defina uma nova senha.';
-                                
                                 openModal(forcePasswordChangeModal);
                                 return;
                             }
@@ -3524,79 +3782,56 @@
                             currentUserClinicId = userData.clinicId;
                             currentUserRole = userData.role;
                             currentUserName = userData.name || user.email;
+                            clinicPreferences = clinicData.preferences || { defaultAgendaView: 'monthly', defaultServiceType: 'local' };
 
                             document.getElementById('user-email').textContent = user.email;
                             document.getElementById('clinic-name-sidebar').textContent = clinicData.name;
 
-                            console.log("Fetching initial data (members, rooms, patients)...");
-                            showLoading();
                             await Promise.allSettled([
                                  fetchAndRenderMembers(),
                                  fetchAndRenderRooms(),
                                  fetchAndRenderPatients()
                              ]);
-                            console.log("Initial data fetches settled.");
-                            initialDataLoaded = true;
-
-
+                            
                             authView.classList.add('hidden');
                             dashboardView.classList.remove('hidden');
                             switchView('inicio');
-
+                            
                         } else {
                             if (retriesLeft > 0) {
-                                console.log(`User profile not found or incomplete, retrying in 1s... (${retriesLeft} attempts left)`);
-                                setTimeout(() => loadUserProfileAndDashboard(retriesLeft - 1), 1000);
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                                loadUserProfileAndDashboard(retriesLeft - 1);
                             } else {
-                                console.error("User profile not found after multiple attempts. Logging out.");
-                                document.getElementById('login-error').textContent = 'Erro ao carregar perfil. Verifique se o cadastro foi concluído ou contate o suporte.';
-                                await signOut(auth);
+                                console.error("ERRO CRÍTICO: Perfil não encontrado após todas as tentativas.");
                                 hideLoading();
+                                showJsMessage('Falha ao Carregar', 'Seu usuário está autenticado, mas não foi possível carregar os dados do seu perfil. Se você acabou de se cadastrar, aguarde e recarregue. Se o erro persistir, contate o suporte.', true);
                             }
                         }
                     } catch (error) {
-                         console.error("Error fetching user/clinic data:", error);
-                          document.getElementById('login-error').textContent = 'Erro ao carregar dados. Tente novamente.';
-                          await signOut(auth);
-                          hideLoading();
+                        console.error("ERRO FATAL ao carregar perfil (Rede ou Permissões):", error);
+                        hideLoading();
+                        showJsMessage('Erro de Conexão', 'Ocorreu um erro ao buscar seus dados. Verifique sua conexão e tente novamente.', true);
                     }
                 };
 
                 loadUserProfileAndDashboard();
 
             } else {
-                 console.log("User logged out or not authenticated.");
-                 hideLoading();
+                hideLoading();
                 currentUserClinicId = null;
                 currentUserRole = null;
                 currentUserId = null;
-                currentUserName = null;
-                selectedPatientId = null;
-                allPatients = [];
-                clinicUsers = [];
-                clinicRooms = [];
-                currentAppointments = [];
-                initialDataLoaded = false;
-                if (patientsUnsubscribe) { console.log("Cleaning up patients listener"); patientsUnsubscribe(); patientsUnsubscribe = null; }
-                if (assessmentsUnsubscribe) { console.log("Cleaning up assessments listener"); assessmentsUnsubscribe(); assessmentsUnsubscribe = null; }
-                if (appointmentsUnsubscribe) { console.log("Cleaning up appointments listener"); appointmentsUnsubscribe(); appointmentsUnsubscribe = null; }
-                if (paymentsUnsubscribe) { console.log("Cleaning up payments listener"); paymentsUnsubscribe(); paymentsUnsubscribe = null; }
-                if (membersUnsubscribe) { console.log("Cleaning up members listener"); membersUnsubscribe(); membersUnsubscribe = null; }
-                if (roomsUnsubscribe) { console.log("Cleaning up rooms listener"); roomsUnsubscribe(); roomsUnsubscribe = null; }
-                if (dashboardAppointmentsUnsubscribe) { console.log("Cleaning up dashboard appointments listener"); dashboardAppointmentsUnsubscribe(); dashboardAppointmentsUnsubscribe = null; }
-
-
+                if (patientsUnsubscribe) { patientsUnsubscribe(); patientsUnsubscribe = null; }
+                if (assessmentsUnsubscribe) { assessmentsUnsubscribe(); assessmentsUnsubscribe = null; }
+                
                 dashboardView.classList.add('hidden');
                 authView.classList.remove('hidden');
                 loginContainer.classList.remove('hidden');
                 registerContainer.classList.add('hidden');
-
-                const loginErrorEl = document.getElementById('login-error');
-                if (loginErrorEl && !loginErrorEl.textContent) {
-                    loginErrorEl.textContent = '';
-                }
+                document.getElementById('login-error').textContent = '';
             }
         });
+
 
         // --- MODAL & TAB CONTROLS ---
 
@@ -3605,9 +3840,27 @@
             const modalBackdrop = target.closest('.modal-backdrop');
 
             if (modalBackdrop) {
+                let shouldClose = false;
                 const closeButton = target.closest('.close-modal-btn');
                 const cancelButton = target.closest('[id^="cancel-"][id$="-modal"]');
+                
+                if(target.id === 'recurrence-option-cancel') {
+                    closeModal(recurrenceOptionsModal);
+                    return;
+                }
+
                 if (closeButton || cancelButton || target === modalBackdrop) {
+                    // Impede o fechamento de modais de alerta ao clicar no fundo
+                    if(target === modalBackdrop && (modalBackdrop.id === 'recurrence-options-modal' || modalBackdrop.id === 'js-message-modal' || modalBackdrop.id === 'confirm-modal')) return;
+                    shouldClose = true;
+                }
+                
+                if (shouldClose) {
+                    if (modalBackdrop.id === 'patient-record-modal' && assessmentsUnsubscribe) {
+                        assessmentsUnsubscribe();
+                        assessmentsUnsubscribe = null;
+                        selectedPatientId = null; 
+                    }
                     closeModal(modalBackdrop);
                 }
             }
@@ -3653,6 +3906,9 @@
                     document.getElementById('edema-local-container')?.classList.toggle('hidden', e.target.value === 'Não');
                 }
             }
+             if (e.target.id === 'recurrence-toggle') {
+                document.getElementById('recurrence-container').classList.toggle('hidden', !e.target.checked);
+            }
 
             if (e.target.matches('input[name="serviceType"]')) {
                 toggleAppointmentFields(e.target.value);
@@ -3682,48 +3938,68 @@
         document.body.addEventListener('blur', (e) => {
             const target = e.target;
             if (target.tagName === 'INPUT' && target.dataset.formPrefix && target.id.endsWith('-cep')) {
-                const cep = target.value;
-                const formPrefix = target.dataset.formPrefix;
-                const cepClean = cep.replace(/\D/g, '');
-
-                if (cepClean.length === 8) {
-                    fetchAddressFromCEP(cepClean, formPrefix);
-                }
+                fetchAddressFromCEP(target.value, target.dataset.formPrefix);
             }
         }, true);
 
-         // Initial Auth Check
-         (async () => {
-             try {
-                showLoading();
-                console.log("Checking initial auth state...");
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    try {
-                        console.log("Attempting sign in with custom token...");
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                         console.log("Sign in with custom token successful.");
-                    } catch (tokenError) {
-                        console.error("Custom token sign-in error:", tokenError);
-                        const loginErrorEl = document.getElementById('login-error');
-                        if (loginErrorEl) {
-                             loginErrorEl.textContent = 'Falha na autenticação automática. Faça login manualmente.';
-                        }
-                        hideLoading();
-                    }
-                } else {
-                    console.log("No custom token found.");
-                    hideLoading();
-                }
-            } catch (error) {
-                console.error("Initial sign-in process error (unexpected):", error);
-                const loginErrorEl = document.getElementById('login-error');
-                if (loginErrorEl) {
-                    loginErrorEl.textContent = 'Erro inesperado na autenticação inicial.';
-                }
-                hideLoading();
-            }
-         })();
+        // --- INPUT MASKING ---
+        function formatPhone(value) {
+            if (!value) return "";
+            value = value.replace(/\D/g,"");
+            value = value.replace(/^(\d{2})(\d)/g,"($1) $2");
+            value = value.replace(/(\d)(\d{4})$/,"$1-$2");
+            return value;
+        }
 
+        function formatCPF(value) {
+            if (!value) return "";
+            value = value.replace(/\D/g,"");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            return value;
+        }
+
+        function formatCNPJ(value) {
+            if (!value) return "";
+            value = value.replace(/\D/g, '');
+            value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            return value;
+        }
+
+        function formatName(value) {
+            if (!value) return "";
+            return value.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+        }
+
+
+        document.body.addEventListener('input', (e) => {
+            const mask = e.target.dataset.mask;
+            if (!mask) return;
+
+            switch(mask) {
+                case 'phone':
+                    e.target.value = formatPhone(e.target.value);
+                    break;
+                case 'cpf':
+                    e.target.value = formatCPF(e.target.value);
+                    break;
+                case 'cnpj':
+                    e.target.value = formatCNPJ(e.target.value);
+                    break;
+                case 'name':
+                    // Name formatting is now applied on blur to avoid interrupting typing
+                    break;
+            }
+        });
+        document.body.addEventListener('blur', (e) => {
+            if (e.target.dataset.mask === 'name') {
+                e.target.value = formatName(e.target.value);
+            }
+        }, true);
 
     </script>
 </body>
