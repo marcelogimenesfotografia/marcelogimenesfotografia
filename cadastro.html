@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Evento</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones Minimalistas (Lucide) -->
+    <script src="https://unpkg.com/lucide-react@0.378.0/dist/umd/lucide.min.js"></script>
+    
+    <style>
+        :root {
+            --cor-fundo: #f4f5f7;
+            --cor-container: #ffffff;
+            --cor-borda: #e0e0e0;
+            --cor-texto-principal: #333333;
+            --cor-texto-secundario: #555555;
+            --cor-primaria: #007aff;
+            --cor-erro: #d93025;
+            --cor-sucesso: #28a745;
+            --font-principal: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --sombra: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-principal);
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-principal);
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha no topo */
+            min-height: 100vh;
+            padding: 40px 20px; /* Espaçamento no corpo */
+        }
+        
+        i[data-lucide] {
+            stroke-width: 2px;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .form-container-public {
+            width: 100%;
+            max-width: 800px; /* Formulário mais largo */
+            background-color: var(--cor-container);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: var(--sombra);
+            border-top: 4px solid var(--cor-primaria);
+        }
+        
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* NOVO: Estilo de Seção (Bloco) */
+        fieldset {
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        legend {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--cor-primaria);
+            padding: 0 10px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Formulário */
+        input[type="text"], input[type="email"], input[type="tel"],
+        input[type="date"], input[type="password"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            background-color: #fcfcfc;
+            font-size: 1em;
+            color: var(--cor-texto-principal);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+             border-color: var(--cor-primaria);
+             box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+             outline: none;
+        }
+        /* Estilo para campos bloqueados */
+        input:disabled, select:disabled {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-secundario);
+            cursor: not-allowed;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        label {
+            display: block; font-size: 0.9em;
+            font-weight: 500; margin-bottom: 5px;
+            color: var(--cor-texto-secundario);
+        }
+        
+        /* Grid de Formulário (Lado a Lado) */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 colunas */
+            gap: 0 20px; /* Apenas gap horizontal */
+        }
+        .form-grid > .full-width {
+            grid-column: 1 / -1; /* Ocupa a largura total */
+        }
+        /* Campos dentro do grid não precisam de margin-bottom */
+        .form-grid > div > input,
+        .form-grid > div > select,
+        .form-grid > div > textarea {
+            margin-bottom: 0;
+        }
+        /* O wrapper 'div' controla o espaçamento vertical */
+        .form-grid > div {
+            margin-bottom: 15px;
+        }
+        
+        /* Checkbox Simples (para C2 e Endereço) */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px; /* Espaço acima do checkbox */
+            margin-bottom: 20px;
+        }
+        .checkbox-wrapper input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            height: 16px; /* Tamanho do checkbox */
+            width: 16px;
+        }
+        .checkbox-wrapper label {
+            margin: 0;
+            font-weight: 500;
+            color: var(--cor-texto-principal);
+            user-select: none; /* Impede seleção de texto no label */
+            cursor: pointer;
+        }
+
+        
+        button[type="submit"] {
+            background-color: var(--cor-primaria);
+            color: white; border: none;
+            padding: 14px 20px; border-radius: 8px;
+            font-size: 1.1em; font-weight: 600;
+            cursor: pointer; transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            line-height: 1;
+            white-space: nowrap;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Mensagem de Erro/Sucesso (para Formspree) */
+        #form-status {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none; /* Oculto por padrão */
+        }
+        #form-status.success {
+            background-color: #e0f8e9;
+            color: #1d7c43;
+            display: block;
+        }
+        #form-status.error {
+            background-color: #fdebee;
+            color: var(--cor-erro);
+            display: block;
+        }
+        
+         /* Responsividade */
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .form-container-public {
+                border-radius: 0;
+                padding: 20px;
+                border-top: none;
+                min-height: 100vh;
+                box-shadow: none;
+            }
+            h2 { font-size: 1.4em; }
+            legend { margin-left: 0; }
+            fieldset { padding: 20px 15px; }
+            
+            .form-grid {
+                grid-template-columns: 1fr; /* Coluna única no mobile */
+                gap: 0;
+            }
+            .form-grid > div {
+                 margin-bottom: 15px; /* Garante espaçamento no mobile */
+            }
+            /* Inputs voltam a ter margin-bottom */
+            .form-grid > div > input,
+            .form-grid > div > select,
+            .form-grid > div > textarea {
+                margin-bottom: 0;
+            }
+            .form-grid > div:last-child {
+                 margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Formulário de Cadastro -->
+    <div class="form-container-public">
+        <!-- 
+            IMPORTANTE: A ação do formulário usa Formspree.
+            Eu usei um hash público (mdorqylg) que aponta para contato@marcelogimenes.com.
+            
+            COMO ATIVAR:
+            1. Preencha e envie este formulário UMA VEZ.
+            2. Vá para seu email "contato@marcelogimenes.com".
+            3. Abra o email do Formspree e clique em "Activate Form".
+            4. É isso! Todos os envios futuros irão para o seu email.
+        -->
+        <form id="client-data-form" action="https://formspree.io/f/mdorqylg" method="POST">
+            <h2><i data-lucide="file-text"></i> Cadastro de Evento</h2>
+            
+            <!-- Mensagem de Status (Sucesso/Erro) -->
+            <div id="form-status"></div>
+
+            <!-- SEÇÃO: DADOS DO EVENTO -->
+            <fieldset>
+                <legend><i data-lucide="calendar"></i> Dados do Evento</legend>
+                <div class="form-grid">
+                    <div>
+                        <label for="evento_data">Data do Evento</label>
+                        <input type="date" id="evento_data" name="evento_data" required>
+                    </div>
+                     <div>
+                        <label for="evento_cidade">Cidade do Evento</label>
+                        <input type="text" id="evento_cidade" name="evento_cidade" placeholder="Ex: São Paulo" required>
+                    </div>
+                    <div class="full-width">
+                        <label for="evento_local_cerimonia">Local da Cerimônia</label>
+                        <input type="text" id="evento_local_cerimonia" name="evento_local_cerimonia" placeholder="Ex: Igreja Matriz, Chácara Sol, etc.">
+                    </div>
+                    <div class="full-width">
+                        <label for="evento_local_festa">Local da Festa</label>
+                        <input type="text" id="evento_local_festa" name="evento_local_festa" placeholder="Ex: Buffet Canto Verde, Salão Paroquial, etc.">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- SEÇÃO: CONTRATANTE 1 -->
+            <fieldset>
+                <legend><i data-lucide="user"></i> Contratante 1</legend>
+                <div class="form-grid">
+                    <div class="full-width">
+                         <label for="c1_nome">Nome Completo</label>
+                        <input type="text" id="c1_nome" name="c1_nome" required>
+                    </div>
+                    <div>
+                        <label for="c1_cpf">CPF</label>
+                        <input type="text" id="c1_cpf" name="c1_cpf" required>
+                    </div>
+                     <div>
+                        <label for="c1_rg">RG</label>
+                        <input type="text" id="c1_rg" name="c1_rg" required>
+                    </div>
+                    <div>
+                        <label for="c1_telefone">Telefone / WhatsApp</label>
+                        <input type="tel" id="c1_telefone" name="c1_telefone" placeholder="(XX) 9XXXX-XXXX" required>
+                    </div>
+                     <div>
+                        <label for="c1_email">E-mail</label>
+                        <input type="email" id="c1_email" name="c1_email" required>
+                    </div>
+                </div>
+            
+                <!-- ENDEREÇO C1 -->
+                <h4 style="font-size: 1em; font-weight: 500; margin-top: 20px; margin-bottom: 15px;">Endereço (Contratante 1)</h4>
+                <div class="form-grid">
+                     <div>
+                        <label for="c1_cep">CEP</label>
+                        <input type="text" id="c1_cep" name="c1_cep" placeholder="00000-000">
+                    </div>
+                     <div>
+                        <label for="c1_number">Número</label>
+                        <input type="text" id="c1_number" name="c1_number" placeholder="123">
+                    </div>
+                    <div class="full-width">
+                        <label for="c1_address">Endereço (Rua, Av...)</label>
+                        <input type="text" id="c1_address" name="c1_address" placeholder="Rua das Flores">
+                    </div>
+                    <div>
+                        <label for="c1_neighborhood">Bairro</label>
+                        <input type="text" id="c1_neighborhood" name="c1_neighborhood" placeholder="Centro">
+                    </div>
+                     <div>
+                        <label for="c1_city">Cidade</label>
+                        <input type="text" id="c1_city" name="c1_city">
+                    </div>
+                     <div>
+                        <label for="c1_state">Estado (UF)</label>
+                        <input type="text" id="c1_state" name="c1_state" placeholder="SP">
+                    </div>
+                </div>
+                
+                <!-- CHECKBOX C2 -->
+                <div class="checkbox-wrapper" style="margin-top: 25px; margin-bottom: 0;">
+                    <input type="checkbox" id="toggle-c2" name="adicionar_c2" value="sim">
+                    <label for="toggle-c2">Adicionar Segundo Contratante (Opcional)</label>
+                </div>
+            </fieldset>
+
+            <!-- SEÇÃO: CONTRATANTE 2 (Oculta) -->
+            <fieldset id="section-c2" style="display: none;">
+                <legend><i data-lucide="user-plus"></i> Contratante 2</legend>
+                
+                <div class="form-grid">
+                    <div class="full-width">
+                         <label for="c2_nome">Nome Completo (C2)</label>
+                        <input type="text" id="c2_nome" name="c2_nome">
+                    </div>
+                    <div>
+                        <label for="c2_cpf">CPF (C2)</label>
+                        <input type="text" id="c2_cpf" name="c2_cpf">
+                    </div>
+                     <div>
+                        <label for="c2_rg">RG (C2)</label>
+                        <input type="text" id="c2_rg" name="c2_rg">
+                    </div>
+                    <div>
+                        <label for="c2_telefone">Telefone (C2)</label>
+                        <input type="tel" id="c2_telefone" name="c2_telefone" placeholder="(XX) 9XXXX-XXXX">
+                    </div>
+                     <div>
+                        <label for="c2_email">E-mail (C2)</label>
+                        <input type="email" id="c2_email" name="c2_email">
+                    </div>
+                </div>
+                
+                <h4 style="font-size: 1em; font-weight: 500; margin-top: 20px; margin-bottom: 15px;">Endereço (Contratante 2)</h4>
+                
+                <!-- CHECKBOX COPIAR ENDEREÇO -->
+                <div class="checkbox-wrapper" style="margin-top: 0;">
+                    <input type="checkbox" id="btn-copy-address" name="c2_endereco" value="mesmo_do_c1">
+                    <label for="btn-copy-address">Usar o mesmo endereço do Contratante 1</label>
+                </div>
+                
+                <!-- ENDEREÇO C2 -->
+                <div class="form-grid">
+                     <div>
+                        <label for="c2_cep">CEP</label>
+                        <input type="text" id="c2_cep" name="c2_cep" placeholder="00000-000">
+                    </div>
+                     <div>
+                        <label for="c2_number">Número</label>
+                        <input type="text" id="c2_number" name="c2_number" placeholder="123">
+                    </div>
+                    <div class="full-width">
+                        <label for="c2_address">Endereço (Rua, Av...)</label>
+                        <input type="text" id="c2_address" name="c2_address" placeholder="Rua das Flores">
+                    </div>
+                    <div>
+                        <label for="c2_neighborhood">Bairro</label>
+                        <input type="text" id="c2_neighborhood" name="c2_neighborhood" placeholder="Centro">
+                    </div>
+                     <div>
+                        <label for="c2_city">Cidade</label>
+                        <input type="text" id="c2_city" name="c2_city">
+                    </div>
+                     <div>
+                        <label for="c2_state">Estado (UF)</label>
+                        <input type="text" id="c2_state" name="c2_state" placeholder="SP">
+                    </div>
+                </div>
+            </fieldset>
+            
+            <button type="submit" id="btn-submit-registration">
+                <i data-lucide="send"></i>
+                <span>Enviar Cadastro</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT DA PÁGINA DE CADASTRO ---
+        
+        // Seletores do DOM
+        const form = document.getElementById('client-data-form');
+        const formStatus = document.getElementById('form-status');
+        const btnSubmit = document.getElementById('btn-submit-registration');
+        
+        // Contratante 1
+        const cepInputC1 = document.getElementById('c1_cep');
+        const addressInputC1 = document.getElementById('c1_address');
+        const numberInputC1 = document.getElementById('c1_number');
+        const neighborhoodInputC1 = document.getElementById('c1_neighborhood');
+        const cityInputC1 = document.getElementById('c1_city');
+        const stateInputC1 = document.getElementById('c1_state');
+
+        // Contratante 2
+        const toggleC2 = document.getElementById('toggle-c2');
+        const sectionC2 = document.getElementById('section-c2');
+        const copyAddressCheckbox = document.getElementById('btn-copy-address');
+        const cepInputC2 = document.getElementById('c2_cep');
+        const addressInputC2 = document.getElementById('c2_address');
+        const numberInputC2 = document.getElementById('c2_number');
+        const neighborhoodInputC2 = document.getElementById('c2_neighborhood');
+        const cityInputC2 = document.getElementById('c2_city');
+        const stateInputC2 = document.getElementById('c2_state');
+        
+        const c2AddressFields = [cepInputC2, addressInputC2, numberInputC2, neighborhoodInputC2, cityInputC2, stateInputC2];
+
+        // --- 1. Inicialização ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            
+            cepInputC1.addEventListener('blur', (e) => handleCepBlur(e, 1));
+            cepInputC2.addEventListener('blur', (e) => handleCepBlur(e, 2));
+            toggleC2.addEventListener('change', handleToggleC2);
+            copyAddressCheckbox.addEventListener('change', handleCopyAddress);
+            form.addEventListener('submit', handleFormSubmit);
+        });
+
+        // --- 2. Lógica do Formulário ---
+
+        function handleToggleC2() {
+            if (toggleC2.checked) {
+                sectionC2.style.display = 'block';
+            } else {
+                sectionC2.style.display = 'none';
+            }
+        }
+        
+        function handleCopyAddress() {
+            if (copyAddressCheckbox.checked) {
+                // Copia os valores
+                cepInputC2.value = cepInputC1.value;
+                addressInputC2.value = addressInputC1.value;
+                numberInputC2.value = numberInputC1.value;
+                neighborhoodInputC2.value = neighborhoodInputC1.value;
+                cityInputC2.value = cityInputC1.value;
+                stateInputC2.value = stateInputC1.value;
+                
+                // Bloqueia os campos
+                c2AddressFields.forEach(field => field.disabled = true);
+            } else {
+                // Desbloqueia e limpa os campos
+                c2AddressFields.forEach(field => {
+                    field.disabled = false;
+                    field.value = '';
+                });
+            }
+        }
+
+        async function handleCepBlur(e, contractorNum) {
+            const cep = e.target.value.replace(/\D/g, ''); 
+            if (cep.length !== 8) return;
+            
+            // Determina quais campos preencher
+            const address = (contractorNum === 1) ? addressInputC1 : addressInputC2;
+            const neighborhood = (contractorNum === 1) ? neighborhoodInputC1 : neighborhoodInputC2;
+            const city = (contractorNum === 1) ? cityInputC1 : cityInputC2;
+            const state = (contractorNum === 1) ? stateInputC1 : stateInputC2;
+            const number = (contractorNum === 1) ? numberInputC1 : numberInputC2;
+            
+            // Simples Feedback de Loading no campo
+            e.target.style.borderColor = "var(--cor-primaria)";
+            
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                if (!response.ok) throw new Error('CEP não encontrado');
+                const data = await response.json();
+                
+                if (data.erro) {
+                    alert('CEP não encontrado.'); // Simples alerta aqui é aceitável
+                    e.target.style.borderColor = "var(--cor-erro)";
+                    return;
+                }
+                
+                address.value = data.logradouro;
+                neighborhood.value = data.bairro;
+                city.value = data.localidade;
+                state.value = data.uf;
+                number.focus();
+                e.target.style.borderColor = "var(--cor-borda)";
+            } catch (error) {
+                console.error("Erro ao buscar CEP:", error);
+                alert('Não foi possível buscar o CEP.');
+                e.target.style.borderColor = "var(--cor-erro)";
+            }
+        }
+
+        // --- 3. Submissão do Formulário (Formspree) ---
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i data-lucide="loader-2" class="spinner"></i> <span>Enviando...</span>';
+            if (typeof lucide !== 'undefined') lucide.createIcons(); // Renderiza o spinner
+            
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Sucesso!
+                    form.style.display = 'none'; // Esconde o formulário
+                    // Mostra mensagem de sucesso customizada
+                    formStatus.innerHTML = `
+                        <div id="success-message" style="display: block; text-align: center; padding: 20px 0;">
+                            <i data-lucide="check-circle" style="color: var(--cor-sucesso); width: 50px; height: 50px; stroke-width: 2px; margin-bottom: 15px;"></i>
+                            <h2 style="color: var(--cor-sucesso); font-size: 1.5em; margin-bottom: 10px;">Cadastro Enviado!</h2>
+                            <p style="font-size: 1.1em; color: var(--cor-texto-secundario); line-height: 1.6;">
+                                Obrigado! Seus dados foram recebidos.<br>Entraremos em contato em breve.
+                            </p>
+                        </div>
+                    `;
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                    document.body.scrollIntoView({ behavior: 'smooth' }); // Rola para o topo
+                } else {
+                    // Erro
+                    const data = await response.json();
+                    if (Object.hasOwn(data, 'errors')) {
+                        formStatus.textContent = data["errors"].map(error => error["message"]).join(", ");
+                    } else {
+                        formStatus.textContent = "Não foi possível enviar o formulário. Tente novamente.";
+                    }
+                    formStatus.className = "error";
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i data-lucide="send"></i> <span>Enviar Cadastro</span>';
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }
+            } catch (error) {
+                // Erro de rede
+                formStatus.textContent = "Erro de rede. Verifique sua conexão e tente novamente.";
+                formStatus.className = "error";
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i data-lucide="send"></i> <span>Enviar Cadastro</span>';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+        }
+        
+    </script>
+</body>
+</html>
